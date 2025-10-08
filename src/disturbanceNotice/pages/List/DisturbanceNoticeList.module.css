@@ -1,0 +1,19 @@
+.descriptionContainer {
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.contentButton {
+  display: flex !important;
+  gap: 10px!important;
+  justify-content: space-between!important;
+}
+
+.searchButton {
+  display: flex !important;
+  padding-top: 10px !important;
+
+}

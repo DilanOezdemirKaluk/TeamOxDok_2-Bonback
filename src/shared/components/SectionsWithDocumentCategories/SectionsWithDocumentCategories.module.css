@@ -1,0 +1,20 @@
+.sectionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sectionItem {
+  width: 270px;
+  margin: 0.5rem 0;
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+}
+
+.documentCategoriesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

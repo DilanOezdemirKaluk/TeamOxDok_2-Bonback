@@ -1,0 +1,26 @@
+.container {
+  background-color: white;
+  width: 1065px;
+  font-size: 15pt;
+  margin: 30px;
+  height: 100%;
+  padding-right: 25px;
+}
+
+.content {
+  margin-top: 0.5rem;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .container {
+    page-break-inside: avoid;
+  }
+}
+
+.documents {
+  margin-top: 0.5rem;
+}

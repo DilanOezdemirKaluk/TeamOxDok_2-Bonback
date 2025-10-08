@@ -1,0 +1,25 @@
+.container {
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr 1fr;
+  margin-top: 1rem;
+  padding-top: 7px;
+  padding-bottom: 0.5px;
+  font-weight: bold;
+  margin-bottom: auto;
+  border-top: 0.5px solid lightgray;
+  border-bottom: 0.5px solid lightgray;
+}
+.buttonContainer {
+  margin-top: 10px;
+}
+
+.buttonContainer > div {
+  margin-right: 10px;
+}
+.boldText {
+  color: #333;
+}
+.box {
+  display: flex;
+  align-items: center;
+}

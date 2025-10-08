@@ -1,0 +1,94 @@
+.content {
+  padding-bottom: 100px;
+}
+
+.headGridContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.markedHeader {
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+}
+
+.header {
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.item {
+  padding-top: 5px;
+}
+
+.singleContainer {
+  margin-top: 2rem;
+}
+
+.infoContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.divider {
+  border-bottom: 1px solid rgba(193, 189, 189, 0.89);
+}
+
+.controlContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.controlItem {
+  flex: 1;
+}
+
+.controlButton {
+  width: 100%;
+}
+
+.inputField {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.inputField::placeholder {
+  font-style: italic;
+}
+
+.allCenter {
+  text-align: center;
+}
+
+.closeButton {
+  margin-top: 20px !important;
+  text-align: right !important;
+}
+
+.displayText {
+  white-space: pre-wrap;
+  text-align: left;
+}
+.smallModal {
+  position: fixed;
+  bottom: 8px;
+  left: 37%;
+  max-height: 83vh !important;
+  min-width: 25vw !important;
+  margin: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(-5px 0 5px rgba(0, 119, 255, 0.3))
+    drop-shadow(5px 0 5px rgba(0, 119, 255, 0.3));
+}

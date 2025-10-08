@@ -1,0 +1,91 @@
+.content {
+  background-color: white;
+  position: fixed;
+  z-index: 10000;
+  width: 100%;
+}
+.head {
+  background-image: url(../../../assets/images/modulesBackground.png);
+  background-repeat: no-repeat;
+  width: 100%;
+  border-bottom: 1px solid rgba(193, 189, 189, 0.89);
+  background-color: white;
+  height: 35px;
+  z-index: 100;
+  text-align: center;
+}
+
+.tklogo {
+  padding-top: 3px;
+}
+
+.logo {
+  padding-top: 2px;
+  padding-left: 25px;
+  border-bottom: 1px solid rgba(193, 189, 189, 0.89);
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  height: 59px;
+}
+
+.left {
+  flex: 1;
+}
+
+.right {
+  flex: 0 0 30%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-right: 0.5rem;
+  height: 59px;
+  z-index: 10000000;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.buttonWorkgroup {
+  margin-right: 0.5rem;
+}
+
+.buttonRohstahl {
+  margin-right: 0.5rem !important;
+}
+
+.buttonLink {
+  background-color: RGB(250, 175, 0) !important;
+}
+
+.buttonLink:hover {
+  background-color: rgb(255, 191, 51) !important;
+}
+
+.buttonWorkgroup {
+  display: none; /* Button wird nicht angezeigt, bleibt aber im DOM */
+}
+
+.logout:hover {
+  background-color: rgb(180, 83, 83) !important;
+}
+
+.middle {
+  padding-top: 20px;
+  text-overflow: ellipsis;
+  display: block;
+  justify-content: flex-start;
+  color: rgba(10, 7, 7, 0.473);
+  font-size: medium;
+  overflow: hidden;
+  white-space: nowrap; 
+
+}
+
+.displayName {
+  padding-top: 5px;
+  padding-bottom: 1px;
+}

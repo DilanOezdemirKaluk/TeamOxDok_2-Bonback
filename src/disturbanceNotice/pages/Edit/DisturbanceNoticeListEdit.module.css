@@ -1,0 +1,47 @@
+.content {
+  padding-bottom: 100px;
+}
+
+.headGridContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.markedHeader {
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+}
+
+.header {
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.item {
+  padding-top: 5px;
+}
+
+.singleContainer {
+  margin-top: 2rem;
+}
+
+.infoContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 1rem;
+}
+.inputField {
+  width: 100%; 
+  padding: 8px; 
+  box-sizing: border-box; 
+}
+.inputField::placeholder {
+  font-style: italic; 
+}

@@ -1,0 +1,6 @@
+.contentButton {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  padding-top: 10px;
+}

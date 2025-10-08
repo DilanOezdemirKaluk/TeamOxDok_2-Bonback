@@ -1,0 +1,48 @@
+.container {
+  width: 1052px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  top: 91.5px;
+}
+
+.infoContainerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.infoContainer {
+  width: 300px;
+  padding: 5px;
+  border: 1px solid rgba(193, 189, 189, 0.89);
+}
+.infoField {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.buttonContainer {
+  width: 1052px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.locked {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  border: 2px solid darkred;
+  border-radius: 10px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+}

@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.containerItem {
+  flex: 1;
+}
+
+.button {
+  width: 100%;
+}
+
+.errorMsg {
+  color: red;
+  margin-top: 5px;
+}

@@ -1,0 +1,10 @@
+.containerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.seperator {
+  border-top: 3px solid #188ecd;
+  margin-top: 0.5rem;
+}

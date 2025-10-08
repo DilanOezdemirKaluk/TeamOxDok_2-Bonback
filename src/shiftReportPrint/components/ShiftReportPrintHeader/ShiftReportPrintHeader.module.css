@@ -1,0 +1,38 @@
+.container {
+  border: 1px black solid;
+  height: 110px;
+  display: flex;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+  height: 110px;
+  border-right: 1px black solid;
+}
+
+.tkInfo,
+.info,
+.siteInfo {
+  display: flex;
+  flex-direction: column;
+  height: 110px;
+  font-size: 14pt;
+}
+
+.tkInfo {
+  width: 250px;
+  padding-left: 5px;
+}
+
+.info {
+  width: 405px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.siteInfo {
+  justify-content: flex-end;
+  text-align: left;
+}

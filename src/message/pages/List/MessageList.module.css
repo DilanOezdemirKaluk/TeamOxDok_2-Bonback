@@ -1,0 +1,42 @@
+.descriptionContainer {
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.checkboxTableContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.section-multi-select .ant-checkbox-wrapper {
+  margin-bottom: 8px;
+}
+.checkboxRow {
+  box-sizing: border-box;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.contentButton {
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: space-between !important;
+}
+
+.searchButton {
+  display: flex !important;
+  padding-top: 10px !important;
+}
+.searchcontent {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.favoriteButton {
+  display: flex !important;
+  padding-top: 10px !important;
+}

@@ -1,0 +1,45 @@
+.content {
+  padding-bottom: 120px;
+}
+
+.searchInput {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 9px; 
+  transition: border-color 0.2s;
+
+}
+
+.searchInput:focus {
+  border-color: #007bff;
+  outline: none;
+}
+.searchInput:hover {
+  border-color: #007bff; 
+}
+
+.inputField {
+  
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.usercontent
+{
+  display: flex;
+}
+
+.adduser{
+  margin-left: 20px; /* add space between the input and the button */
+
+}
+.searchcontent {
+  display: flex;
+  margin-bottom: 8px;
+};
+
+
+
+

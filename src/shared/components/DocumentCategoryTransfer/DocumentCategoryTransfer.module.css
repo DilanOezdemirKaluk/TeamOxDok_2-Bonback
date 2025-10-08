@@ -1,0 +1,8 @@
+.transfer div:first-child,
+.transfer div:last-child {
+  width: 210px !important;
+}
+
+.transfer {
+  height: 300px !important;
+}

@@ -1,0 +1,17 @@
+.infoContainerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.infoContainer {
+  width: 300px;
+  padding: 5px;
+}
+.infoField {
+  text-decoration: underline;
+  font-weight: bold;
+}
+.deleteContainer {
+  margin-top: 1rem;
+}

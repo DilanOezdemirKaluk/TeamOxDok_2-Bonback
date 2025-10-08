@@ -1,0 +1,9 @@
+.infoContainer {
+  width: 240px;
+  padding: 5px;
+  border: 1px solid rgba(193, 189, 189, 0.89);
+}
+.infoField {
+  text-decoration: underline;
+  font-weight: bold;
+}

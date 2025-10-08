@@ -1,0 +1,28 @@
+.table th {
+  padding: 0 !important;
+}
+
+.table tr {
+  padding: 0 !important;
+}
+
+.table td {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.disabledRow {
+  display: none;
+}
+
+.row {
+  display: table-row;
+}
+
+.hiddenRow {
+  opacity: 0.4;
+}
+
+.tableHidden {
+  opacity: 0.4;
+}

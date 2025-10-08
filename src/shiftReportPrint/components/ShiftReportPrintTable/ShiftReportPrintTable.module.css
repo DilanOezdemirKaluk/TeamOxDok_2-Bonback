@@ -1,0 +1,9 @@
+.seperator {
+  border-top: 3px solid #188ecd;
+  margin-top: 0.5rem;
+}
+
+.table td {
+  padding: 0 !important;
+  border: none !important;
+}

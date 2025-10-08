@@ -1,0 +1,25 @@
+.containerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.seperator {
+  border-top: 3px solid #188ecd;
+  margin-top: 0.5rem;
+}
+
+.containerContainer>.innen {
+display: flex;
+flex-direction: row;
+margin-top: 0.5rem;
+margin-bottom: 0.5rem;
+flex-wrap: wrap;
+}
+
+.containerContainer > :last-child {
+  margin-left: auto; 
+}

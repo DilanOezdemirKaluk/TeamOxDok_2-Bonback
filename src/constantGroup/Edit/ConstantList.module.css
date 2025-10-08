@@ -1,0 +1,23 @@
+.add {
+  margin-top: 20px;
+}
+
+.scrollablecontainer {
+  padding-bottom: 100px;
+}
+
+.constantListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.constantListActions {
+  display: flex;
+  gap: 8px;
+}
+
+.constantListActionItem {
+  cursor: pointer;
+}

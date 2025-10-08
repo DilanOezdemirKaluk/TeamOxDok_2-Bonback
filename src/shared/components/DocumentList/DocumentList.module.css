@@ -1,0 +1,11 @@
+.container {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  border-top: 3px solid #188ecd;
+  padding-top: 0.5rem;
+}
+
+.documentContainer {
+  margin-top: 0.5rem;
+}

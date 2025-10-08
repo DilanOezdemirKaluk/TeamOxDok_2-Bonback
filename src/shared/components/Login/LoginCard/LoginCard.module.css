@@ -1,0 +1,30 @@
+.cardTitle {
+  font-size: 24px;
+}
+
+.content {
+  margin: 0.5rem;
+  margin-top: 1.5em;
+}
+
+.loading {
+  text-align: center;
+}
+
+.forgotPassword {
+  color: #ee8d03;
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.errorInput {
+  border-color: #ff4d4f;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  margin-top: 4px;
+  margin-left: 4px;
+  font-size: 14px;
+}

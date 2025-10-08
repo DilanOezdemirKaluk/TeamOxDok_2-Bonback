@@ -1,0 +1,32 @@
+.sectionContainer {
+  background-color: #188ecd;
+  padding: 5px;
+  text-align: center;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.filterError {
+  color: red;
+  padding: 10px;
+}
+.buttonContainer {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.leftAlignedButtons {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.leftAlignedButtons > div {
+  margin-right: 10px;
+}
+
+.rightAlignedButton {
+  display: flex;
+  align-items: right;
+}
