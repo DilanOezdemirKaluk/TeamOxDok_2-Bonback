@@ -37,6 +37,7 @@ import { ConfigurationList } from "./configuration/pages/List/ConfigurationList"
 import { LockedUserList } from "./lockedUserList/pages/List/LockedUserList";
 import MessageProvider from "./shared/MessageProvider";
 import { MenuItemCountProvider } from "./shared/contexts/MenuItemCountContext ";
+import { ReportList } from "./reports/Pages/List/ReportList";
 
 function App() {
   const dispatch = useDispatch();
@@ -104,6 +105,15 @@ function App() {
         key="constantGroupList"
         path="/constantGroupList"
         element={<ConstantGroupList />}
+      />,
+      <Route
+        key="reports"
+        path="/reports"
+        element={
+          <ProtectedRoute authorization={AuthorizationType.EditConfiguration}>
+            <ReportList />
+          </ProtectedRoute>
+        }
       />,
       <Route key="userList" path="/userList" element={<UserList />} />,
       <Route
@@ -224,20 +234,20 @@ function App() {
     };
   }, []);
 
-useEffect(() => {
-  if (isPrintPage) {
-    // Für Druckseite weißer Hintergrund
-    document.body.style.backgroundColor = "white";
-    document.body.style.backgroundImage = "";
-  } else {
-    // Für alle anderen Seiten: Hintergrundbild
-    document.body.style.backgroundColor = ""; // optional, falls du keine Farbe willst
-    document.body.style.backgroundImage = "url('/background.jpg')";
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundRepeat = "no-repeat"; // optional
-  }
-}, [isPrintPage]);
+  useEffect(() => {
+    if (isPrintPage) {
+      // Für Druckseite weißer Hintergrund
+      document.body.style.backgroundColor = "white";
+      document.body.style.backgroundImage = "";
+    } else {
+      // Für alle anderen Seiten: Hintergrundbild
+      document.body.style.backgroundColor = ""; // optional, falls du keine Farbe willst
+      document.body.style.backgroundImage = "url('/background.jpg')";
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat"; // optional
+    }
+  }, [isPrintPage]);
 
   return (
     <>
