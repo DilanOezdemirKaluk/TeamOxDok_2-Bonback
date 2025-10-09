@@ -128,7 +128,7 @@ export const ReportList: React.FC = () => {
     const tage = selectedBearbZeitraum === "letzte 3 Tage" ? 3 : selectedBearbZeitraum === "letzte 7 Tage" ? 7 : 30;
     return Array.from({ length: tage }, (_, i) => ({
       tag: `Tag ${i + 1}`,
-      status: Math.random() > 0.5 ? "Bearbeitung" : "Keine Bearbeitung",
+      status: Math.random() > 0.5 ? "Keine Bearbeitung" : "Bearbeitung",
     }));
   }, [selectedBearbZeitraum, selectedBearbAggregat, selectedSchicht]);
 
