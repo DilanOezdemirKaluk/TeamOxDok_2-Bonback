@@ -16,6 +16,17 @@ const parameterMapping: Record<string, string[]> = {
   Vibrationsstreuer: ["Streurinne Geschwindigkeit [%]", "Streurinne vor Bunkerblech [mm]"]
 };
 
+// Änderungsgründe pro Aggregat für X-Achse
+const aenderungsgruende: Record<string, string[]> = {
+  Andruckstation: ["Produkte zu groß","Produkte zu klein","Formschwankungen","Rundheit","Zentrierung Heben","Zentrierung Senken"],
+  Dekor: ["Bestreuung ungleichmäßig","Überzug zu gering","Überzug zu viel","Bestreuung Untergewicht","Bestreuung Übergewicht"],
+  Dosiersystem: ["Produkte zu groß","Produkte zu klein","Formschwankungen","Rundheit","Teig zu fest","Teig zu weich","Dosierverzögerung"],
+  Fettbackwanne: ["Verschmutzungen","Sonstige"],
+  Gärschrank: ["Teig zu kalt","Teig zu warm","Produkte zu groß","Formschwankungen"],
+  Kopfmaschine: ["Produkte zu groß","Produkte zu klein","Formschwankungen","Rundheit","Teig zu fest","Teig zu weich"],
+  Transportband: ["Zentrierung Heben","Zentrierung Senken","Ablage zu ungenau"]
+};
+
 type DataRow = { parameter: string; min: number; max: number; tag1: number; tag2: number; tag3: number; };
 
 // --- Machine Data Live Chart ---
@@ -55,7 +66,6 @@ export const MachineDataLiveChart: React.FC<{ color?: string }> = ({ color = "rg
 
 // --- ReportList ---
 export const ReportList: React.FC = () => {
-  // Filter States
   const [selectedZeitraum, setSelectedZeitraum] = useState("letzte 3 Tage");
   const [selectedAggregat, setSelectedAggregat] = useState("Dosiersystem");
   const [selectedParameter, setSelectedParameter] = useState(parameterMapping["Dosiersystem"][0]);
@@ -90,22 +100,30 @@ export const ReportList: React.FC = () => {
     yAxis: { min: filteredData[0].min - 5, max: filteredData[0].max + 5, title: { text: filteredData[0].parameter } },
   } : {};
 
-  const columnData = filteredData.map(item => {
-    const allTags = [item.tag1, item.tag2, item.tag3];
-    return { grund: item.parameter, anzahl: allTags.filter(v => v < item.min || v > item.max).length };
-  });
+  // --- Säulendiagramm Änderungsgründe ---
+  const columnData = useMemo(() => {
+    const gruende = aenderungsgruende[selectedAggregat] || [];
+    return gruende.map(gr => ({
+      grund: gr,
+      anzahl: Math.floor(Math.random() * 11) // Zufällige Anzahl, kann durch echte Daten ersetzt werden
+    }));
+  }, [selectedAggregat]);
 
   const columnConfig = {
     data: columnData,
     xField: "grund",
     yField: "anzahl",
-    label: { position: "top" as const },
+    label: { position: "top" as const, style: { fontSize: 12 } },
     columnWidthRatio: 0.6,
-    xAxis: { label: { autoHide: true } },
-    yAxis: { title: { text: "Außerhalb Toleranz" } },
+    xAxis: { label: { autoHide: false, autoRotate: true }, line: { style: { stroke: "#aaa" } } },
+    yAxis: { min: 0, title: { text: "Anzahl" } },
+    legend: false,
+    interactions: [{ type: "element-active" }],
+    minColumnWidth: 20,
+    maxColumnWidth: 40,
   };
 
-  // Bearbeitungsverhalten-Daten pro Tag
+  // Bearbeitungsverhalten-Daten
   const filteredBearbData = useMemo(() => {
     const tage = selectedBearbZeitraum === "letzte 3 Tage" ? 3 : selectedBearbZeitraum === "letzte 7 Tage" ? 7 : 30;
     return Array.from({ length: tage }, (_, i) => ({
@@ -126,8 +144,7 @@ export const ReportList: React.FC = () => {
   return (
     <ListContent>
       <Space direction="vertical" size="large" style={{ width: "100%" }}>
-
-        {/* Produktionsdaten Filter */}
+        {/* Filter Card */}
         <Card style={{ backgroundColor: "#e6f0ff", borderRadius: 12 }} bodyStyle={{ padding: "16px" }}>
           <Space size="large" wrap>
             <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
@@ -149,68 +166,69 @@ export const ReportList: React.FC = () => {
           </Space>
         </Card>
 
-        {/* Diagramme Abweichung & Änderungsgründe */}
+        {/* Diagramme */}
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={12}><Card title="📈 Abweichungsanalyse – Chargengröße"><Line {...lineConfig1} style={{ height: 300 }} /></Card></Col>
-          <Col xs={24} md={12}><Card title="🧾 Änderungsgründe (Toleranzverletzung)"><Column {...columnConfig} style={{ height: 300 }} /></Card></Col>
+          <Col xs={24} md={12}>
+            <Card title="📈 Abweichungsanalyse">
+              <Line {...lineConfig1} style={{ height: 300 }} />
+            </Card>
+          </Col>
+          <Col xs={24} md={12}>
+            <Card title="🧾 Top Änderungsgründe">
+              <Column {...columnConfig} style={{ height: 300 }} />
+            </Card>
+          </Col>
         </Row>
 
-        {/* Machine Data Sensor A & B */}
+        {/* Machine Data */}
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={12}><Card title="⚙️ Machine Data – Sensor A"><MachineDataLiveChart color="rgb(82,196,26)" /></Card></Col>
-          <Col xs={24} md={12}><Card title="⚙️ Machine Data – Sensor B"><MachineDataLiveChart color="rgb(255,165,0)" /></Card></Col>
+          <Col xs={24} md={12}>
+            <Card title="⚙️ Machine Data – Sensor A"><MachineDataLiveChart color="rgb(82,196,26)" /></Card>
+          </Col>
+          <Col xs={24} md={12}>
+            <Card title="⚙️ Machine Data – Sensor B"><MachineDataLiveChart color="rgb(255,165,0)" /></Card>
+          </Col>
         </Row>
 
-        {/* Produktionsdaten Tabelle */}
+        {/* Tabelle */}
         <Card title="📊 Produktionsdaten (statisch)">
           <Table dataSource={filteredData} columns={columns} pagination={false} rowKey="parameter" />
         </Card>
 
-        {/* Bearbeitungsverhalten Card */}
-<Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12 }}>
-  {/* Filter direkt unter dem Titel */}
-  <Space size="large" wrap style={{ marginBottom: 16, backgroundColor: "#e6f0ff", padding: 8, borderRadius: 8 }}>
-    <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
-    <Select value={selectedBearbZeitraum} onChange={setSelectedBearbZeitraum} style={{ width: 180 }}>
-      <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
-      <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
-      <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
-    </Select>
+        {/* Bearbeitungsverhalten */}
+        <Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12 }}>
+          <Space size="large" wrap style={{ marginBottom: 16, backgroundColor: "#e6f0ff", padding: 8, borderRadius: 8 }}>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+            <Select value={selectedBearbZeitraum} onChange={setSelectedBearbZeitraum} style={{ width: 180 }}>
+              <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
+              <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
+              <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
+            </Select>
 
-    <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
-    <Select value={selectedBearbAggregat} onChange={setSelectedBearbAggregat} style={{ width: 220 }}>
-      {Object.keys(parameterMapping).map(agg => <Option key={agg} value={agg}>{agg}</Option>)}
-    </Select>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
+            <Select value={selectedBearbAggregat} onChange={setSelectedBearbAggregat} style={{ width: 220 }}>
+              {Object.keys(parameterMapping).map(agg => <Option key={agg} value={agg}>{agg}</Option>)}
+            </Select>
 
-    <span style={{ color: "#1890ff", fontWeight: 500 }}>Schicht:</span>
-    <Select value={selectedSchicht} onChange={setSelectedSchicht} style={{ width: 180 }}>
-      <Option value="früh">Früh</Option>
-      <Option value="spät">Spät</Option>
-      <Option value="nacht">Nacht</Option>
-    </Select>
-  </Space>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Schicht:</span>
+            <Select value={selectedSchicht} onChange={setSelectedSchicht} style={{ width: 180 }}>
+              <Option value="früh">Früh</Option>
+              <Option value="spät">Spät</Option>
+              <Option value="nacht">Nacht</Option>
+            </Select>
+          </Space>
 
-  {/* Bearbeitungsverhalten Diagramm */}
-  <Line
-    data={filteredBearbData}
-    xField="tag"
-    yField="status"
-    smooth={false}
-    stepType="hv"
-    yAxis={{
-      type: 'cat',
-      title: { text: "Bearbeitung" },
-      values: ["Keine Bearbeitung", "Bearbeitung"], // Bearbeitung oben
-    }}
-    style={{ height: 300 }}
-    tooltip={{
-      formatter: (datum: any) => ({
-        name: datum.tag,
-        value: datum.status,
-      }),
-    }}
-  />
-</Card>
+          <Line
+            data={filteredBearbData}
+            xField="tag"
+            yField="status"
+            smooth={false}
+            stepType="hv"
+            yAxis={{ type: 'cat', title: { text: "Bearbeitung" }, values: ["Keine Bearbeitung", "Bearbeitung"] }}
+            style={{ height: 300 }}
+            tooltip={{ formatter: (datum: any) => ({ name: datum.tag, value: datum.status }) }}
+          />
+        </Card>
       </Space>
     </ListContent>
   );
