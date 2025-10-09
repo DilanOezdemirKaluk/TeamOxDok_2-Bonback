@@ -13,7 +13,6 @@ type DataRow = {
 };
 
 export const ReportList: React.FC = () => {
-  // 📌 Feste Produktionswerte aus Tabelle
   const rawData: DataRow[] = [
     {
       parameter: "Chargengröße [kg]",
@@ -57,7 +56,6 @@ export const ReportList: React.FC = () => {
     },
   ];
 
-  // 📈 Diagramm 1: Abweichungsanalyse – Chargengröße
   const chargenIndex = 0;
   const abweichungData = [
     { time: "Tag 1", value: rawData[chargenIndex].tag1 },
@@ -80,7 +78,6 @@ export const ReportList: React.FC = () => {
     },
   };
 
-  // 🧾 Diagramm 2: Änderungsgründe (außerhalb Toleranz)
   const columnData = rawData.map((item) => {
     const allTags = [item.tag1, item.tag2, item.tag3];
     const outOfTol = allTags.filter((v) => v < item.min || v > item.max).length;
@@ -97,7 +94,6 @@ export const ReportList: React.FC = () => {
     yAxis: { title: { text: "Außerhalb Toleranz" } },
   };
 
-  // 🟩 Diagramm 3: Bearbeitungsverhalten – innerhalb/außerhalb Toleranz
   const toleranceData = rawData.map((item) => {
     const avg = (item.tag1 + item.tag2 + item.tag3) / 3;
     return {
@@ -126,7 +122,6 @@ export const ReportList: React.FC = () => {
     },
   };
 
-  // 🌡️ Diagramm 4: Maschinendaten – Fettwanne Temperatur
   const fettwanneIndex = 4;
   const fettData = [
     { time: "Tag 1", value: rawData[fettwanneIndex].tag1 },
@@ -149,7 +144,6 @@ export const ReportList: React.FC = () => {
     },
   };
 
-  // 📋 Tabelle
   const columns = [
     { title: "Parameter", dataIndex: "parameter", key: "parameter" },
     { title: "MIN", dataIndex: "min", key: "min" },
