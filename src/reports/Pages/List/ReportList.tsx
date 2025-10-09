@@ -734,7 +734,7 @@ export const ReportList: React.FC = () => {
           </Col>
           <Col xs={24} md={12}>
             <Card title="🧾 Top Änderungsgründe">
-              <Column {...columnConfig} style={{ height: 300 }} />
+              <Column {...columnConfig} />
             </Card>
           </Col>
         </Row>
