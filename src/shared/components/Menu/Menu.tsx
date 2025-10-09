@@ -77,7 +77,7 @@ export const Menu: React.FC<IMenuProps> = ({ onHide }) => {
           ? [
               {
                 to: "/reports",
-                text: "Berichte",
+                text: "Auswertungen",
                 icon: <AuditOutlined style={{ color: "#006400" }} />,
               },
             ]
