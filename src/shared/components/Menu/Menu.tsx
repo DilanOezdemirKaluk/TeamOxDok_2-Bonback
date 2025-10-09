@@ -73,6 +73,15 @@ export const Menu: React.FC<IMenuProps> = ({ onHide }) => {
           text: "Vorlagen",
           icon: <FilterOutlined style={{ color: "#ff8c00" }} />,
         },
+        ...(hasCreateTemplateAuth
+          ? [
+              {
+                to: "/reports",
+                text: "Berichte",
+                icon: <AuditOutlined style={{ color: "#006400" }} />,
+              },
+            ]
+          : []),
       ],
     },
     {
@@ -128,15 +137,6 @@ export const Menu: React.FC<IMenuProps> = ({ onHide }) => {
           text: "Konstanten Gruppen",
           icon: <BorderlessTableOutlined style={{ color: "#b8860b" }} />,
         },
-        ...(hasConfigAuth
-          ? [
-              {
-                to: "/reports",
-                text: "Berichte",
-                icon: <AuditOutlined style={{ color: "#006400" }} />,
-              },
-            ]
-          : []),
         {
           to: "/userList",
           text: "Benutzer",

@@ -110,7 +110,7 @@ function App() {
         key="reports"
         path="/reports"
         element={
-          <ProtectedRoute authorization={AuthorizationType.EditConfiguration}>
+          <ProtectedRoute authorization={AuthorizationType.CreateTemplate}>
             <ReportList />
           </ProtectedRoute>
         }
