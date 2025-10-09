@@ -105,6 +105,15 @@ export const ReportList: React.FC = () => {
     yAxis: { title: { text: "Außerhalb Toleranz" } },
   };
 
+  // Bearbeitungsverhalten-Daten pro Tag
+  const filteredBearbData = useMemo(() => {
+    const tage = selectedBearbZeitraum === "letzte 3 Tage" ? 3 : selectedBearbZeitraum === "letzte 7 Tage" ? 7 : 30;
+    return Array.from({ length: tage }, (_, i) => ({
+      tag: `Tag ${i + 1}`,
+      status: Math.random() > 0.5 ? "Bearbeitung" : "Keine Bearbeitung",
+    }));
+  }, [selectedBearbZeitraum, selectedBearbAggregat, selectedSchicht]);
+
   const columns = [
     { title: "Parameter", dataIndex: "parameter", key: "parameter" },
     { title: "MIN", dataIndex: "min", key: "min" },
@@ -114,31 +123,26 @@ export const ReportList: React.FC = () => {
     { title: "Tag 3", dataIndex: "tag3", key: "tag3" },
   ];
 
-  // Bearbeitungsverhalten-Daten
-  const tageMap: Record<string, number> = { "letzte 3 Tage": 3, "letzte 7 Tage": 7, "letzte 30 Tage": 30 };
-  const filteredBearbData = useMemo(() => {
-    const tage = tageMap[selectedBearbZeitraum] || 3;
-    return Array.from({ length: tage }, (_, i) => ({
-      tag: `Tag ${i + 1}`,
-      status: Math.random() > 0.5 ? "Bearbeitung" : "Keine Bearbeitung",
-    }));
-  }, [selectedBearbZeitraum, selectedBearbAggregat, selectedSchicht]);
-
   return (
     <ListContent>
       <Space direction="vertical" size="large" style={{ width: "100%" }}>
 
         {/* Produktionsdaten Filter */}
-        <Card style={{ backgroundColor: "#f0f5ff", borderRadius: 12 }} bodyStyle={{ padding: "16px" }}>
+        <Card style={{ backgroundColor: "#e6f0ff", borderRadius: 12 }} bodyStyle={{ padding: "16px" }}>
           <Space size="large" wrap>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
             <Select value={selectedZeitraum} onChange={setSelectedZeitraum} style={{ width: 180 }}>
               <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
               <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
               <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
             </Select>
+
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
             <Select value={selectedAggregat} onChange={agg => { setSelectedAggregat(agg); setSelectedParameter(parameterMapping[agg][0]); }} style={{ width: 220 }}>
               {Object.keys(parameterMapping).map(agg => <Option key={agg} value={agg}>{agg}</Option>)}
             </Select>
+
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Parameter:</span>
             <Select value={selectedParameter} onChange={setSelectedParameter} style={{ width: 260 }}>
               {parameterOptions.map(param => <Option key={param} value={param}>{param}</Option>)}
             </Select>
@@ -147,8 +151,8 @@ export const ReportList: React.FC = () => {
 
         {/* Diagramme Abweichung & Änderungsgründe */}
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={12}><Card title="📈 Abweichungsanalyse"><Line {...lineConfig1} style={{ height: 300 }} /></Card></Col>
-          <Col xs={24} md={12}><Card title="🧾 TOP Änderungsgründe"><Column {...columnConfig} style={{ height: 300 }} /></Card></Col>
+          <Col xs={24} md={12}><Card title="📈 Abweichungsanalyse – Chargengröße"><Line {...lineConfig1} style={{ height: 300 }} /></Card></Col>
+          <Col xs={24} md={12}><Card title="🧾 Änderungsgründe (Toleranzverletzung)"><Column {...columnConfig} style={{ height: 300 }} /></Card></Col>
         </Row>
 
         {/* Machine Data Sensor A & B */}
@@ -158,51 +162,55 @@ export const ReportList: React.FC = () => {
         </Row>
 
         {/* Produktionsdaten Tabelle */}
-        <Card title="📊 Parameterdaten der letzten drei Schichten">
+        <Card title="📊 Produktionsdaten (statisch)">
           <Table dataSource={filteredData} columns={columns} pagination={false} rowKey="parameter" />
         </Card>
 
-        {/* Bearbeitungsverhalten Filter + Diagramm */}
-        <Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12 }}>
-          {/* Filter direkt über dem Diagramm */}
-          <Space size="large" wrap style={{ marginBottom: 16 }}>
-            <Select value={selectedBearbZeitraum} onChange={setSelectedBearbZeitraum} style={{ width: 180 }}>
-              <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
-              <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
-              <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
-            </Select>
-            <Select value={selectedBearbAggregat} onChange={setSelectedBearbAggregat} style={{ width: 220 }}>
-              {Object.keys(parameterMapping).map(agg => <Option key={agg} value={agg}>{agg}</Option>)}
-            </Select>
-            <Select value={selectedSchicht} onChange={setSelectedSchicht} style={{ width: 180 }}>
-              <Option value="früh">Früh</Option>
-              <Option value="spät">Spät</Option>
-              <Option value="nacht">Nacht</Option>
-            </Select>
-          </Space>
+        {/* Bearbeitungsverhalten Card */}
+<Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12 }}>
+  {/* Filter direkt unter dem Titel */}
+  <Space size="large" wrap style={{ marginBottom: 16, backgroundColor: "#e6f0ff", padding: 8, borderRadius: 8 }}>
+    <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+    <Select value={selectedBearbZeitraum} onChange={setSelectedBearbZeitraum} style={{ width: 180 }}>
+      <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
+      <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
+      <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
+    </Select>
 
-          {/* Diagramm */}
-          <Line
-            data={filteredBearbData}
-            xField="tag"
-            yField="status"
-            smooth={false}
-            stepType="hv"
-            yAxis={{
-              type: 'cat',
-              title: { text: "Bearbeitung" },
-              values: ["Bearbeitung", "Keine Bearbeitung"], 
-            }}
-            style={{ height: 300 }}
-            tooltip={{
-              formatter: (datum: any) => ({
-                name: datum.tag,
-                value: datum.status,
-              }),
-            }}
-          />
-        </Card>
+    <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
+    <Select value={selectedBearbAggregat} onChange={setSelectedBearbAggregat} style={{ width: 220 }}>
+      {Object.keys(parameterMapping).map(agg => <Option key={agg} value={agg}>{agg}</Option>)}
+    </Select>
 
+    <span style={{ color: "#1890ff", fontWeight: 500 }}>Schicht:</span>
+    <Select value={selectedSchicht} onChange={setSelectedSchicht} style={{ width: 180 }}>
+      <Option value="früh">Früh</Option>
+      <Option value="spät">Spät</Option>
+      <Option value="nacht">Nacht</Option>
+    </Select>
+  </Space>
+
+  {/* Bearbeitungsverhalten Diagramm */}
+  <Line
+    data={filteredBearbData}
+    xField="tag"
+    yField="status"
+    smooth={false}
+    stepType="hv"
+    yAxis={{
+      type: 'cat',
+      title: { text: "Bearbeitung" },
+      values: ["Keine Bearbeitung", "Bearbeitung"], // Bearbeitung oben
+    }}
+    style={{ height: 300 }}
+    tooltip={{
+      formatter: (datum: any) => ({
+        name: datum.tag,
+        value: datum.status,
+      }),
+    }}
+  />
+</Card>
       </Space>
     </ListContent>
   );
