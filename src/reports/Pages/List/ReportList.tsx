@@ -482,7 +482,7 @@ export const ReportList: React.FC = () => {
   );
 
   const tageCount =
-    selectedZeitraum === "letzte Tag"
+    selectedZeitraum === "letzter Tag"
       ? 1
       : selectedZeitraum === "letzte 3 Tage"
         ? 3
@@ -670,7 +670,7 @@ export const ReportList: React.FC = () => {
   // Bearbeitungsverhalten-Daten
   const filteredBearbData = useMemo(() => {
     const tage =
-      selectedBearbZeitraum === "letzte Tag"
+      selectedBearbZeitraum === "letzter Tag"
         ? 1
         : selectedBearbZeitraum === "letzte 3 Tage"
           ? 3
@@ -721,7 +721,7 @@ export const ReportList: React.FC = () => {
               onChange={setSelectedZeitraum}
               style={{ width: 180 }}
             >
-              <Option value="letzte Tag">Letzte Tag</Option>
+              <Option value="letzter Tag">Letzter Tag</Option>
               <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
               <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
               <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
@@ -816,7 +816,7 @@ export const ReportList: React.FC = () => {
               onChange={setSelectedBearbZeitraum}
               style={{ width: 180 }}
             >
-              <Option value="letzte Tag">Letzte Tag</Option>
+              <Option value="letzter Tag">Letzter Tag</Option>
               <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
               <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
               <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
@@ -847,45 +847,53 @@ export const ReportList: React.FC = () => {
             </Select>
           </Space>
 
-          <div style={{ width: "100%", overflow: "hidden", height: 450 }}>
-            <Line
-              data={filteredBearbData}
-              xField="tag"
-              yField="statusValue"
-              smooth={false}
-              stepType="hv"
-              meta={{
-                statusValue: {
-                  min: 0,
-                  max: 1,
-                  ticks: [0, 1],
-                  nice: false,
-                  formatter: (v: number) =>
-                    v === 1 ? "Bearbeitung" : v === 0 ? "Keine Bearbeitung" : "",
-                },
-              }}
-              yAxis={{
-                label: {
-                  formatter: (val: any) =>
-                    Number(val) === 1 ? "Bearbeitung" : Number(val) === 0 ? "Keine Bearbeitung" : "",
-                },
-                title: { text: "Status" },
-              }}
-
-              style={{ width: "100%" }}
-            />
-          </div>
-          <div style={{ width: 320, margin: "32px auto 0" }}>
-            <Pie
-              data={pieData}
-              angleField="value"
-              colorField="type"
-              radius={0.8}
-              label={false}
-              legend={true}
-              color={["#52c41a", "#faad14"]}
-            />
-          </div>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={16}>
+              <Card bodyStyle={{ padding: 16 }}>
+                <Line
+                  data={filteredBearbData}
+                  xField="tag"
+                  yField="statusValue"
+                  smooth={false}
+                  stepType="hv"
+                  meta={{
+                    statusValue: {
+                      min: 0,
+                      max: 1,
+                      ticks: [0, 1],
+                      nice: false,
+                      formatter: (v: number) =>
+                        v === 1 ? "Bearbeitung" : v === 0 ? "Keine Bearbeitung" : "",
+                    },
+                  }}
+                  yAxis={{
+                    label: {
+                      formatter: (val: any) =>
+                        Number(val) === 1 ? "Bearbeitung" : Number(val) === 0 ? "Keine Bearbeitung" : "",
+                    },
+                    title: { text: "Status" },
+                  }}
+                  style={{ width: "100%", height: 300 }}
+                  height={300}
+                />
+              </Card>
+            </Col>
+            <Col xs={24} md={8}>
+              <Card bodyStyle={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Pie
+                  data={pieData}
+                  angleField="value"
+                  colorField="type"
+                  radius={0.8}
+                  label={false}
+                  legend={true}
+                  color={["#52c41a", "#faad14"]}
+                  style={{ width: "100%", height: 300, maxWidth: 400 }}
+                  height={300}
+                />
+              </Card>
+            </Col>
+          </Row>
         </Card>
       </Space>
     </ListContent>
