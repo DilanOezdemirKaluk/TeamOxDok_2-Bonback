@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Column, Line } from "@ant-design/plots";
+import { Column, Line, Pie } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
+import { values } from "lodash";
 
 const { Option } = Select;
 
@@ -49,62 +50,12 @@ const parameterMapping: Record<string, string[]> = {
   ],
 };
 
-// Änderungsgründe nach Aggregat (unabhängig vom Parameter)
-const aenderungsgruende: Record<string, string[]> = {
-  Andruckstation: [
-    "Produkte zu groß",
-    "Produkte zu klein",
-    "Formschwankungen",
-    "Rundheit",
-    "Zentrierung Heben",
-    "Zentrierung Senken",
-  ],
-  Dekor: [
-    "Bestreuung ungleichmäßig",
-    "Überzug zu gering",
-    "Überzug zu viel",
-    "Bestreuung Untergewicht",
-    "Bestreuung Übergewicht",
-  ],
-  Dosiersystem: [
-    "Produkte zu groß",
-    "Produkte zu klein",
-    "Formschwankungen",
-    "Rundheit",
-    "Teig zu fest",
-    "Teig zu weich",
-    "Dosierverzögerung",
-  ],
-  Fettbackwanne: ["Verschmutzungen", "Sonstige"],
-  Gärschrank: [
-    "Teig zu kalt",
-    "Teig zu warm",
-    "Produkte zu groß",
-    "Formschwankungen",
-  ],
-  Kopfmaschine: [
-    "Produkte zu groß",
-    "Produkte zu klein",
-    "Formschwankungen",
-    "Rundheit",
-    "Teig zu fest",
-    "Teig zu weich",
-  ],
-  Transportband: [
-    "Zentrierung Heben",
-    "Zentrierung Senken",
-    "Ablage zu ungenau",
-  ],
-};
-
 type DataRow = {
   aggregat: string;
   parameter: string;
   min: number;
   max: number;
-  tag1: number;
-  tag2: number;
-  tag3: number;
+  [key: `tag${number}`]: number | undefined;
 };
 
 // --- Machine Data Live Chart ---
@@ -151,7 +102,7 @@ export const MachineDataLiveChart: React.FC<{ color?: string }> = ({
     xAxis: { title: { text: "Zeit [s]" } },
     yAxis: { title: { text: "Maschinenwert [°C]" }, min: 170, max: 185 },
     animation: { update: { duration: 120, easing: "linear" } },
-    autoFit: false,
+    autoFit: true,
     height: 300,
   };
 
@@ -530,11 +481,21 @@ export const ReportList: React.FC = () => {
     [selectedAggregat, selectedParameter, rawData]
   );
 
-  const abweichungData = filteredData.flatMap((item) => [
-    { time: "Tag 1", value: item.tag1 },
-    { time: "Tag 2", value: item.tag2 },
-    { time: "Tag 3", value: item.tag3 },
-  ]);
+  const tageCount =
+    selectedZeitraum === "letzte Tag"
+      ? 1
+      : selectedZeitraum === "letzte 3 Tage"
+        ? 3
+        : selectedZeitraum === "letzte 7 Tage"
+          ? 7
+          : 30;
+
+  const abweichungData = filteredData.flatMap((item) =>
+    Array.from({ length: tageCount }, (_, i) => ({
+      time: `Tag ${i + 1}`,
+      value: item[`tag${i + 1}`] ?? item.tag1, // Eğer veri yoksa ilk günü kullan
+    }))
+  );
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
   let lineConfig1: any = {
@@ -572,8 +533,13 @@ export const ReportList: React.FC = () => {
       value: maxVal,
       series: "MAX",
     }));
+    const averageSeries = abweichungData.map((d) => ({
+      time: d.time,
+      value: minVal + Math.random() * (maxVal - minVal), // min-max arası random değer
+      series: "AVERAGE",
+    }));
 
-    const merged = [...actualSeries, ...minSeries, ...maxSeries];
+    const merged = [...actualSeries, ...minSeries, ...maxSeries, ...averageSeries];
 
     lineConfig1 = {
       data: merged,
@@ -581,7 +547,7 @@ export const ReportList: React.FC = () => {
       yField: "value",
       seriesField: "series",
       smooth: true,
-      autoFit: false,
+      autoFit: true,
       height: 300,
       xAxis: { title: { text: "Produktionstag" } },
       yAxis: {
@@ -589,33 +555,90 @@ export const ReportList: React.FC = () => {
         max: maxVal + 5,
         title: { text: filteredData[0].parameter },
       },
-      point: { size: 4, field: "value" },
+      point: (datum: any) =>
+        datum.series === "AVERAGE"
+          ? { size: 4, shape: "circle", style: { fill: "#e01227ff" } }
+          : false,
       lineStyle: (datum: any) => {
         if (datum.series === "MIN" || datum.series === "MAX")
-          return { lineDash: [4, 4], stroke: "rgba(24,144,255,0.45)" };
-        return { stroke: "rgba(24, 144, 255, 1)", lineWidth: 2 };
+          return { lineDash: [4, 4] };
+        if (datum.series === "AVERAGE")
+          return { lineDash: [6, 2], lineWidth: 2 };
+        return { lineWidth: 2 };
       },
-      legend: false,
+      legend: true, // <-- Bunu true yap!
+      color: [
+        "rgba(24, 144, 255, 1)",      // Wert (actual)
+        "rgba(24,144,255,0.45)",      // MIN
+        "rgba(24,144,255,0.45)",      // MAX
+        "#da072e",                    // AVERAGE (ör: kırmızı)
+      ],
     };
   }
 
   // --- Säulendiagramm Top Änderungsgründe nach Aggregat ---
-  const columnData = useMemo(() => {
-    const gruende = aenderungsgruende[selectedAggregat] || [];
-    return gruende.map((gr) => ({
-      grund: gr,
-      anzahl: Math.floor(Math.random() * 11),
-    }));
-  }, [selectedAggregat]);
 
+  // Beispiel für manuell änderbare Werte:
+  const aenderungsgruendeData: Record<string, { grund: string; anzahl: number }[]> = {
+    Dosiersystem: [
+      { grund: "Produkte zu groß", anzahl: 7 },
+      { grund: "Produkte zu klein", anzahl: 3 },
+      { grund: "Formschwankungen", anzahl: 5 },
+      { grund: "Rundheit", anzahl: 2 },
+      { grund: "Teig zu fest", anzahl: 1 },
+      { grund: "Teig zu weich", anzahl: 4 },
+      { grund: "Dosierverzögerung", anzahl: 2 },
+    ],
+    Kopfmaschine: [
+      { grund: "Produkte zu groß", anzahl: 6 },
+      { grund: "Produkte zu klein", anzahl: 2 },
+      { grund: "Formschwankungen", anzahl: 4 },
+      { grund: "Rundheit", anzahl: 3 },
+      { grund: "Teig zu fest", anzahl: 1 },
+      { grund: "Teig zu weich", anzahl: 2 },
+    ],
+    Vorgärschrank: [
+      { grund: "Geschwindigkeit zu hoch", anzahl: 4 },
+      { grund: "Oberband Problem", anzahl: 2 },
+      { grund: "Unterband Problem", anzahl: 3 },
+      { grund: "Position Einlauf falsch", anzahl: 1 },
+      { grund: "Position Auslauf falsch", anzahl: 2 },
+      { grund: "Heben Fehler", anzahl: 2 },
+      { grund: "Senken Fehler", anzahl: 1 },
+    ],
+    Gärschrank: [
+      { grund: "Temperatur zu hoch", anzahl: 3 },
+      { grund: "Feuchtigkeit zu niedrig", anzahl: 2 },
+      { grund: "Temperatur Absteifzone", anzahl: 1 },
+    ],
+    Fettbackwanne: [
+      { grund: "Verschmutzungen", anzahl: 2 },
+      { grund: "Sonstige", anzahl: 1 },
+    ],
+    Sollich: [
+      { grund: "Bodentunkwalze Problem", anzahl: 2 },
+      { grund: "Temperatur Sollich zu hoch", anzahl: 1 },
+    ],
+    Vibrationsstreuer: [
+      { grund: "Streurinne Geschwindigkeit", anzahl: 2 },
+      { grund: "Streurinne vor Bunkerblech", anzahl: 1 },
+    ],
+  };
+
+  // Die Werte sind absteigend sortiert
+  const columnData = useMemo(() => {
+    const data = aenderungsgruendeData[selectedAggregat] || [];
+    return [...data].sort((a, b) => b.anzahl - a.anzahl);
+  }, [selectedAggregat]);
+  console.log(columnData);
   const columnConfig = {
     data: columnData,
     xField: "grund",
     yField: "anzahl",
-    // remove top labels (they overlap) and ensure bars are centered on categorical x axis
     label: false,
     columnWidthRatio: 0.6,
-    // prevent x-axis labels from being overlapped by columns by rotating them and disabling autoRotate
+    autoFit: true,
+
     xAxis: {
       type: "cat",
       label: {
@@ -624,7 +647,6 @@ export const ReportList: React.FC = () => {
         rotate: -30,
         offset: 36,
         style: { textAlign: "end", fontSize: 12, fill: "#333" },
-        // truncate long labels with ellipsis
         formatter: (text: any) => {
           const s = String(text || "");
           return s.length > 18 ? `${s.slice(0, 18)}…` : s;
@@ -632,10 +654,7 @@ export const ReportList: React.FC = () => {
       },
       line: { style: { stroke: "#aaa" } },
     },
-    // show full description in tooltip when hovering a column
-    tooltip: {
-      formatter: (datum: any) => ({ name: datum.grund, value: datum.anzahl }),
-    },
+    // tooltip: {formatter: (datum: any) => ({ name: datum.grund, value: datum.anzahl }),},
     yAxis: { min: 0, title: { text: "Anzahl" }, nice: false },
     // add larger bottom padding to ensure labels are fully outside the plot area
     appendPadding: [20, 20, 120, 40],
@@ -643,7 +662,6 @@ export const ReportList: React.FC = () => {
     interactions: [{ type: "element-active" }],
     minColumnWidth: 16,
     maxColumnWidth: 36,
-    autoFit: false,
     height: 300,
     // round the top corners slightly so labels have a bit of separation visually
     columnStyle: { radius: [6, 6, 0, 0] },
@@ -652,16 +670,32 @@ export const ReportList: React.FC = () => {
   // Bearbeitungsverhalten-Daten
   const filteredBearbData = useMemo(() => {
     const tage =
-      selectedBearbZeitraum === "letzte 3 Tage"
-        ? 3
-        : selectedBearbZeitraum === "letzte 7 Tage"
-        ? 7
-        : 30;
-    return Array.from({ length: tage }, (_, i) => ({
-      tag: `Tag ${i + 1}`,
-      status: Math.random() > 0.5 ? "Keine Bearbeitung" : "Bearbeitung",
-    }));
+      selectedBearbZeitraum === "letzte Tag"
+        ? 1
+        : selectedBearbZeitraum === "letzte 3 Tage"
+          ? 3
+          : selectedBearbZeitraum === "letzte 7 Tage"
+            ? 7
+            : 30;
+    return Array.from({ length: tage }, (_, i) => {
+      const statusNum = Math.round(Math.random()); // 0 veya 1
+      return {
+        tag: `Tag ${i + 1}`,
+        status: statusNum === 1 ? "Bearbeitung" : "Keine Bearbeitung",
+        statusValue: statusNum, // Grafikte kullanmak için
+      };
+    });
   }, [selectedBearbZeitraum]);
+  console.log(filteredBearbData);
+
+  const pieData = useMemo(() => {
+    const bearbeitungCount = filteredBearbData.filter(d => d.statusValue === 1).length;
+    const keineCount = filteredBearbData.filter(d => d.statusValue === 0).length;
+    return [
+      { type: "Bearbeitung", value: bearbeitungCount },
+      { type: "Keine Bearbeitung", value: keineCount },
+    ];
+  }, [filteredBearbData]);
 
   const columns = [
     { title: "Parameter", dataIndex: "parameter", key: "parameter" },
@@ -687,6 +721,7 @@ export const ReportList: React.FC = () => {
               onChange={setSelectedZeitraum}
               style={{ width: 180 }}
             >
+              <Option value="letzte Tag">Letzte Tag</Option>
               <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
               <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
               <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
@@ -764,7 +799,7 @@ export const ReportList: React.FC = () => {
         </Card>
 
         {/* Bearbeitungsverhalten */}
-        <Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12 }}>
+        <Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12, overflowX: "auto" }}>
           <Space
             size="large"
             wrap
@@ -781,6 +816,7 @@ export const ReportList: React.FC = () => {
               onChange={setSelectedBearbZeitraum}
               style={{ width: 180 }}
             >
+              <Option value="letzte Tag">Letzte Tag</Option>
               <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
               <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
               <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
@@ -811,25 +847,45 @@ export const ReportList: React.FC = () => {
             </Select>
           </Space>
 
-          <Line
-            data={filteredBearbData}
-            xField="tag"
-            yField="status"
-            smooth={false}
-            stepType="hv"
-            yAxis={{
-              type: "cat",
-              title: { text: "Bearbeitung" },
-              values: ["Keine Bearbeitung", "Bearbeitung"],
-            }}
-            style={{ height: 300 }}
-            tooltip={{
-              formatter: (datum: any) => ({
-                name: datum.tag,
-                value: datum.status,
-              }),
-            }}
-          />
+          <div style={{ width: "100%", overflow: "hidden", height: 450 }}>
+            <Line
+              data={filteredBearbData}
+              xField="tag"
+              yField="statusValue"
+              smooth={false}
+              stepType="hv"
+              meta={{
+                statusValue: {
+                  min: 0,
+                  max: 1,
+                  ticks: [0, 1],
+                  nice: false,
+                  formatter: (v: number) =>
+                    v === 1 ? "Bearbeitung" : v === 0 ? "Keine Bearbeitung" : "",
+                },
+              }}
+              yAxis={{
+                label: {
+                  formatter: (val: any) =>
+                    Number(val) === 1 ? "Bearbeitung" : Number(val) === 0 ? "Keine Bearbeitung" : "",
+                },
+                title: { text: "Status" },
+              }}
+
+              style={{ width: "100%" }}
+            />
+          </div>
+          <div style={{ width: 320, margin: "32px auto 0" }}>
+            <Pie
+              data={pieData}
+              angleField="value"
+              colorField="type"
+              radius={0.8}
+              label={false}
+              legend={true}
+              color={["#52c41a", "#faad14"]}
+            />
+          </div>
         </Card>
       </Space>
     </ListContent>
