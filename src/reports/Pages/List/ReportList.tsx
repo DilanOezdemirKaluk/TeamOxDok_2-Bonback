@@ -1,8 +1,32 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Column, Line, Pie } from "@ant-design/plots";
+import { Column } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
+import { Line } from "@ant-design/plots";
 import { values } from "lodash";
+
+// Chart.js imports
+import { Line as ChartLine, Pie as ChartPie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 const { Option } = Select;
 
@@ -55,7 +79,10 @@ type DataRow = {
   parameter: string;
   min: number;
   max: number;
-  [key: `tag${number}`]: number | undefined;
+  tag1?: number;
+  tag2?: number;
+  tag3?: number;
+  // Add more tags if needed, e.g. tag4?: number; tag5?: number;
 };
 
 // --- Machine Data Live Chart ---
@@ -135,10 +162,10 @@ export const ReportList: React.FC = () => {
         aggregat: "Dosiersystem",
         parameter: "Chargengröße [kg]",
         min: 210,
-        max: 210,
+        max: 220,
         tag1: 210,
         tag2: 210,
-        tag3: 210,
+        tag3: 215,
       },
       {
         aggregat: "Dosiersystem",
@@ -491,10 +518,13 @@ export const ReportList: React.FC = () => {
           : 30;
 
   const abweichungData = filteredData.flatMap((item) =>
-    Array.from({ length: tageCount }, (_, i) => ({
-      time: `Tag ${i + 1}`,
-      value: item[`tag${i + 1}`] ?? item.tag1, // Eğer veri yoksa ilk günü kullan
-    }))
+    Array.from({ length: tageCount }, (_, i) => {
+      const tagKey = `tag${i + 1}` as keyof DataRow;
+      return {
+        time: `Tag ${i + 1}`,
+        value: item[tagKey] ?? item.tag1, // Falls kein Wert, nutze Tag 1
+      };
+    })
   );
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
@@ -706,6 +736,168 @@ export const ReportList: React.FC = () => {
     { title: "Tag 3", dataIndex: "tag3", key: "tag3" },
   ];
 
+  // --- Abweichungsanalyse Chart.js Line Chart ---
+  const abwLineData = useMemo(() => {
+    const minVal = filteredData[0]?.min ?? 0;
+    const maxVal = filteredData[0]?.max ?? 0;
+    const averageVal = (minVal + maxVal) / 2;
+
+    return {
+      labels: abweichungData.map((d) => d.time),
+      datasets: [
+        {
+          label: "Wert",
+          data: abweichungData.map(() =>
+            minVal + Math.random() * (maxVal - minVal)
+          ),
+          borderColor: "rgba(24, 144, 255, 1)",
+          backgroundColor: "rgba(24, 144, 255, 0.1)",
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(24, 144, 255, 1)",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: "MIN",
+          data: abweichungData.map(() => minVal),
+          borderColor: "rgba(24,144,255,0.85)",
+          borderDash: [4, 4],
+          borderWidth: 3,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+          animations: false, // <-- Animasyonu kapat!
+        },
+        {
+          label: "MAX",
+          data: abweichungData.map(() => maxVal),
+          borderColor: "rgba(24,144,255,0.85)",
+          borderDash: [4, 4],
+          borderWidth: 3,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+          animations: false, // <-- Animasyonu kapat!
+        },
+        {
+          label: "AVERAGE",
+          data: abweichungData.map(() => averageVal),
+          borderColor: "#da072e",
+          borderDash: [6, 2],
+          borderWidth: 2,
+          pointBackgroundColor: "rgba(218,7,46,0.2)",
+          pointRadius: 0,
+          pointBorderColor: "#da072e",
+          pointBorderWidth: 1,
+          fill: false,
+          tension: 0.2,
+        },
+      ],
+    };
+  }, [abweichungData, filteredData]);
+
+  const abwLineOptions = useMemo(() => ({
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: "top" },
+      tooltip: {},
+    },
+    scales: {
+      y: {
+        min: filteredData[0]?.min ?? 0,
+        max: filteredData[0]?.max ?? 0,
+        title: {
+          display: true,
+          text: filteredData[0]?.parameter || "",
+        },
+      },
+      x: {
+        title: { display: true, text: "Produktionstag" },
+      },
+    },
+  }), [filteredData]);
+
+  // --- Bearbeitungsverhalten Chart.js Line Chart ---
+  const bearbLineData = useMemo(() => ({
+    labels: filteredBearbData.map((d) => d.tag),
+    datasets: [
+      {
+        label: "Bearbeitung",
+        data: filteredBearbData.map((d) => d.statusValue),
+        borderColor: "#52c41a",
+        backgroundColor: "#52c41a33",
+        fill: false,
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: "#52c41a",
+      },
+    ],
+  }), [filteredBearbData]);
+
+  const bearbLineOptions = {
+    responsive: true,
+    clip: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) =>
+            ctx.parsed.y === 1 ? "Bearbeitung" : "Keine Bearbeitung",
+        },
+      },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 1,
+        ticks: {
+          stepSize: 1,
+          callback: (val: number) =>
+            val === 1 ? "Bearbeitung" : "Keine Bearbeitung",
+        },
+        title: { display: true, text: "Status" },
+      },
+      x: {
+        title: { display: true, text: "Tag" },
+      },
+    },
+  };
+
+  // --- Bearbeitungsverhalten Chart.js Pie Chart ---
+  const bearbPieData = useMemo(() => ({
+    labels: ["Bearbeitung", "Keine Bearbeitung"],
+    datasets: [
+      {
+        data: [
+          filteredBearbData.filter((d) => d.statusValue === 1).length,
+          filteredBearbData.filter((d) => d.statusValue === 0).length,
+        ],
+        backgroundColor: ["#52c41a", "#faad14"],
+        borderWidth: 1,
+      },
+    ],
+  }), [filteredBearbData]);
+
+  const bearbPieOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: "bottom" },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) =>
+            `${ctx.label}: ${ctx.parsed} (${(
+              (ctx.parsed /
+                (ctx.dataset.data.reduce((a: number, b: number) => a + b, 0) ||
+                  1)) *
+              100
+            ).toFixed(1)}%)`,
+        },
+      },
+    },
+  };
+
   return (
     <ListContent>
       <Space direction="vertical" size="large" style={{ width: "100%" }}>
@@ -764,7 +956,12 @@ export const ReportList: React.FC = () => {
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>
             <Card title="📈 Abweichungsanalyse">
-              <Line {...lineConfig1} style={{ height: 300 }} />
+              <div style={{ width: "100%", height: 300 }}>
+                <ChartLine
+                  data={abwLineData as any}
+                  options={abwLineOptions as any}
+                />
+              </div>
             </Card>
           </Col>
           <Col xs={24} md={12}>
@@ -850,47 +1047,23 @@ export const ReportList: React.FC = () => {
           <Row gutter={[16, 16]}>
             <Col xs={24} md={16}>
               <Card bodyStyle={{ padding: 16 }}>
-                <Line
-                  data={filteredBearbData}
-                  xField="tag"
-                  yField="statusValue"
-                  smooth={false}
-                  stepType="hv"
-                  meta={{
-                    statusValue: {
-                      min: 0,
-                      max: 1,
-                      ticks: [0, 1],
-                      nice: false,
-                      formatter: (v: number) =>
-                        v === 1 ? "Bearbeitung" : v === 0 ? "Keine Bearbeitung" : "",
-                    },
-                  }}
-                  yAxis={{
-                    label: {
-                      formatter: (val: any) =>
-                        Number(val) === 1 ? "Bearbeitung" : Number(val) === 0 ? "Keine Bearbeitung" : "",
-                    },
-                    title: { text: "Status" },
-                  }}
-                  style={{ width: "100%", height: 300 }}
-                  height={300}
-                />
+                <div style={{ width: "100%", height: 300 }}>
+                  <ChartLine
+                    data={bearbLineData}
+                    options={bearbLineOptions as any}
+
+                  />
+                </div>
               </Card>
             </Col>
             <Col xs={24} md={8}>
               <Card bodyStyle={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Pie
-                  data={pieData}
-                  angleField="value"
-                  colorField="type"
-                  radius={0.8}
-                  label={false}
-                  legend={true}
-                  color={["#52c41a", "#faad14"]}
-                  style={{ width: "100%", height: 300, maxWidth: 400 }}
-                  height={300}
-                />
+                <div style={{ width: "100%", maxWidth: 400, height: 300 }}>
+                  <ChartPie
+                    data={bearbPieData}
+                    options={bearbPieOptions as any}
+                  />
+                </div>
               </Card>
             </Col>
           </Row>
