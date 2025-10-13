@@ -517,15 +517,23 @@ export const ReportList: React.FC = () => {
           ? 7
           : 30;
 
-  const abweichungData = filteredData.flatMap((item) =>
-    Array.from({ length: tageCount }, (_, i) => {
-      const tagKey = `tag${i + 1}` as keyof DataRow;
-      return {
-        time: `Tag ${i + 1}`,
-        value: item[tagKey] ?? item.tag1, // Falls kein Wert, nutze Tag 1
-      };
-    })
-  );
+  const abweichungData = useMemo(() => {
+    const minVal = filteredData[0]?.min ?? 0;
+    const maxVal = filteredData[0]?.max ?? 0;
+    const schichtLabels = ["Frühschicht", "Spätschicht", "Nachtschicht"];
+    const arr: { time: string; value: number }[] = [];
+
+    for (let tag = 1; tag <= tageCount; tag++) {
+      for (let i = 0; i < schichtLabels.length; i++) {
+        arr.push({
+          time: `Tag ${tag} - ${schichtLabels[i]}`,
+          value: Number((minVal + Math.random() * (maxVal - minVal)).toFixed(2)),
+        });
+      }
+    }
+    return arr;
+  }, [filteredData, tageCount]);
+
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
   let lineConfig1: any = {
@@ -596,12 +604,12 @@ export const ReportList: React.FC = () => {
           return { lineDash: [6, 2], lineWidth: 2 };
         return { lineWidth: 2 };
       },
-      legend: true, // <-- Bunu true yap!
+      legend: true,
       color: [
-        "rgba(24, 144, 255, 1)",      // Wert (actual)
-        "rgba(24,144,255,0.45)",      // MIN
-        "rgba(24,144,255,0.45)",      // MAX
-        "#da072e",                    // AVERAGE (ör: kırmızı)
+        "rgba(24, 144, 255, 1)",
+        "rgba(24,144,255,0.45)",
+        "rgba(24,144,255,0.45)",
+        "#da072e",
       ],
     };
   }
@@ -747,9 +755,7 @@ export const ReportList: React.FC = () => {
       datasets: [
         {
           label: "Wert",
-          data: abweichungData.map(() =>
-            minVal + Math.random() * (maxVal - minVal)
-          ),
+          data: abweichungData.map((d) => d.value),
           borderColor: "rgba(24, 144, 255, 1)",
           backgroundColor: "rgba(24, 144, 255, 0.1)",
           pointRadius: 5,
@@ -768,7 +774,7 @@ export const ReportList: React.FC = () => {
           pointRadius: 0,
           fill: false,
           tension: 0,
-          animations: false, // <-- Animasyonu kapat!
+          animations: false,
         },
         {
           label: "MAX",
@@ -779,7 +785,7 @@ export const ReportList: React.FC = () => {
           pointRadius: 0,
           fill: false,
           tension: 0,
-          animations: false, // <-- Animasyonu kapat!
+          animations: false,
         },
         {
           label: "AVERAGE",
@@ -802,7 +808,15 @@ export const ReportList: React.FC = () => {
     responsive: true,
     plugins: {
       legend: { display: true, position: "top" },
-      tooltip: {},
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => {
+            const label = ctx.label;
+            const value = ctx.parsed.y;
+            return `${label}: ${value}`;
+          },
+        },
+      },
     },
     scales: {
       y: {
@@ -814,7 +828,7 @@ export const ReportList: React.FC = () => {
         },
       },
       x: {
-        title: { display: true, text: "Produktionstag" },
+        title: { display: true, text: "Tag - Schicht" },
       },
     },
   }), [filteredData]);
