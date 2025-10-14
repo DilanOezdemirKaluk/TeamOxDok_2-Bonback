@@ -1,5 +1,3 @@
-
-
 import React, { useState, useMemo, useEffect } from "react";
 import { Column } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
@@ -469,7 +467,7 @@ export const ReportList: React.FC = () => {
         max: 21,
         werte: [
           { tag: "13.10.2025", früh: 23, spät: 23, nacht: 23 },
-          { tag: "14.10.2025", früh: 23, spät: 23, nacht: 0 },
+          { tag: "14.10.2025", früh: 22, spät: 22, nacht: 0 },
 
         ],
       },
@@ -480,7 +478,7 @@ export const ReportList: React.FC = () => {
         max: 20,
         werte: [
           { tag: "13.10.2025", früh: 22, spät: 22, nacht: 22 },
-          { tag: "14.10.2025", früh: 22, spät: 22, nacht: 0 },
+          { tag: "14.10.2025", früh: 21, spät: 21, nacht: 0 },
 
         ],
       },
@@ -546,7 +544,7 @@ export const ReportList: React.FC = () => {
         max: 33,
         werte: [
           { tag: "13.10.2025", früh: 37, spät: 37, nacht: 37 },
-          { tag: "14.10.2025", früh: 37, spät: 37, nacht: 0 },
+          { tag: "14.10.2025", früh: 36, spät: 36, nacht: 0 },
 
         ],
       },
@@ -557,7 +555,7 @@ export const ReportList: React.FC = () => {
         max: 32,
         werte: [
           { tag: "13.10.2025", früh: 36, spät: 36, nacht: 36 },
-          { tag: "14.10.2025", früh: 36, spät: 36, nacht: 0 },
+          { tag: "14.10.2025", früh: 35, spät: 35, nacht: 0 },
 
         ],
       },
@@ -612,7 +610,7 @@ export const ReportList: React.FC = () => {
         max: 232,
         werte: [
           { tag: "13.10.2025", früh: 222, spät: 222, nacht: 222 },
-          { tag: "14.10.2025", früh: 220, spät: 220, nacht: 0 },
+          { tag: "14.10.2025", früh: 222, spät: 222, nacht: 0 },
 
         ],
       },
@@ -1038,42 +1036,44 @@ export const ReportList: React.FC = () => {
       { grund: "Produkte zu klein", anzahl: 0 },
       { grund: "Formschwankungen", anzahl: 0 },
       { grund: "Rundheit", anzahl: 0 },
-      { grund: "Zentrierung heben", anzahl: 0 },
-      { grund: "Zentrierung senken", anzahl: 0 },
+      { grund: "Zentrierung Heben", anzahl: 0 },
+      { grund: "Zentrierung Senken", anzahl: 0 },
     ],
     "VG Andruckstation 2": [
-      { grund: "Produkte zu groß", anzahl: 0 },
-      { grund: "Produkte zu klein", anzahl: 0 },
-      { grund: "Formschwankungen", anzahl: 0 },
-      { grund: "Rundheit", anzahl: 0 },
-      { grund: "Zentrierung heben", anzahl: 0 },
-      { grund: "Zentrierung senken", anzahl: 0 },
-    ],
-    "VG Andruckstation 3": [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 2 },
       { grund: "Formschwankungen", anzahl: 0 },
       { grund: "Rundheit", anzahl: 0 },
-      { grund: "Zentrierung heben", anzahl: 0 },
-      { grund: "Zentrierung senken", anzahl: 0 },
+      { grund: "Zentrierung Heben", anzahl: 0 },
+      { grund: "Zentrierung Senken", anzahl: 0 },
+    ],
+    "VG Andruckstation 3": [
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 4 },
+      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Zentrierung Heben", anzahl: 0 },
+      { grund: "Zentrierung Senken", anzahl: 0 },
     ],
     "VG Transportband": [
-      { grund: "Zentrierung heben", anzahl: 0 },
-      { grund: "Zentrierung senken", anzahl: 0 },
-      { grund: "Ablage zu ungenau", anzahl: 0 },
+      { grund: "Zentrierung Heben", anzahl: 0 },
+      { grund: "Zentrierung Senken", anzahl: 0 },
+      { grund: "Ablage zu ungenau", anzahl: 1 },
     ],
     Gärschrank: [
-      { grund: "Temperatur zu hoch", anzahl: 0 },
-      { grund: "Feuchtigkeit zu niedrig", anzahl: 0 },
-      { grund: "Temperatur Absteifzone", anzahl: 0 },
+      { grund: "Teig zu kalt", anzahl: 0 },
+      { grund: "Teig zu warm", anzahl: 0 },
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 0 },
     ],
     Fettbackwanne: [
       { grund: "Verschmutzungen", anzahl: 0 },
       { grund: "Sonstige", anzahl: 0 },
     ],
     Sollich: [
-      { grund: "Bodentunkwalze Problem", anzahl: 0 },
-      { grund: "Temperatur Sollich zu hoch", anzahl: 0 },
+      { grund: "Bodentunkwalze", anzahl: 0 },
+      { grund: "Temperatur Sollich", anzahl: 0 },
     ],
     Vibrationsstreuer: [
       { grund: "Streurinne Geschwindigkeit", anzahl: 0 },
@@ -1469,7 +1469,7 @@ export const ReportList: React.FC = () => {
             </Card>
           </Col>
           <Col xs={24} md={12}>
-            <Card title="🧾 Top Änderungsgründe">
+            <Card title="🧾 Top Änderungsgründe (kumulativ)">
               <Column {...columnConfig} />
             </Card>
           </Col>
