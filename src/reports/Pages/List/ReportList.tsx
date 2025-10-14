@@ -1484,7 +1484,7 @@ export const ReportList: React.FC = () => {
         </Row>
 
         {/* Tabelle */}
-        <Card title="📊 Produktionsdaten (statisch)">
+        <Card title="📊 Produktionsdaten">
           <Space
             size="large"
             wrap
@@ -1499,7 +1499,7 @@ export const ReportList: React.FC = () => {
             <Select
               value={selectedTableTag}
               onChange={setSelectedTableTag}
-              style={{ width: 100 }}
+              style={{ width: 180 }}
             >
               {tagOptions.map((tag) => (
                 <Option key={tag} value={tag}>
