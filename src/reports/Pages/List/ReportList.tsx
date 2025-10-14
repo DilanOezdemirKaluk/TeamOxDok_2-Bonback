@@ -47,7 +47,7 @@ const parameterMapping: Record<string, string[]> = {
     "Wirkbandposition vertikal [mm]",
   ],
 
-  "VGS Andruckstation 1": [
+  "VG Andruckstation 1": [
     "Geschwindigkeit [mm/s]",
     "Oberband [%]",
     "Unterband [mm]",
@@ -56,7 +56,7 @@ const parameterMapping: Record<string, string[]> = {
     "Heben [-]",
     "Senken [-]",
   ],
-  "VGS Andruckstation 2": [
+  "VG Andruckstation 2": [
     "Oberband [%]",
     "Unterband [mm]",
     "Position Einlauf [-]",
@@ -65,7 +65,7 @@ const parameterMapping: Record<string, string[]> = {
     "Senken [-]",
     "Mehler 1 [%]",
   ],
-  "VGS Andruckstation 3": [
+  "VG Andruckstation 3": [
     "Oberband [%]",
     "Unterband [mm]",
     "Position Einlauf [-]",
@@ -74,7 +74,7 @@ const parameterMapping: Record<string, string[]> = {
     "Senken [-]",
     "Mehler 2 [%]",
   ],
-  "VGS Transportband": [
+  "VG Transportband": [
     "Start [-]",
     "Schrittlänge [mm]",
     "Drehzahl [%]",
@@ -999,7 +999,7 @@ export const ReportList: React.FC = () => {
       { grund: "Teig zu fest", anzahl: 0 },
       { grund: "Teig zu weich", anzahl: 0 },
     ],
-    "VGS Andruckstation 1": [
+    "VG Andruckstation 1": [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 0 },
       { grund: "Formschwankungen", anzahl: 0 },
@@ -1007,7 +1007,7 @@ export const ReportList: React.FC = () => {
       { grund: "Zentrierung heben", anzahl: 0 },
       { grund: "Zentrierung senken", anzahl: 0 },
     ],
-    "VGS Andruckstation 2": [
+    "VG Andruckstation 2": [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 0 },
       { grund: "Formschwankungen", anzahl: 0 },
@@ -1015,7 +1015,7 @@ export const ReportList: React.FC = () => {
       { grund: "Zentrierung heben", anzahl: 0 },
       { grund: "Zentrierung senken", anzahl: 0 },
     ],
-    "VGS Andruckstation 3": [
+    "VG Andruckstation 3": [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 2 },
       { grund: "Formschwankungen", anzahl: 0 },
@@ -1023,7 +1023,7 @@ export const ReportList: React.FC = () => {
       { grund: "Zentrierung heben", anzahl: 0 },
       { grund: "Zentrierung senken", anzahl: 0 },
     ],
-    "VGS Transportband": [
+    "VG Transportband": [
       { grund: "Zentrierung heben", anzahl: 0 },
       { grund: "Zentrierung senken", anzahl: 0 },
       { grund: "Ablage zu ungenau", anzahl: 0 },
@@ -1242,7 +1242,7 @@ export const ReportList: React.FC = () => {
         },
 
         x: {
-          title: { display: true, text: "Tag - Schicht" },
+          title: { display: false, text: "Tag - Schicht" },
         },
       },
     }),
@@ -1308,7 +1308,7 @@ export const ReportList: React.FC = () => {
         title: { display: true, text: "Status" },
       },
       x: {
-        title: { display: true, text: "Tag" },
+        title: { display: false, text: "Tag" },
       },
     },
   };
