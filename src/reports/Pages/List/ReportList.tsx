@@ -1,3 +1,5 @@
+
+
 import React, { useState, useMemo, useEffect } from "react";
 import { Column } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
@@ -870,6 +872,33 @@ export const ReportList: React.FC = () => {
     },
   ];
 
+  // --- Bearbeitungsverhalten Chart.js Pie Chart ---
+  const bearbPieData = useMemo(() => {
+    let bearbeitung = 0;
+    let keineBearbeitung = 0;
+
+    bearbRawData.forEach((bearb) => {
+      schichtKeys.forEach((schicht) => {
+        if (bearb[schicht] === "Bearbeitung") {
+          bearbeitung++;
+        } else {
+          keineBearbeitung++;
+        }
+      });
+    });
+
+    return {
+      labels: ["Bearbeitung", "Keine Bearbeitung"],
+      datasets: [
+        {
+          data: [bearbeitung, keineBearbeitung],
+          backgroundColor: ["#35d078ff", "#c1d412ff"],
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [bearbRawData]);
+
   // --- Abweichungsanalyse nach Aggregat + Parameter ---
   const filteredData = useMemo(
     () =>
@@ -912,39 +941,22 @@ export const ReportList: React.FC = () => {
   };
 
   if (filteredData.length) {
-    // set y-axis min/max based on the parameter min/max
+    // min/max Werte für horizontale Linien (Annotationen)
     let minVal = filteredData[0].min;
     let maxVal = filteredData[0].max;
-
-    // if min and max are identical, add a small padding so the region is visible
     if (minVal === maxVal) {
       const pad = Math.max(0.5, Math.abs(minVal) * 0.01);
       minVal = Number((minVal - pad).toFixed(2));
       maxVal = Number((maxVal + pad).toFixed(2));
     }
 
-    // create three series: Actual, Min, Max so we avoid annotation encoding issues
+    // Nur die echten Werte als Datenreihe
     const actualSeries = abweichungData.map((d) => ({ ...d, series: "Wert" }));
-    const minSeries = abweichungData.map((d) => ({
-      time: d.time,
-      value: minVal,
-      series: "MIN",
-    }));
-    const maxSeries = abweichungData.map((d) => ({
-      time: d.time,
-      value: maxVal,
-      series: "MAX",
-    }));
-    const averageSeries = abweichungData.map((d) => ({
-      time: d.time,
-      value: minVal + Math.random() * (maxVal - minVal), // min-max arası random değer
-      series: "AVERAGE",
-    }));
 
-    const merged = [...actualSeries, ...minSeries, ...maxSeries, ...averageSeries];
-
+    // y-Achse automatisch (alle Werte sichtbar)
+    // min/max nur als horizontale Linien (Annotationen)
     lineConfig1 = {
-      data: merged,
+      data: actualSeries,
       xField: "time",
       yField: "value",
       seriesField: "series",
@@ -953,27 +965,43 @@ export const ReportList: React.FC = () => {
       height: 300,
       xAxis: { title: { text: "Produktionstag" } },
       yAxis: {
-        min: minVal - 5,
-        max: maxVal + 5,
         title: { text: filteredData[0].parameter },
       },
-      point: (datum: any) =>
-        datum.series === "AVERAGE"
-          ? { size: 4, shape: "circle", style: { fill: "#e01227ff" } }
-          : false,
-      lineStyle: (datum: any) => {
-        if (datum.series === "MIN" || datum.series === "MAX")
-          return { lineDash: [4, 4] };
-        if (datum.series === "AVERAGE")
-          return { lineDash: [6, 2], lineWidth: 2 };
-        return { lineWidth: 2 };
-      },
       legend: true,
-      color: [
-        "rgba(24, 144, 255, 1)",
-        "rgba(24,144,255,0.45)",
-        "rgba(24,144,255,0.45)",
-        "#da072e",
+      color: ["rgba(24, 144, 255, 1)"],
+      annotations: [
+        {
+          type: 'line',
+          start: ['min', minVal],
+          end: ['max', minVal],
+          style: {
+            stroke: 'rgba(24,144,255,0.45)',
+            lineDash: [4, 4],
+            lineWidth: 2,
+          },
+          text: {
+            content: `Min (${minVal})`,
+            position: 'left',
+            offsetY: -8,
+            style: { fill: 'rgba(24,144,255,0.7)', fontWeight: 500 },
+          },
+        },
+        {
+          type: 'line',
+          start: ['min', maxVal],
+          end: ['max', maxVal],
+          style: {
+            stroke: 'rgba(24,144,255,0.45)',
+            lineDash: [4, 4],
+            lineWidth: 2,
+          },
+          text: {
+            content: `Max (${maxVal})`,
+            position: 'left',
+            offsetY: -8,
+            style: { fill: 'rgba(24,144,255,0.7)', fontWeight: 500 },
+          },
+        },
       ],
     };
   }
@@ -1156,11 +1184,10 @@ export const ReportList: React.FC = () => {
           borderDash: [4, 4],
           borderWidth: 2,
           pointRadius: 0,
-          fill: "+1",
+          fill: false,
           backgroundColor: "rgba(24,144,255,0.10)",
           order: 1,
         },
-
         {
           label: "Max",
           data: abweichungData.map(() => maxVal),
@@ -1172,7 +1199,6 @@ export const ReportList: React.FC = () => {
           backgroundColor: "rgba(24,144,255,0.10)",
           order: 2,
         },
-
         {
           label: "Wert",
           data: abweichungData.map((d) => d.value),
@@ -1186,7 +1212,6 @@ export const ReportList: React.FC = () => {
           tension: 0.3,
           order: 3,
         },
-
         {
           label: "Average",
           data: abweichungData.map(() => averageVal),
@@ -1206,46 +1231,85 @@ export const ReportList: React.FC = () => {
   }, [abweichungData, filteredData]);
 
   const abwLineOptions = useMemo(
-    () => ({
-      responsive: true,
-      animation: false,
-      plugins: {
-        legend: { display: true, position: "top" },
-        tooltip: {
-          callbacks: {
-            label: (ctx: any) => {
-              const label = ctx.label;
-              const value = ctx.parsed.y;
-              return `${label}: ${value}`;
+    () => {
+      let min = undefined;
+      let max = undefined;
+      if (filteredData.length && abweichungData.length) {
+        const minVal = filteredData[0].min;
+        const maxVal = filteredData[0].max;
+        const dataValues = abweichungData.map((d) => d.value);
+        const dataMin = Math.min(...dataValues, minVal);
+        const dataMax = Math.max(...dataValues, maxVal);
+        const pad = Math.max(1, Math.abs(maxVal - minVal) * 0.15);
+        min = Math.min(minVal - pad, dataMin - pad * 0.5);
+        max = Math.max(maxVal + pad, dataMax + pad * 0.5);
+      }
+      return {
+        responsive: true,
+        animation: false,
+        plugins: {
+          legend: { display: true, position: "top" },
+          tooltip: {
+            callbacks: {
+              label: (ctx: any) => {
+                const label = ctx.label;
+                const value = ctx.parsed.y;
+                return `${label}: ${value}`;
+              },
             },
           },
-        },
-      },
-      scales: {
-        y: {
-          min: (filteredData[0]?.min ?? 0) - Math.abs(filteredData[0]?.min ?? 0) * 0.02,
-          max: (filteredData[0]?.max ?? 0) + Math.abs(filteredData[0]?.max ?? 0) * 0.02,
-          title: {
-            display: true,
-            text: filteredData[0]?.parameter || "",
+          annotation: {
+            annotations: filteredData.length ? {
+              minLine: {
+                type: 'line',
+                yMin: filteredData[0].min,
+                yMax: filteredData[0].min,
+                borderColor: 'rgba(24,144,255,0.45)',
+                borderWidth: 2,
+                borderDash: [4, 4],
+                label: {
+                  enabled: true,
+                  content: `Min (${filteredData[0].min})`,
+                  position: 'start',
+                  backgroundColor: 'rgba(24,144,255,0.1)',
+                  color: 'rgba(24,144,255,0.7)',
+                  font: { weight: 'bold' },
+                },
+              },
+              maxLine: {
+                type: 'line',
+                yMin: filteredData[0].max,
+                yMax: filteredData[0].max,
+                borderColor: 'rgba(24,144,255,0.45)',
+                borderWidth: 2,
+                borderDash: [4, 4],
+                label: {
+                  enabled: true,
+                  content: `Max (${filteredData[0].max})`,
+                  position: 'start',
+                  backgroundColor: 'rgba(24,144,255,0.1)',
+                  color: 'rgba(24,144,255,0.7)',
+                  font: { weight: 'bold' },
+                },
+              },
+            } : {},
           },
-          ticks: {
-            stepSize: 1,
-            callback: function (value: number) {
-              const min = Math.ceil(filteredData[0]?.min ?? 0);
-              const max = Math.floor(filteredData[0]?.max ?? 0);
-              if (value < min || value > max) return "";
-              if (Number.isInteger(value)) return value;
-              return "";
+        },
+        scales: {
+          y: {
+            min,
+            max,
+            title: {
+              display: true,
+              text: filteredData[0]?.parameter || "",
             },
           },
+          x: {
+            title: { display: false, text: "Tag - Schicht" },
+          },
         },
-
-        x: {
-          title: { display: false, text: "Tag - Schicht" },
-        },
-      },
-    }),
+      };
+    },
     [filteredData]
   );
   // --- Bearbeitungsverhalten Chart.js Line Chart ---
@@ -1312,33 +1376,6 @@ export const ReportList: React.FC = () => {
       },
     },
   };
-
-  // --- Bearbeitungsverhalten Chart.js Pie Chart ---
-  const bearbPieData = useMemo(() => {
-    let bearbeitung = 0;
-    let keineBearbeitung = 0;
-
-    bearbRawData.forEach((bearb) => {
-      schichtKeys.forEach((schicht) => {
-        if (bearb[schicht] === "Bearbeitung") {
-          bearbeitung++;
-        } else {
-          keineBearbeitung++;
-        }
-      });
-    });
-
-    return {
-      labels: ["Bearbeitung", "Keine Bearbeitung"],
-      datasets: [
-        {
-          data: [bearbeitung, keineBearbeitung],
-          backgroundColor: ["#35d078ff", "#c1d412ff"],
-          borderWidth: 1,
-        },
-      ],
-    };
-  }, [bearbRawData]);
 
   const bearbPieOptions = {
     responsive: true,
