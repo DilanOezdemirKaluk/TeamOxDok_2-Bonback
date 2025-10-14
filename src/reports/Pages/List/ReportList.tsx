@@ -3,7 +3,6 @@ import { Column } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
 import { Line } from "@ant-design/plots";
-import { values } from "lodash";
 
 // Chart.js imports
 import { Line as ChartLine, Pie as ChartPie } from "react-chartjs-2";
@@ -47,14 +46,43 @@ const parameterMapping: Record<string, string[]> = {
     "Wirkbandspannung [-]",
     "Wirkbandposition vertikal [mm]",
   ],
-  Vorgärschrank: [
+
+  "VGS Andruckstation 1": [
     "Geschwindigkeit [mm/s]",
     "Oberband [%]",
     "Unterband [mm]",
     "Position Einlauf [-]",
-    "Position Unterlauf [-]",
+    "Position Auslauf [-]",
     "Heben [-]",
     "Senken [-]",
+  ],
+  "VGS Andruckstation 2": [
+    "Oberband [%]",
+    "Unterband [mm]",
+    "Position Einlauf [-]",
+    "Position Auslauf [-]",
+    "Heben [-]",
+    "Senken [-]",
+    "Mehler 1 [%]",
+  ],
+  "VGS Andruckstation 3": [
+    "Oberband [%]",
+    "Unterband [mm]",
+    "Position Einlauf [-]",
+    "Position Auslauf [-]",
+    "Heben [-]",
+    "Senken [-]",
+    "Mehler 2 [%]",
+  ],
+  "VGS Transportband": [
+    "Start [-]",
+    "Schrittlänge [mm]",
+    "Drehzahl [%]",
+    "Heben [-]",
+    "Senken [-]",
+    "Position Zentrier vor Stanze [-]",
+    "Position Zentrier Stanze [-]",
+    "Austragung [mm]",
   ],
   Gärschrank: [
     "Temperatur Zone 1 [°C]",
@@ -73,16 +101,28 @@ const parameterMapping: Record<string, string[]> = {
     "Streurinne vor Bunkerblech [mm]",
   ],
 };
+const schichtLabels = ["Frühschicht", "Spätschicht", "Nachtschicht"];
+const schichtKeys = ["früh", "spät", "nacht"] as const;
+
+type SchichtValue = {
+  tag: string;
+  früh: number;
+  spät: number;
+  nacht: number;
+};
+type BearbSchichtValue = {
+  tag: string;
+  früh: "Bearbeitung" | "Keine Bearbeitung";
+  spät: "Bearbeitung" | "Keine Bearbeitung";
+  nacht: "Bearbeitung" | "Keine Bearbeitung";
+};
 
 type DataRow = {
   aggregat: string;
   parameter: string;
   min: number;
   max: number;
-  tag1?: number;
-  tag2?: number;
-  tag3?: number;
-  // Add more tags if needed, e.g. tag4?: number; tag5?: number;
+  werte: SchichtValue[]; // 1-14 gün için schicht değerleri
 };
 
 // --- Machine Data Live Chart ---
@@ -138,7 +178,6 @@ export const MachineDataLiveChart: React.FC<{ color?: string }> = ({
 
 // --- ReportList ---
 export const ReportList: React.FC = () => {
-  const [selectedZeitraum, setSelectedZeitraum] = useState("letzte 3 Tage");
   const [selectedAggregat, setSelectedAggregat] = useState("Dosiersystem");
   const [selectedParameter, setSelectedParameter] = useState(
     parameterMapping["Dosiersystem"][0]
@@ -148,69 +187,71 @@ export const ReportList: React.FC = () => {
     [selectedAggregat]
   );
 
-  const [selectedBearbZeitraum, setSelectedBearbZeitraum] =
-    useState("letzte 3 Tage");
   const [selectedBearbAggregat, setSelectedBearbAggregat] =
     useState("Dosiersystem");
   const [selectedSchicht, setSelectedSchicht] = useState("früh");
 
-  // Beispiel-Daten mit Aggregat-Feld
   const rawData: DataRow[] = useMemo(
     () => [
-      // Dosiersystem
       {
         aggregat: "Dosiersystem",
         parameter: "Chargengröße [kg]",
-        min: 210,
+        min: 205,
         max: 220,
-        tag1: 210,
-        tag2: 210,
-        tag3: 215,
+        werte: [
+          { tag: "13.10", früh: 210, spät: 205, nacht: 210 },
+
+        ],
       },
       {
         aggregat: "Dosiersystem",
         parameter: "Rückteigmenge [kg]",
         min: 30,
         max: 45,
-        tag1: 30,
-        tag2: 30,
-        tag3: 30,
+        werte: [
+          { tag: "13.10", früh: 30, spät: 30, nacht: 30 },
+
+        ],
       },
       {
         aggregat: "Dosiersystem",
         parameter: "Wasser Korrekturwert [kg]",
         min: -1.3,
         max: -0.4,
-        tag1: -0.6,
-        tag2: -0.6,
-        tag3: -1.3,
+        werte: [
+          { tag: "13.10", früh: -0.6, spät: -0.6, nacht: -0.6 },
+
+        ],
       },
       {
         aggregat: "Dosiersystem",
         parameter: "Hefe Korrekturwert [°C]",
         min: -1.6,
         max: -0.9,
-        tag1: -1.6,
-        tag2: -1.6,
-        tag3: -1.2,
+        werte: [
+          { tag: "13.10", früh: -1.6, spät: -1.6, nacht: -1.6 },
+
+        ],
       },
       {
         aggregat: "Dosiersystem",
         parameter: "Soll-Wassertemperatur [°C]",
         min: 2,
         max: 13,
-        tag1: 2,
-        tag2: 2,
-        tag3: 3,
+        werte: [
+          { tag: "13.10", früh: 3, spät: 2, nacht: 2 },
+
+        ],
       },
       {
         aggregat: "Dosiersystem",
         parameter: "Soll-Teigtemperatur [°C]",
         min: 24,
         max: 35,
-        tag1: 24,
-        tag2: 24,
-        tag3: 24,
+        werte: [
+          { tag: "13.10", früh: 24, spät: 24, nacht: 24 },
+
+        ],
       },
 
       // Kopfmaschine
@@ -219,146 +260,382 @@ export const ReportList: React.FC = () => {
         parameter: "Teigeinwaage [g]",
         min: 46,
         max: 66,
-        tag1: 46,
-        tag2: 46,
-        tag3: 46,
+        werte: [
+          { tag: "13.10", früh: 46, spät: 46, nacht: 46 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Wirkbewegung [-]",
         min: 170,
         max: 183,
-        tag1: 170,
-        tag2: 170,
-        tag3: 170,
+        werte: [
+          { tag: "13.10", früh: 170, spät: 170, nacht: 170 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Wirken quer/längst [%]",
         min: 65,
         max: 85,
-        tag1: 65,
-        tag2: 65,
-        tag3: 65,
+        werte: [
+          { tag: "13.10", früh: 62, spät: 62, nacht: 62 },
+        ]
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Wirkbandspannung [-]",
         min: 65,
         max: 85,
-        tag1: 65,
-        tag2: 65,
-        tag3: 65,
+        werte: [
+          { tag: "13.10", früh: 65, spät: 65, nacht: 62 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Wirkbandposition vertikal [mm]",
         min: 9,
         max: 19,
-        tag1: 9,
-        tag2: 9,
-        tag3: 9,
+        werte: [
+          { tag: "13.10", früh: 9, spät: 9, nacht: 9 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Mehler 1 (getaktet) [%]",
         min: 3,
         max: 14,
-        tag1: 3,
-        tag2: 3,
-        tag3: 3,
+        werte: [
+          { tag: "13.10", früh: 2, spät: 2, nacht: 2 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Mehler 2 (getaktet) [%]",
         min: 3,
         max: 17,
-        tag1: 3,
-        tag2: 3,
-        tag3: 3,
+        werte: [
+          { tag: "13.10", früh: 3, spät: 3, nacht: 3 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Mehler 3 (getaktet) [%]",
         min: 2,
         max: 22,
-        tag1: 2,
-        tag2: 2,
-        tag3: 2,
+        werte: [
+          { tag: "13.10", früh: 3, spät: 3, nacht: 3 },
+
+        ],
       },
       {
         aggregat: "Kopfmaschine",
         parameter: "Mehler 4 (optional) [%]",
         min: 1,
         max: 20,
-        tag1: 1,
-        tag2: 1,
-        tag3: 1,
+        werte: [
+          { tag: "13.10", früh: 1, spät: 1, nacht: 1 },
+
+        ],
       },
 
       // Vorgärschrank Andruckstationen
+
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Geschwindigkeit [mm/s]",
         min: 106,
-        max: 126,
-        tag1: 106,
-        tag2: 106,
-        tag3: 106,
+        max: 110,
+        werte: [
+          { tag: "13.10", früh: 106, spät: 106, nacht: 106 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Oberband [%]",
         min: 0,
         max: 15,
-        tag1: 0,
-        tag2: 0,
-        tag3: 0,
+        werte: [
+          { tag: "13.10", früh: 0, spät: 0, nacht: 0 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Unterband [mm]",
         min: 196,
         max: 216,
-        tag1: 196,
-        tag2: 196,
-        tag3: 196,
+        werte: [
+          { tag: "13.10", früh: 196, spät: 196, nacht: 196 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Position Einlauf [-]",
         min: 40,
         max: 60,
-        tag1: 40,
-        tag2: 40,
-        tag3: 40,
+        werte: [
+          { tag: "13.10", früh: 40, spät: 40, nacht: 40 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Position Auslauf [-]",
         min: 34,
         max: 54,
-        tag1: 34,
-        tag2: 34,
-        tag3: 34,
+        werte: [
+          { tag: "13.10", früh: 34, spät: 34, nacht: 34 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Heben [-]",
         min: 105,
         max: 125,
-        tag1: 105,
-        tag2: 105,
-        tag3: 105,
+        werte: [
+          { tag: "13.10", früh: 105, spät: 105, nacht: 105 },
+
+        ],
       },
       {
-        aggregat: "Vorgärschrank",
+        aggregat: "VGS Andruckstation 1",
         parameter: "Senken [-]",
         min: 180,
         max: 200,
-        tag1: 180,
-        tag2: 180,
-        tag3: 180,
+        werte: [
+          { tag: "13.10", früh: 180, spät: 180, nacht: 180 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Oberband [%]",
+        min: 0,
+        max: 15,
+        werte: [
+          { tag: "13.10", früh: 0, spät: 0, nacht: 0 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Unterband [mm]",
+        min: 250,
+        max: 260,
+        werte: [
+          { tag: "13.10", früh: 250, spät: 250, nacht: 250 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Position Einlauf [-]",
+        min: 23,
+        max: 30,
+        werte: [
+          { tag: "13.10", früh: 23, spät: 23, nacht: 23 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Position Auslauf [-]",
+        min: 22,
+        max: 25,
+        werte: [
+          { tag: "13.10", früh: 22, spät: 22, nacht: 22 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Heben [-]",
+        min: 210,
+        max: 220,
+        werte: [
+          { tag: "13.10", früh: 210, spät: 210, nacht: 210 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Senken [-]",
+        min: 180,
+        max: 200,
+        werte: [
+          { tag: "13.10", früh: 200, spät: 200, nacht: 200 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 2",
+        parameter: "Mehler 1 [%]",
+        min: 0,
+        max: 5,
+        werte: [
+          { tag: "13.10", früh: 1, spät: 1, nacht: 1 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Oberband [%]",
+        min: 0,
+        max: 15,
+        werte: [
+          { tag: "13.10", früh: 0, spät: 0, nacht: 0 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Unterband [mm]",
+        min: 193,
+        max: 210,
+        werte: [
+          { tag: "13.10", früh: 193, spät: 193, nacht: 193 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Position Einlauf [-]",
+        min: 37,
+        max: 60,
+        werte: [
+          { tag: "13.10", früh: 37, spät: 37, nacht: 37 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Position Auslauf [-]",
+        min: 36,
+        max: 54,
+        werte: [
+          { tag: "13.10", früh: 36, spät: 36, nacht: 36 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Heben [-]",
+        min: 160,
+        max: 180,
+        werte: [
+          { tag: "13.10", früh: 160, spät: 160, nacht: 160 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Senken [-]",
+        min: 5,
+        max: 10,
+        werte: [
+          { tag: "13.10", früh: 5, spät: 5, nacht: 5 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Andruckstation 3",
+        parameter: "Mehler 2 [%]",
+        min: 2,
+        max: 5,
+        werte: [
+          { tag: "13.10", früh: 2, spät: 2, nacht: 2 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Start [-]",
+        min: 76,
+        max: 80,
+        werte: [
+          { tag: "13.10", früh: 76, spät: 76, nacht: 76 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Schrittlänge [mm]",
+        min: 222,
+        max: 230,
+        werte: [
+          { tag: "13.10", früh: 222, spät: 222, nacht: 222 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Drehzahl [%]",
+        min: 73,
+        max: 80,
+        werte: [
+          { tag: "13.10", früh: 73, spät: 73, nacht: 73 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Heben [-]",
+        min: 95,
+        max: 100,
+        werte: [
+          { tag: "13.10", früh: 95, spät: 95, nacht: 95 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Senken [-]",
+        min: 50,
+        max: 60,
+        werte: [
+          { tag: "13.10", früh: 50, spät: 50, nacht: 50 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Position Zentrier vor Stanze [-]",
+        min: 55,
+        max: 65,
+        werte: [
+          { tag: "13.10", früh: 55, spät: 65, nacht: 65 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Position Zentrier Stanze [-]",
+        min: 1,
+        max: 2,
+        werte: [
+          { tag: "13.10", früh: 1.2, spät: 1.1, nacht: 1.1 },
+
+        ],
+      },
+      {
+        aggregat: "VGS Transportband",
+        parameter: "Austragung [mm]",
+        min: 410,
+        max: 420,
+        werte: [
+          { tag: "13.10", früh: 410, spät: 410, nacht: 410 },
+
+        ],
       },
 
       // Gärschrank
@@ -367,27 +644,30 @@ export const ReportList: React.FC = () => {
         parameter: "Temperatur Zone 1 [°C]",
         min: 39,
         max: 55,
-        tag1: 40,
-        tag2: 40,
-        tag3: 39,
+        werte: [
+          { tag: "13.10", früh: 40, spät: 40, nacht: 40 },
+
+        ],
       },
       {
         aggregat: "Gärschrank",
         parameter: "Feuchtigkeit Zone 1 [%]",
         min: 65,
         max: 80,
-        tag1: 65,
-        tag2: 65,
-        tag3: 65,
+        werte: [
+          { tag: "13.10", früh: 65, spät: 65, nacht: 65 },
+
+        ],
       },
       {
         aggregat: "Gärschrank",
         parameter: "Temperatur Absteifzone [°C]",
         min: 19,
         max: 30,
-        tag1: 19,
-        tag2: 19,
-        tag3: 19,
+        werte: [
+          { tag: "13.10", früh: 18, spät: 19, nacht: 19 },
+
+        ],
       },
 
       // Fettbackwanne
@@ -396,63 +676,70 @@ export const ReportList: React.FC = () => {
         parameter: "Einlauf Reihenabstand [mm]",
         min: 107,
         max: 120,
-        tag1: 107,
-        tag2: 107,
-        tag3: 107,
+        werte: [
+          { tag: "13.10", früh: 107, spät: 107, nacht: 107 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Temperatur [°C]",
         min: 178,
         max: 190,
-        tag1: 178,
-        tag2: 178,
-        tag3: 178,
+        werte: [
+          { tag: "13.10", früh: 178, spät: 178, nacht: 178 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Füllhöhe [mm]",
         min: 105,
-        max: 120,
-        tag1: 105,
-        tag2: 105,
-        tag3: 105,
+        max: 125,
+        werte: [
+          { tag: "13.10", früh: 105, spät: 105, nacht: 105 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Auslauf Reihenabstand [mm]",
         min: 224,
         max: 234,
-        tag1: 224,
-        tag2: 224,
-        tag3: 224,
+        werte: [
+          { tag: "13.10", früh: 224, spät: 224, nacht: 224 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Höhenverstellung [°]",
         min: 140,
         max: 160,
-        tag1: 140,
-        tag2: 140,
-        tag3: 140,
+        werte: [
+          { tag: "13.10", früh: 140, spät: 140, nacht: 140 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Stopper Start [-]",
         min: 260,
         max: 280,
-        tag1: 260,
-        tag2: 260,
-        tag3: 260,
+        werte: [
+          { tag: "13.10", früh: 260, spät: 260, nacht: 260 },
+
+        ],
       },
       {
         aggregat: "Fettbackwanne",
         parameter: "Dauer [s]",
         min: 355,
         max: 365,
-        tag1: 355,
-        tag2: 355,
-        tag3: 355,
+        werte: [
+          { tag: "13.10", früh: 355, spät: 355, nacht: 355 },
+
+        ],
       },
 
       // Sollich
@@ -461,18 +748,20 @@ export const ReportList: React.FC = () => {
         parameter: "Bodentunkwalze [%]",
         min: 85,
         max: 100,
-        tag1: 85,
-        tag2: 85,
-        tag3: 85,
+        werte: [
+          { tag: "13.10", früh: 90, spät: 77, nacht: 77 },
+
+        ],
       },
       {
         aggregat: "Sollich",
         parameter: "Temperatur Sollich [°C]",
         min: 44.4,
         max: 53,
-        tag1: 44.4,
-        tag2: 45,
-        tag3: 44.4,
+        werte: [
+          { tag: "13.10", früh: 44.9, spät: 44.9, nacht: 44.9 },
+
+        ],
       },
 
       // Vibrationsstreuer
@@ -481,58 +770,76 @@ export const ReportList: React.FC = () => {
         parameter: "Streurinne Geschwindigkeit [%]",
         min: 65,
         max: 77,
-        tag1: 65,
-        tag2: 65,
-        tag3: 65,
+        werte: [
+          { tag: "13.10", früh: 70, spät: 70, nacht: 70 },
+
+        ],
       },
       {
         aggregat: "Vibrationsstreuer",
         parameter: "Streurinne vor Bunkerblech [mm]",
         min: 7,
         max: 17,
-        tag1: 7,
-        tag2: 7,
-        tag3: 7,
+        werte: [
+          { tag: "13.10", früh: 7, spät: 7, nacht: 7 },
+
+        ],
       },
     ],
     []
   );
+
+
+  const tagOptions = useMemo(
+    () => {
+      // Tüm rawData'daki günleri topla (tekrarsız)
+      const allTags = rawData.flatMap((row) => row.werte.map((w) => w.tag));
+      return Array.from(new Set(allTags));
+    },
+    [rawData]
+  );
+  const [selectedBearbZeitraum, setSelectedBearbZeitraum] =
+    useState<string>(tagOptions[0] ?? "");
+  const [selectedZeitraum, setSelectedZeitraum] = useState<string>(
+    tagOptions[0] ?? ""
+  );
+
+  const bearbRawData: BearbSchichtValue[] = [
+    {
+      tag: "13.10",
+      früh: "Bearbeitung",
+      spät: "Keine Bearbeitung",
+      nacht: "Bearbeitung",
+    },
+  ];
 
   // --- Abweichungsanalyse nach Aggregat + Parameter ---
   const filteredData = useMemo(
     () =>
       rawData.filter(
         (d) =>
-          d.aggregat === selectedAggregat && d.parameter === selectedParameter
+          d.aggregat === selectedAggregat &&
+          d.parameter === selectedParameter &&
+          d.werte.some((w) => w.tag === selectedZeitraum)
       ),
-    [selectedAggregat, selectedParameter, rawData]
+    [selectedAggregat, selectedParameter, rawData, selectedZeitraum]
   );
 
-  const tageCount =
-    selectedZeitraum === "letzter Tag"
-      ? 1
-      : selectedZeitraum === "letzte 3 Tage"
-        ? 3
-        : selectedZeitraum === "letzte 7 Tage"
-          ? 7
-          : 30;
-
   const abweichungData = useMemo(() => {
-    const minVal = filteredData[0]?.min ?? 0;
-    const maxVal = filteredData[0]?.max ?? 0;
-    const schichtLabels = ["Frühschicht", "Spätschicht", "Nachtschicht"];
-    const arr: { time: string; value: number }[] = [];
+    const data = filteredData[0];
+    if (!data || !data.werte) return [];
 
-    for (let tag = 1; tag <= tageCount; tag++) {
-      for (let i = 0; i < schichtLabels.length; i++) {
-        arr.push({
-          time: `Tag ${tag} - ${schichtLabels[i]}`,
-          value: Number((minVal + Math.random() * (maxVal - minVal)).toFixed(2)),
-        });
-      }
-    }
+
+    const arr: { time: string; value: number }[] = [];
+    data.werte
+      .filter((w) => w.tag === selectedZeitraum)
+      .forEach((w) => {
+        arr.push({ time: `${w.tag} - Frühschicht`, value: w.früh });
+        arr.push({ time: `${w.tag} - Spätschicht`, value: w.spät });
+        arr.push({ time: `${w.tag} - Nachtschicht`, value: w.nacht });
+      });
     return arr;
-  }, [filteredData, tageCount]);
+  }, [filteredData, selectedZeitraum]);
 
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
@@ -619,47 +926,67 @@ export const ReportList: React.FC = () => {
   // Beispiel für manuell änderbare Werte:
   const aenderungsgruendeData: Record<string, { grund: string; anzahl: number }[]> = {
     Dosiersystem: [
-      { grund: "Produkte zu groß", anzahl: 7 },
-      { grund: "Produkte zu klein", anzahl: 3 },
-      { grund: "Formschwankungen", anzahl: 5 },
-      { grund: "Rundheit", anzahl: 2 },
-      { grund: "Teig zu fest", anzahl: 1 },
-      { grund: "Teig zu weich", anzahl: 4 },
-      { grund: "Dosierverzögerung", anzahl: 2 },
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 1 },
+      { grund: "Formschwankungen", anzahl: 1 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Teig zu fest", anzahl: 0 },
+      { grund: "Teig zu weich", anzahl: 0 },
+      { grund: "Dosierverzögerung", anzahl: 1 },
     ],
     Kopfmaschine: [
-      { grund: "Produkte zu groß", anzahl: 6 },
-      { grund: "Produkte zu klein", anzahl: 2 },
-      { grund: "Formschwankungen", anzahl: 4 },
-      { grund: "Rundheit", anzahl: 3 },
-      { grund: "Teig zu fest", anzahl: 1 },
-      { grund: "Teig zu weich", anzahl: 2 },
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Teig zu fest", anzahl: 0 },
+      { grund: "Teig zu weich", anzahl: 0 },
     ],
-    Vorgärschrank: [
-      { grund: "Geschwindigkeit zu hoch", anzahl: 4 },
-      { grund: "Oberband Problem", anzahl: 2 },
-      { grund: "Unterband Problem", anzahl: 3 },
-      { grund: "Position Einlauf falsch", anzahl: 1 },
-      { grund: "Position Auslauf falsch", anzahl: 2 },
-      { grund: "Heben Fehler", anzahl: 2 },
-      { grund: "Senken Fehler", anzahl: 1 },
+    "VGS Andruckstation 1": [
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Zentrierung heben", anzahl: 0 },
+      { grund: "Zentrierung senken", anzahl: 0 },
+    ],
+    "VGS Andruckstation 2": [
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Zentrierung heben", anzahl: 0 },
+      { grund: "Zentrierung senken", anzahl: 0 },
+    ],
+    "VGS Andruckstation 3": [
+      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu klein", anzahl: 2 },
+      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Rundheit", anzahl: 0 },
+      { grund: "Zentrierung heben", anzahl: 0 },
+      { grund: "Zentrierung senken", anzahl: 0 },
+    ],
+    "VGS Transportband": [
+      { grund: "Zentrierung heben", anzahl: 0 },
+      { grund: "Zentrierung senken", anzahl: 0 },
+      { grund: "Ablage zu ungenau", anzahl: 0 },
     ],
     Gärschrank: [
-      { grund: "Temperatur zu hoch", anzahl: 3 },
-      { grund: "Feuchtigkeit zu niedrig", anzahl: 2 },
-      { grund: "Temperatur Absteifzone", anzahl: 1 },
+      { grund: "Temperatur zu hoch", anzahl: 0 },
+      { grund: "Feuchtigkeit zu niedrig", anzahl: 0 },
+      { grund: "Temperatur Absteifzone", anzahl: 0 },
     ],
     Fettbackwanne: [
-      { grund: "Verschmutzungen", anzahl: 2 },
-      { grund: "Sonstige", anzahl: 1 },
+      { grund: "Verschmutzungen", anzahl: 0 },
+      { grund: "Sonstige", anzahl: 0 },
     ],
     Sollich: [
-      { grund: "Bodentunkwalze Problem", anzahl: 2 },
-      { grund: "Temperatur Sollich zu hoch", anzahl: 1 },
+      { grund: "Bodentunkwalze Problem", anzahl: 0 },
+      { grund: "Temperatur Sollich zu hoch", anzahl: 0 },
     ],
     Vibrationsstreuer: [
-      { grund: "Streurinne Geschwindigkeit", anzahl: 2 },
-      { grund: "Streurinne vor Bunkerblech", anzahl: 1 },
+      { grund: "Streurinne Geschwindigkeit", anzahl: 0 },
+      { grund: "Streurinne vor Bunkerblech", anzahl: 0 },
     ],
   };
 
@@ -706,42 +1033,54 @@ export const ReportList: React.FC = () => {
   };
 
   // Bearbeitungsverhalten-Daten
-  const filteredBearbData = useMemo(() => {
-    const tage =
-      selectedBearbZeitraum === "letzter Tag"
-        ? 1
-        : selectedBearbZeitraum === "letzte 3 Tage"
-          ? 3
-          : selectedBearbZeitraum === "letzte 7 Tage"
-            ? 7
-            : 30;
-    return Array.from({ length: tage }, (_, i) => {
-      const statusNum = Math.round(Math.random()); // 0 veya 1
-      return {
-        tag: `Tag ${i + 1}`,
-        status: statusNum === 1 ? "Bearbeitung" : "Keine Bearbeitung",
-        statusValue: statusNum, // Grafikte kullanmak için
-      };
-    });
-  }, [selectedBearbZeitraum]);
-  console.log(filteredBearbData);
 
-  const pieData = useMemo(() => {
-    const bearbeitungCount = filteredBearbData.filter(d => d.statusValue === 1).length;
-    const keineCount = filteredBearbData.filter(d => d.statusValue === 0).length;
-    return [
-      { type: "Bearbeitung", value: bearbeitungCount },
-      { type: "Keine Bearbeitung", value: keineCount },
-    ];
-  }, [filteredBearbData]);
+  const [selectedTableSchicht, setSelectedTableSchicht] = useState<string>(
+    "Frühschicht"
+  );
+
+  const maxTage = useMemo(() => {
+    const data = filteredData[0];
+    return data?.werte?.length ?? 0;
+  }, [filteredData]);
+
+  const tableMaxTage = useMemo(() => {
+    return abweichungData.length > 0 ? abweichungData.length / 3 : 0;
+  }, [abweichungData]);
+
+
+  const schichtOptions = schichtLabels;
+  const [selectedTableTag, setSelectedTableTag] = useState<string>("13.10");
+  const filteredTableData = useMemo(() => {
+    if (!filteredData.length) return [];
+    const data = filteredData[0];
+    if (!data || !data.werte) return [];
+    const arr: any[] = [];
+    data.werte
+      .filter((wert) => wert.tag === selectedTableTag)
+      .forEach((wert) => {
+        schichtKeys.forEach((schicht, idx) => {
+          if (schichtLabels[idx] === selectedTableSchicht) {
+            arr.push({
+              parameter: data.parameter,
+              min: data.min,
+              max: data.max,
+              tag: wert.tag,
+              schicht: schichtLabels[idx],
+              value: wert[schicht],
+            });
+          }
+        });
+      });
+    return arr;
+  }, [filteredData, selectedTableTag, selectedTableSchicht]);
 
   const columns = [
     { title: "Parameter", dataIndex: "parameter", key: "parameter" },
-    { title: "MIN", dataIndex: "min", key: "min" },
-    { title: "MAX", dataIndex: "max", key: "max" },
-    { title: "Tag 1", dataIndex: "tag1", key: "tag1" },
-    { title: "Tag 2", dataIndex: "tag2", key: "tag2" },
-    { title: "Tag 3", dataIndex: "tag3", key: "tag3" },
+    { title: "Min", dataIndex: "min", key: "min" },
+    { title: "Max", dataIndex: "max", key: "max" },
+    { title: "Tag", dataIndex: "tag", key: "tag" },
+    { title: "Schicht", dataIndex: "schicht", key: "schicht" },
+    { title: "Wert", dataIndex: "value", key: "value" },
   ];
 
   // --- Abweichungsanalyse Chart.js Line Chart ---
@@ -754,6 +1093,30 @@ export const ReportList: React.FC = () => {
       labels: abweichungData.map((d) => d.time),
       datasets: [
         {
+          label: "Min",
+          data: abweichungData.map(() => minVal),
+          borderColor: "rgba(24,144,255,0.45)",
+          borderDash: [4, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: "+1",
+          backgroundColor: "rgba(24,144,255,0.10)",
+          order: 1,
+        },
+
+        {
+          label: "Max",
+          data: abweichungData.map(() => maxVal),
+          borderColor: "rgba(24,144,255,0.45)",
+          borderDash: [4, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          backgroundColor: "rgba(24,144,255,0.10)",
+          order: 2,
+        },
+
+        {
           label: "Wert",
           data: abweichungData.map((d) => d.value),
           borderColor: "rgba(24, 144, 255, 1)",
@@ -764,31 +1127,11 @@ export const ReportList: React.FC = () => {
           pointBorderWidth: 2,
           fill: false,
           tension: 0.3,
+          order: 3,
         },
+
         {
-          label: "MIN",
-          data: abweichungData.map(() => minVal),
-          borderColor: "rgba(24,144,255,0.85)",
-          borderDash: [4, 4],
-          borderWidth: 3,
-          pointRadius: 0,
-          fill: false,
-          tension: 0,
-          animations: false,
-        },
-        {
-          label: "MAX",
-          data: abweichungData.map(() => maxVal),
-          borderColor: "rgba(24,144,255,0.85)",
-          borderDash: [4, 4],
-          borderWidth: 3,
-          pointRadius: 0,
-          fill: false,
-          tension: 0,
-          animations: false,
-        },
-        {
-          label: "AVERAGE",
+          label: "Average",
           data: abweichungData.map(() => averageVal),
           borderColor: "#da072e",
           borderDash: [6, 2],
@@ -799,56 +1142,90 @@ export const ReportList: React.FC = () => {
           pointBorderWidth: 1,
           fill: false,
           tension: 0.2,
+          order: 4,
         },
       ],
     };
   }, [abweichungData, filteredData]);
 
-  const abwLineOptions = useMemo(() => ({
-    responsive: true,
-    plugins: {
-      legend: { display: true, position: "top" },
-      tooltip: {
-        callbacks: {
-          label: (ctx: any) => {
-            const label = ctx.label;
-            const value = ctx.parsed.y;
-            return `${label}: ${value}`;
+  const abwLineOptions = useMemo(
+    () => ({
+      responsive: true,
+      animation: false,
+      plugins: {
+        legend: { display: true, position: "top" },
+        tooltip: {
+          callbacks: {
+            label: (ctx: any) => {
+              const label = ctx.label;
+              const value = ctx.parsed.y;
+              return `${label}: ${value}`;
+            },
           },
         },
       },
-    },
-    scales: {
-      y: {
-        min: filteredData[0]?.min ?? 0,
-        max: filteredData[0]?.max ?? 0,
-        title: {
-          display: true,
-          text: filteredData[0]?.parameter || "",
+      scales: {
+        y: {
+          min: (filteredData[0]?.min ?? 0) - Math.abs(filteredData[0]?.min ?? 0) * 0.02,
+          max: (filteredData[0]?.max ?? 0) + Math.abs(filteredData[0]?.max ?? 0) * 0.02,
+          title: {
+            display: true,
+            text: filteredData[0]?.parameter || "",
+          },
+          ticks: {
+            stepSize: 1,
+            callback: function (value: number) {
+              const min = Math.ceil(filteredData[0]?.min ?? 0);
+              const max = Math.floor(filteredData[0]?.max ?? 0);
+              if (value < min || value > max) return "";
+              if (Number.isInteger(value)) return value;
+              return "";
+            },
+          },
+        },
+
+        x: {
+          title: { display: true, text: "Tag - Schicht" },
         },
       },
-      x: {
-        title: { display: true, text: "Tag - Schicht" },
-      },
-    },
-  }), [filteredData]);
-
+    }),
+    [filteredData]
+  );
   // --- Bearbeitungsverhalten Chart.js Line Chart ---
-  const bearbLineData = useMemo(() => ({
-    labels: filteredBearbData.map((d) => d.tag),
-    datasets: [
-      {
-        label: "Bearbeitung",
-        data: filteredBearbData.map((d) => d.statusValue),
-        borderColor: "#52c41a",
-        backgroundColor: "#52c41a33",
-        fill: false,
-        tension: 0.3,
-        pointRadius: 4,
-        pointBackgroundColor: "#52c41a",
-      },
-    ],
-  }), [filteredBearbData]);
+  const bearbAbweichungData = useMemo(() => {
+    const arr: { time: string; value: number }[] = [];
+    bearbRawData
+      .filter((bearb) => bearb.tag === selectedBearbZeitraum)
+      .forEach((bearb) => {
+        schichtLabels.forEach((schicht, idx) => {
+          const status = bearb[schichtKeys[idx]];
+          arr.push({
+            time: `${bearb.tag} - ${schicht}`,
+            value: status === "Bearbeitung" ? 1 : 0,
+          });
+        });
+      });
+    return arr;
+  }, [bearbRawData, selectedBearbZeitraum, schichtLabels, schichtKeys]);
+
+  const bearbLineData = useMemo(
+    () => ({
+      labels: bearbAbweichungData.map((d) => d.time),
+      datasets: [
+        {
+          label: "Bearbeitung",
+          data: bearbAbweichungData.map((d) => d.value),
+          borderColor: "#52c41a",
+          backgroundColor: "#52c41a33",
+          fill: false,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: "#52c41a",
+        },
+      ],
+    }),
+    [bearbAbweichungData]
+  );
 
   const bearbLineOptions = {
     responsive: true,
@@ -880,19 +1257,31 @@ export const ReportList: React.FC = () => {
   };
 
   // --- Bearbeitungsverhalten Chart.js Pie Chart ---
-  const bearbPieData = useMemo(() => ({
-    labels: ["Bearbeitung", "Keine Bearbeitung"],
-    datasets: [
-      {
-        data: [
-          filteredBearbData.filter((d) => d.statusValue === 1).length,
-          filteredBearbData.filter((d) => d.statusValue === 0).length,
-        ],
-        backgroundColor: ["#52c41a", "#faad14"],
-        borderWidth: 1,
-      },
-    ],
-  }), [filteredBearbData]);
+  const bearbPieData = useMemo(() => {
+    let bearbeitung = 0;
+    let keineBearbeitung = 0;
+
+    bearbRawData.forEach((bearb) => {
+      schichtKeys.forEach((schicht) => {
+        if (bearb[schicht] === "Bearbeitung") {
+          bearbeitung++;
+        } else {
+          keineBearbeitung++;
+        }
+      });
+    });
+
+    return {
+      labels: ["Bearbeitung", "Keine Bearbeitung"],
+      datasets: [
+        {
+          data: [bearbeitung, keineBearbeitung],
+          backgroundColor: ["#35d078ff", "#c1d412ff"],
+          borderWidth: 1,
+        },
+      ],
+    };
+  }, [bearbRawData]);
 
   const bearbPieOptions = {
     responsive: true,
@@ -921,16 +1310,17 @@ export const ReportList: React.FC = () => {
           bodyStyle={{ padding: "16px" }}
         >
           <Space size="large" wrap>
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Datum:</span>
             <Select
               value={selectedZeitraum}
               onChange={setSelectedZeitraum}
               style={{ width: 180 }}
             >
-              <Option value="letzter Tag">Letzter Tag</Option>
-              <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
-              <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
-              <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
+              {tagOptions.map((tag) => (
+                <Option key={tag} value={tag}>
+                  {tag}
+                </Option>
+              ))}
             </Select>
 
             <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
@@ -1001,16 +1391,53 @@ export const ReportList: React.FC = () => {
 
         {/* Tabelle */}
         <Card title="📊 Produktionsdaten (statisch)">
+          <Space
+            size="large"
+            wrap
+            style={{
+              marginBottom: 16,
+              backgroundColor: "#e6f0ff", // Diğer filtre kartlarıyla aynı
+              padding: 8,
+              borderRadius: 8,
+            }}
+          >
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Datum:</span>
+            <Select
+              value={selectedTableTag}
+              onChange={setSelectedTableTag}
+              style={{ width: 100 }}
+            >
+              {tagOptions.map((tag) => (
+                <Option key={tag} value={tag}>
+                  {tag}
+                </Option>
+              ))}
+            </Select>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Schicht:</span>
+            <Select
+              value={selectedTableSchicht}
+              onChange={setSelectedTableSchicht}
+              style={{ width: 140 }}
+            >
+              {schichtOptions.map((schicht) => (
+                <Option key={schicht} value={schicht}>
+                  {schicht}
+                </Option>
+              ))}
+            </Select>
+          </Space>
           <Table
-            dataSource={filteredData}
+            dataSource={filteredTableData}
             columns={columns}
             pagination={false}
-            rowKey="parameter"
+            rowKey={(_, idx) => (idx !== undefined ? idx : 0)}
           />
         </Card>
-
         {/* Bearbeitungsverhalten */}
-        <Card title="🟩 Bearbeitungsverhalten" style={{ borderRadius: 12, overflowX: "auto" }}>
+        <Card
+          title="🟩 Bearbeitungsverhalten"
+          style={{ borderRadius: 12, overflowX: "auto" }}
+        >
           <Space
             size="large"
             wrap
@@ -1021,16 +1448,17 @@ export const ReportList: React.FC = () => {
               borderRadius: 8,
             }}
           >
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+            <span style={{ color: "#1890ff", fontWeight: 500 }}>Datum:</span>
             <Select
               value={selectedBearbZeitraum}
               onChange={setSelectedBearbZeitraum}
               style={{ width: 180 }}
             >
-              <Option value="letzter Tag">Letzter Tag</Option>
-              <Option value="letzte 3 Tage">Letzte 3 Tage</Option>
-              <Option value="letzte 7 Tage">Letzte 7 Tage</Option>
-              <Option value="letzte 30 Tage">Letzte 30 Tage</Option>
+              {tagOptions.map((tag) => (
+                <Option key={tag} value={tag}>
+                  {tag}
+                </Option>
+              ))}
             </Select>
 
             <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
@@ -1045,17 +1473,6 @@ export const ReportList: React.FC = () => {
                 </Option>
               ))}
             </Select>
-
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Schicht:</span>
-            <Select
-              value={selectedSchicht}
-              onChange={setSelectedSchicht}
-              style={{ width: 180 }}
-            >
-              <Option value="früh">Früh</Option>
-              <Option value="spät">Spät</Option>
-              <Option value="nacht">Nacht</Option>
-            </Select>
           </Space>
 
           <Row gutter={[16, 16]}>
@@ -1065,13 +1482,19 @@ export const ReportList: React.FC = () => {
                   <ChartLine
                     data={bearbLineData}
                     options={bearbLineOptions as any}
-
                   />
                 </div>
               </Card>
             </Col>
             <Col xs={24} md={8}>
-              <Card bodyStyle={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Card
+                bodyStyle={{
+                  padding: 16,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <div style={{ width: "100%", maxWidth: 400, height: 300 }}>
                   <ChartPie
                     data={bearbPieData}
