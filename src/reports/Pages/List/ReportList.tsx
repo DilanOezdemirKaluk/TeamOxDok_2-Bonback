@@ -206,7 +206,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 210, spät: 205, nacht: 210 },
           { tag: "14.10.2025", früh: 210, spät: 210, nacht: 205 },
-
+          { tag: "15.10.2025", früh: 205, spät: 205, nacht: 205 },
         ],
       },
       {
@@ -217,6 +217,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 30, spät: 30, nacht: 30 },
           { tag: "14.10.2025", früh: 30, spät: 30, nacht: 30 },
+          { tag: "15.10.2025", früh: 30, spät: 30, nacht: 30 },
         ],
       },
       {
@@ -227,7 +228,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
           { tag: "14.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
-
+          { tag: "15.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
         ],
       },
       {
@@ -238,7 +239,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
           { tag: "14.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
-
+          { tag: "15.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
         ],
       },
       {
@@ -249,7 +250,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 2, nacht: 2 },
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 2 },
-
+          { tag: "15.10.2025", früh: 2, spät: 3, nacht: 3 },
         ],
       },
       {
@@ -260,7 +261,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 24, spät: 24, nacht: 24 },
           { tag: "14.10.2025", früh: 24, spät: 24, nacht: 24 },
-
+          { tag: "15.10.2025", früh: 24, spät: 24, nacht: 24 },
         ],
       },
 
@@ -273,7 +274,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 46, spät: 46, nacht: 46 },
           { tag: "14.10.2025", früh: 46, spät: 46, nacht: 46 },
-
+          { tag: "15.10.2025", früh: 46, spät: 46, nacht: 46 },
         ],
       },
       {
@@ -284,7 +285,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 170, spät: 170, nacht: 170 },
           { tag: "14.10.2025", früh: 170, spät: 170, nacht: 170 },
-
+          { tag: "15.10.2025", früh: 170, spät: 170, nacht: 170 },
         ],
       },
       {
@@ -295,6 +296,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 62, spät: 62, nacht: 62 },
           { tag: "14.10.2025", früh: 62, spät: 62, nacht: 62 },
+          { tag: "15.10.2025", früh: 62, spät: 65, nacht: 65 },
         ]
       },
       {
@@ -305,7 +307,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 65, spät: 65, nacht: 62 },
           { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
-
+          { tag: "15.10.2025", früh: 65, spät: 65, nacht: 65 },
         ],
       },
       {
@@ -316,7 +318,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 9, spät: 9, nacht: 9 },
           { tag: "14.10.2025", früh: 9, spät: 9, nacht: 9 },
-
+          { tag: "15.10.2025", früh: 9, spät: 9, nacht: 9 },
         ],
       },
       {
@@ -327,7 +329,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 2, spät: 2, nacht: 2 },
           { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
-
+          { tag: "15.10.2025", früh: 3, spät: 2, nacht: 2 },
         ],
       },
       {
@@ -338,7 +340,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 3, nacht: 3 },
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
-
+          { tag: "15.10.2025", früh: 3, spät: 3, nacht: 3 },
         ],
       },
       {
@@ -349,7 +351,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 3, nacht: 3 },
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
-
+          { tag: "15.10.2025", früh: 3, spät: 3, nacht: 3 },
         ],
       },
       {
@@ -360,7 +362,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 1, spät: 1, nacht: 1 },
           { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
-
+          { tag: "15.10.2025", früh: 1, spät: 1, nacht: 1 },
         ],
       },
 
@@ -374,7 +376,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 106, spät: 106, nacht: 106 },
           { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
-
+          { tag: "15.10.2025", früh: 106, spät: 106, nacht: 106 },
         ],
       },
       {
@@ -385,7 +387,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: 0 },
-
+          { tag: "15.10.2025", früh: 0, spät: 0, nacht: 0 },
         ],
       },
       {
@@ -396,7 +398,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 196, spät: 196, nacht: 196 },
           { tag: "14.10.2025", früh: 196, spät: 196, nacht: 196 },
-
+          { tag: "15.10.2025", früh: 196, spät: 196, nacht: 196 },
         ],
       },
       {
@@ -407,7 +409,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
-
+          { tag: "15.10.2025", früh: 40, spät: 40, nacht: 40 },
         ],
       },
       {
@@ -418,7 +420,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 34, spät: 34, nacht: 34 },
           { tag: "14.10.2025", früh: 34, spät: 34, nacht: 34 },
-
+          { tag: "15.10.2025", früh: 34, spät: 34, nacht: 34 },
         ],
       },
       {
@@ -429,7 +431,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 105, spät: 105, nacht: 105 },
           { tag: "14.10.2025", früh: 105, spät: 105, nacht: 105 },
-
+          { tag: "15.10.2025", früh: 105, spät: 105, nacht: 105 },
         ],
       },
       {
@@ -440,7 +442,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 180, spät: 180, nacht: 180 },
           { tag: "14.10.2025", früh: 180, spät: 180, nacht: 180 },
-
+          { tag: "15.10.2025", früh: 180, spät: 180, nacht: 180 },
         ],
       },
       {
@@ -451,7 +453,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: 0 },
-
+          { tag: "15.10.2025", früh: 0, spät: 0, nacht: 0 },
         ],
       },
       {
@@ -462,7 +464,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 250, spät: 250, nacht: 250 },
           { tag: "14.10.2025", früh: 250, spät: 250, nacht: 250 },
-
+          { tag: "15.10.2025", früh: 250, spät: 250, nacht: 250 },
         ],
       },
       {
@@ -473,7 +475,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 23, spät: 23, nacht: 23 },
           { tag: "14.10.2025", früh: 22, spät: 22, nacht: 22 },
-
+          { tag: "15.10.2025", früh: 21, spät: 21, nacht: 21 },
         ],
       },
       {
@@ -484,7 +486,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 22, spät: 22, nacht: 22 },
           { tag: "14.10.2025", früh: 21, spät: 21, nacht: 21 },
-
+          { tag: "15.10.2025", früh: 20, spät: 19, nacht: 19 },
         ],
       },
       {
@@ -495,7 +497,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 210, spät: 210, nacht: 210 },
           { tag: "14.10.2025", früh: 210, spät: 210, nacht: 210 },
-
+          { tag: "15.10.2025", früh: 210, spät: 210, nacht: 210 },
         ],
       },
       {
@@ -506,7 +508,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 200, spät: 200, nacht: 200 },
           { tag: "14.10.2025", früh: 200, spät: 200, nacht: 200 },
-
+          { tag: "15.10.2025", früh: 200, spät: 200, nacht: 200 },
         ],
       },
       {
@@ -517,7 +519,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 1, spät: 1, nacht: 1 },
           { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
-
+          { tag: "15.10.2025", früh: 1, spät: 0, nacht: 0 },
         ],
       },
       {
@@ -528,7 +530,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: -3 },
-
+          { tag: "15.10.2025", früh: -3, spät: -3, nacht: -3 },
         ],
       },
       {
@@ -539,7 +541,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 193, spät: 193, nacht: 193 },
           { tag: "14.10.2025", früh: 193, spät: 193, nacht: 193 },
-
+          { tag: "15.10.2025", früh: 193, spät: 193, nacht: 193 },
         ],
       },
       {
@@ -550,7 +552,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 37, spät: 37, nacht: 37 },
           { tag: "14.10.2025", früh: 36, spät: 36, nacht: 34 },
-
+          { tag: "15.10.2025", früh: 33, spät: 32, nacht: 32 },
         ],
       },
       {
@@ -561,7 +563,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 36, spät: 36, nacht: 36 },
           { tag: "14.10.2025", früh: 35, spät: 35, nacht: 33 },
-
+          { tag: "15.10.2025", früh: 32, spät: 31, nacht: 31 },
         ],
       },
       {
@@ -572,7 +574,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 160, spät: 160, nacht: 160 },
           { tag: "14.10.2025", früh: 160, spät: 160, nacht: 160 },
-
+          { tag: "15.10.2025", früh: 160, spät: 160, nacht: 160 },
         ],
       },
       {
@@ -583,7 +585,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 5, spät: 5, nacht: 5 },
           { tag: "14.10.2025", früh: 5, spät: 5, nacht: 5 },
-
+          { tag: "15.10.2025", früh: 5, spät: 5, nacht: 5 },
         ],
       },
       {
@@ -594,7 +596,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 2, spät: 2, nacht: 2 },
           { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
-
+          { tag: "15.10.2025", früh: 4, spät: 4, nacht: 4 },
         ],
       },
       {
@@ -605,7 +607,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 76, spät: 76, nacht: 76 },
           { tag: "14.10.2025", früh: 76, spät: 76, nacht: 76 },
-
+          { tag: "15.10.2025", früh: 76, spät: 76, nacht: 76 },
         ],
       },
       {
@@ -616,7 +618,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 222, spät: 222, nacht: 222 },
           { tag: "14.10.2025", früh: 222, spät: 222, nacht: 222 },
-
+          { tag: "15.10.2025", früh: 222, spät: 222, nacht: 222 },
         ],
       },
       {
@@ -627,7 +629,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 73, spät: 73, nacht: 73 },
           { tag: "14.10.2025", früh: 73, spät: 73, nacht: 73 },
-
+          { tag: "15.10.2025", früh: 73, spät: 73, nacht: 73 },
         ],
       },
       {
@@ -638,7 +640,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 95, spät: 95, nacht: 95 },
           { tag: "14.10.2025", früh: 95, spät: 95, nacht: 95 },
-
+          { tag: "15.10.2025", früh: 95, spät: 95, nacht: 95 },
         ],
       },
       {
@@ -649,7 +651,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 50, spät: 50, nacht: 50 },
           { tag: "14.10.2025", früh: 50, spät: 50, nacht: 50 },
-
+          { tag: "15.10.2025", früh: 50, spät: 50, nacht: 50 },
         ],
       },
       {
@@ -660,7 +662,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 55, spät: 65, nacht: 65 },
           { tag: "14.10.2025", früh: 55, spät: 55, nacht: 55 },
-
+          { tag: "15.10.2025", früh: 65, spät: 55, nacht: 55 },
         ],
       },
       {
@@ -671,7 +673,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 1.2, spät: 1.1, nacht: 1.1 },
           { tag: "14.10.2025", früh: 1.2, spät: 1.2, nacht: 1.1 },
-
+          { tag: "15.10.2025", früh: 1.3, spät: 1.1, nacht: 1.1 },
         ],
       },
       {
@@ -682,7 +684,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 410, spät: 410, nacht: 410 },
           { tag: "14.10.2025", früh: 410, spät: 410, nacht: 410 },
-
+          { tag: "15.10.2025", früh: 410, spät: 410, nacht: 410 },
         ],
       },
 
@@ -695,7 +697,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
-
+          { tag: "15.10.2025", früh: 40, spät: 40, nacht: 40 },
         ],
       },
       {
@@ -706,7 +708,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 65, spät: 65, nacht: 65 },
           { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
-
+          { tag: "15.10.2025", früh: 65, spät: 65, nacht: 65 },
         ],
       },
       {
@@ -717,7 +719,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 18, spät: 19, nacht: 19 },
           { tag: "14.10.2025", früh: 19, spät: 19, nacht: 19 },
-
+          { tag: "15.10.2025", früh: 19, spät: 19, nacht: 19 },
         ],
       },
 
@@ -730,7 +732,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 107, spät: 107, nacht: 107 },
           { tag: "14.10.2025", früh: 107, spät: 107, nacht: 105 },
-
+          { tag: "15.10.2025", früh: 107, spät: 107, nacht: 107 },
         ],
       },
       {
@@ -741,7 +743,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 178, spät: 178, nacht: 178 },
           { tag: "14.10.2025", früh: 178, spät: 178, nacht: 178 },
-
+          { tag: "15.10.2025", früh: 178, spät: 178, nacht: 178 },
         ],
       },
       {
@@ -752,7 +754,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 105, spät: 105, nacht: 105 },
           { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
-
+          { tag: "15.10.2025", früh: 105, spät: 105, nacht: 105 },
         ],
       },
       {
@@ -763,7 +765,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 224, spät: 224, nacht: 224 },
           { tag: "14.10.2025", früh: 224, spät: 224, nacht: 224 },
-
+          { tag: "15.10.2025", früh: 224, spät: 224, nacht: 224 },
         ],
       },
       {
@@ -774,7 +776,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 140, spät: 140, nacht: 140 },
           { tag: "14.10.2025", früh: 140, spät: 140, nacht: 140 },
-
+          { tag: "15.10.2025", früh: 140, spät: 140, nacht: 140 },
         ],
       },
       {
@@ -785,7 +787,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 260, spät: 260, nacht: 260 },
           { tag: "14.10.2025", früh: 260, spät: 260, nacht: 260 },
-
+          { tag: "15.10.2025", früh: 260, spät: 260, nacht: 260 },
         ],
       },
       {
@@ -796,7 +798,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 355, spät: 355, nacht: 355 },
           { tag: "14.10.2025", früh: 355, spät: 355, nacht: 355 },
-
+          { tag: "15.10.2025", früh: 355, spät: 355, nacht: 355 },
         ],
       },
 
@@ -809,7 +811,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 90, spät: 77, nacht: 77 },
           { tag: "14.10.2025", früh: 82, spät: 82, nacht: 77 },
-
+          { tag: "15.10.2025", früh: 82, spät: 82, nacht: 82 },
         ],
       },
       {
@@ -820,7 +822,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 44.9, spät: 44.9, nacht: 44.9 },
           { tag: "14.10.2025", früh: 44.5, spät: 44.5, nacht: 45 },
-
+          { tag: "15.10.2025", früh: 45, spät: 44.2, nacht: 44.2 },
         ],
       },
 
@@ -833,7 +835,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 70, spät: 70, nacht: 70 },
           { tag: "14.10.2025", früh: 70, spät: 70, nacht: 70 },
-
+          { tag: "15.10.2025", früh: 70, spät: 70, nacht: 70 },
         ],
       },
       {
@@ -844,7 +846,7 @@ export const ReportList: React.FC = () => {
         werte: [
           { tag: "13.10.2025", früh: 7, spät: 7, nacht: 7 },
           { tag: "14.10.2025", früh: 7, spät: 7, nacht: 7 },
-
+          { tag: "15.10.2025", früh: 7, spät: 7, nacht: 7 },
         ],
       },
     ],
@@ -856,14 +858,31 @@ export const ReportList: React.FC = () => {
     () => {
       // Tüm rawData'daki günleri topla (tekrarsız)
       const allTags = rawData.flatMap((row) => row.werte.map((w) => w.tag));
-      return Array.from(new Set(allTags));
+      return Array.from(new Set(allTags)).sort();
     },
     [rawData]
   );
   const [selectedBearbZeitraum, setSelectedBearbZeitraum] =
     useState<string>(tagOptions[0] ?? "");
+  // Zeitraum-Filter auch für Bearbeitungsverhalten
+  const [bearbFilterMode, setBearbFilterMode] = useState<"single" | "range">("range");
+  const [selectedBearbZeitraumVon, setSelectedBearbZeitraumVon] = useState<string>(
+    tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
+  );
+  const [selectedBearbZeitraumBis, setSelectedBearbZeitraumBis] = useState<string>(
+    tagOptions.includes("15.10.2025") ? "15.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
+  );
+  
+  // Zeitraum-Filter: Einzelnes Datum oder Von-Bis
+  const [filterMode, setFilterMode] = useState<"single" | "range">("range");
   const [selectedZeitraum, setSelectedZeitraum] = useState<string>(
     tagOptions[0] ?? ""
+  );
+  const [selectedZeitraumVon, setSelectedZeitraumVon] = useState<string>(
+    tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
+  );
+  const [selectedZeitraumBis, setSelectedZeitraumBis] = useState<string>(
+    tagOptions.includes("15.10.2025") ? "15.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
   );
 
   const bearbRawData: BearbSchichtValue[] = [
@@ -914,27 +933,38 @@ export const ReportList: React.FC = () => {
       rawData.filter(
         (d) =>
           d.aggregat === selectedAggregat &&
-          d.parameter === selectedParameter &&
-          d.werte.some((w) => w.tag === selectedZeitraum)
+          d.parameter === selectedParameter
       ),
-    [selectedAggregat, selectedParameter, rawData, selectedZeitraum]
+    [selectedAggregat, selectedParameter, rawData]
   );
 
   const abweichungData = useMemo(() => {
     const data = filteredData[0];
     if (!data || !data.werte) return [];
 
-
     const arr: { time: string; value: number }[] = [];
-    data.werte
-      .filter((w) => w.tag === selectedZeitraum)
-      .forEach((w) => {
-        arr.push({ time: `${w.tag} - Frühschicht`, value: w.früh });
-        arr.push({ time: `${w.tag} - Spätschicht`, value: w.spät });
-        arr.push({ time: `${w.tag} - Nachtschicht`, value: w.nacht });
-      });
+    
+    // Filter nach Modus: Einzelnes Datum oder Zeitraum
+    const filteredWerte = data.werte.filter((w) => {
+      if (filterMode === "single") {
+        return w.tag === selectedZeitraum;
+      } else {
+        // Range-Modus: Von-Bis
+        const tagDate = new Date(w.tag.split('.').reverse().join('-'));
+        const vonDate = new Date(selectedZeitraumVon.split('.').reverse().join('-'));
+        const bisDate = new Date(selectedZeitraumBis.split('.').reverse().join('-'));
+        return tagDate >= vonDate && tagDate <= bisDate;
+      }
+    });
+
+    filteredWerte.forEach((w) => {
+      arr.push({ time: `${w.tag} - Frühschicht`, value: w.früh });
+      arr.push({ time: `${w.tag} - Spätschicht`, value: w.spät });
+      arr.push({ time: `${w.tag} - Nachtschicht`, value: w.nacht });
+    });
+    
     return arr;
-  }, [filteredData, selectedZeitraum]);
+  }, [filteredData, filterMode, selectedZeitraum, selectedZeitraumVon, selectedZeitraumBis]);
 
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
@@ -1063,7 +1093,7 @@ export const ReportList: React.FC = () => {
     "VG Transportband": [
       { grund: "Zentrierung Heben", anzahl: 0 },
       { grund: "Zentrierung Senken", anzahl: 0 },
-      { grund: "Ablage zu ungenau", anzahl: 1 },
+      { grund: "Ablage zu ungenau", anzahl: 2 },
     ],
     Gärschrank: [
       { grund: "Teig zu kalt", anzahl: 0 },
@@ -1343,19 +1373,26 @@ export const ReportList: React.FC = () => {
   // --- Bearbeitungsverhalten Chart.js Line Chart ---
   const bearbAbweichungData = useMemo(() => {
     const arr: { time: string; value: number }[] = [];
-    bearbRawData
-      .filter((bearb) => bearb.tag === selectedBearbZeitraum)
-      .forEach((bearb) => {
-        schichtLabels.forEach((schicht, idx) => {
-          const status = bearb[schichtKeys[idx]];
-          arr.push({
-            time: `${bearb.tag} - ${schicht}`,
-            value: status === "Bearbeitung" ? 1 : 0,
-          });
+    const filtered = bearbFilterMode === 'single'
+      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum)
+      : bearbRawData.filter((b) => {
+          const tagDate = new Date(b.tag.split('.').reverse().join('-'));
+          const vonDate = new Date(selectedBearbZeitraumVon.split('.').reverse().join('-'));
+          const bisDate = new Date(selectedBearbZeitraumBis.split('.').reverse().join('-'));
+          return tagDate >= vonDate && tagDate <= bisDate;
+        });
+
+    filtered.forEach((bearb) => {
+      schichtLabels.forEach((schicht, idx) => {
+        const status = bearb[schichtKeys[idx]];
+        arr.push({
+          time: `${bearb.tag} - ${schicht}`,
+          value: status === "Bearbeitung" ? 1 : 0,
         });
       });
+    });
     return arr;
-  }, [bearbRawData, selectedBearbZeitraum, schichtLabels, schichtKeys]);
+  }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, schichtLabels, schichtKeys]);
 
   const bearbLineData = useMemo(
     () => ({
@@ -1431,50 +1468,97 @@ export const ReportList: React.FC = () => {
           style={{ backgroundColor: "#e6f0ff", borderRadius: 12 }}
           bodyStyle={{ padding: "16px" }}
         >
-          <Space size="large" wrap>
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Datum:</span>
-            <Select
-              value={selectedZeitraum}
-              onChange={setSelectedZeitraum}
-              style={{ width: 180 }}
-            >
-              {tagOptions.map((tag) => (
-                <Option key={tag} value={tag}>
-                  {tag}
-                </Option>
-              ))}
-            </Select>
+          <Space
+            size="middle"
+            wrap={false}
+            style={{ display: "flex", flexWrap: "nowrap", overflowX: "auto" }}
+          >
+            <Space size="small" style={{ whiteSpace: "nowrap" }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+              <Select
+                value={filterMode}
+                onChange={(mode) => setFilterMode(mode as "single" | "range")}
+                style={{ width: 120 }}
+              >
+                <Option value="single">Datum</Option>
+                <Option value="range">Von-Bis</Option>
+              </Select>
+            </Space>
 
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
-            <Select
-              value={selectedAggregat}
-              onChange={(agg) => {
-                setSelectedAggregat(agg);
-                setSelectedParameter(parameterMapping[agg][0]);
-              }}
-              style={{ width: 220 }}
-            >
-              {Object.keys(parameterMapping).map((agg) => (
-                <Option key={agg} value={agg}>
-                  {agg}
-                </Option>
-              ))}
-            </Select>
+            {filterMode === "single" ? (
+              <Select
+                value={selectedZeitraum}
+                onChange={setSelectedZeitraum}
+                style={{ width: 120 }}
+              >
+                {tagOptions.map((tag) => (
+                  <Option key={tag} value={tag}>
+                    {tag}
+                  </Option>
+                ))}
+              </Select>
+            ) : (
+              <Space size="small" style={{ whiteSpace: "nowrap" }}>
+                <Select
+                  value={selectedZeitraumVon}
+                  onChange={setSelectedZeitraumVon}
+                  style={{ width: 110 }}
+                  placeholder="Von"
+                >
+                  {tagOptions.map((tag) => (
+                    <Option key={tag} value={tag}>
+                      {tag}
+                    </Option>
+                  ))}
+                </Select>
+                <span>-</span>
+                <Select
+                  value={selectedZeitraumBis}
+                  onChange={setSelectedZeitraumBis}
+                  style={{ width: 110 }}
+                  placeholder="Bis"
+                >
+                  {tagOptions.map((tag) => (
+                    <Option key={tag} value={tag}>
+                      {tag}
+                    </Option>
+                  ))}
+                </Select>
+              </Space>
+            )}
 
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>
-              Parameter:
-            </span>
-            <Select
-              value={selectedParameter}
-              onChange={setSelectedParameter}
-              style={{ width: 260 }}
-            >
-              {parameterOptions.map((param) => (
-                <Option key={param} value={param}>
-                  {param}
-                </Option>
-              ))}
-            </Select>
+            <Space size="small" style={{ whiteSpace: "nowrap" }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
+              <Select
+                value={selectedAggregat}
+                onChange={(agg) => {
+                  setSelectedAggregat(agg);
+                  setSelectedParameter(parameterMapping[agg][0]);
+                }}
+                style={{ width: 180 }}
+              >
+                {Object.keys(parameterMapping).map((agg) => (
+                  <Option key={agg} value={agg}>
+                    {agg}
+                  </Option>
+                ))}
+              </Select>
+            </Space>
+
+            <Space size="small" style={{ whiteSpace: "nowrap" }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Parameter:</span>
+              <Select
+                value={selectedParameter}
+                onChange={setSelectedParameter}
+                style={{ width: 220 }}
+              >
+                {parameterOptions.map((param) => (
+                  <Option key={param} value={param}>
+                    {param}
+                  </Option>
+                ))}
+              </Select>
+            </Space>
           </Space>
         </Card>
 
@@ -1561,40 +1645,86 @@ export const ReportList: React.FC = () => {
           style={{ borderRadius: 12, overflowX: "auto" }}
         >
           <Space
-            size="large"
-            wrap
+            size="middle"
+            wrap={false}
             style={{
               marginBottom: 16,
               backgroundColor: "#e6f0ff",
               padding: 8,
               borderRadius: 8,
+              display: 'flex',
+              flexWrap: 'nowrap',
+              overflowX: 'auto'
             }}
           >
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Datum:</span>
-            <Select
-              value={selectedBearbZeitraum}
-              onChange={setSelectedBearbZeitraum}
-              style={{ width: 180 }}
-            >
-              {tagOptions.map((tag) => (
-                <Option key={tag} value={tag}>
-                  {tag}
-                </Option>
-              ))}
-            </Select>
+            <Space size="small" style={{ whiteSpace: 'nowrap' }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Zeitraum:</span>
+              <Select
+                value={bearbFilterMode}
+                onChange={(mode) => setBearbFilterMode(mode as 'single' | 'range')}
+                style={{ width: 120 }}
+              >
+                <Option value="single">Datum</Option>
+                <Option value="range">Von-Bis</Option>
+              </Select>
+            </Space>
 
-            <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
-            <Select
-              value={selectedBearbAggregat}
-              onChange={setSelectedBearbAggregat}
-              style={{ width: 220 }}
-            >
-              {Object.keys(parameterMapping).map((agg) => (
-                <Option key={agg} value={agg}>
-                  {agg}
-                </Option>
-              ))}
-            </Select>
+            {bearbFilterMode === 'single' ? (
+              <Select
+                value={selectedBearbZeitraum}
+                onChange={setSelectedBearbZeitraum}
+                style={{ width: 120 }}
+              >
+                {tagOptions.map((tag) => (
+                  <Option key={tag} value={tag}>
+                    {tag}
+                  </Option>
+                ))}
+              </Select>
+            ) : (
+              <Space size="small" style={{ whiteSpace: 'nowrap' }}>
+                <Select
+                  value={selectedBearbZeitraumVon}
+                  onChange={setSelectedBearbZeitraumVon}
+                  style={{ width: 110 }}
+                  placeholder="Von"
+                >
+                  {tagOptions.map((tag) => (
+                    <Option key={tag} value={tag}>
+                      {tag}
+                    </Option>
+                  ))}
+                </Select>
+                <span>-</span>
+                <Select
+                  value={selectedBearbZeitraumBis}
+                  onChange={setSelectedBearbZeitraumBis}
+                  style={{ width: 110 }}
+                  placeholder="Bis"
+                >
+                  {tagOptions.map((tag) => (
+                    <Option key={tag} value={tag}>
+                      {tag}
+                    </Option>
+                  ))}
+                </Select>
+              </Space>
+            )}
+
+            <Space size="small" style={{ whiteSpace: 'nowrap' }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Aggregat:</span>
+              <Select
+                value={selectedBearbAggregat}
+                onChange={setSelectedBearbAggregat}
+                style={{ width: 180 }}
+              >
+                {Object.keys(parameterMapping).map((agg) => (
+                  <Option key={agg} value={agg}>
+                    {agg}
+                  </Option>
+                ))}
+              </Select>
+            </Space>
           </Space>
 
           <Row gutter={[16, 16]}>

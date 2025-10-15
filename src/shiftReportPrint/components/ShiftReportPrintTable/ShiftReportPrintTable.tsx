@@ -81,14 +81,21 @@ export const ShiftReportPrintTable: React.FC<IShiftReportPrintTableProps> = ({
     if (objItem === undefined) {
       return <></>;
     }
+    
+    const alignment = objItem.alignment ?? "center";
+    const justifyContent = 
+      alignment === "left" ? "flex-start" :
+      alignment === "right" ? "flex-end" :
+      "center";
+    
     return (
       <div
         style={{
           display: "flex",
           alignItems: "center",
+          justifyContent: justifyContent,
           padding: "0",
           width: `${getColumnWidth_ShiftReportTableData(item, columnIndex)}px`,
-          textAlign: objItem.alignment ?? "center",
           marginRight: "10px",
           whiteSpace: "normal",
           wordWrap: "break-word",
@@ -115,6 +122,8 @@ export const ShiftReportPrintTable: React.FC<IShiftReportPrintTableProps> = ({
           textOverflow: "ellipsis",
           border: obj.showBorder ? "1px solid #d9d9d9" : "none",
           borderRadius: obj.showBorder ? "6px" : "0px",
+          display: "block",
+          textAlign: obj.alignment ?? "center",
         }}
       >
         {getValue(obj)}
@@ -155,6 +164,7 @@ export const ShiftReportPrintTable: React.FC<IShiftReportPrintTableProps> = ({
                   boxShadow: "none",
                   whiteSpace: "normal",
                   wordWrap: "break-word",
+                  textAlign: obj.alignment ?? "center",
                 }}
               />
             )}
@@ -174,6 +184,7 @@ export const ShiftReportPrintTable: React.FC<IShiftReportPrintTableProps> = ({
                   cursor: "default",
                   overflow: "hidden",
                   boxShadow: "none",
+                  textAlign: obj.alignment ?? "center",
                 }}
               />
             )}
