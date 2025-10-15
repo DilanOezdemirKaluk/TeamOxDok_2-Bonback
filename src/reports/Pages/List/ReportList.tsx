@@ -1,3 +1,5 @@
+// Chart.js Annotation Plugin global registrieren
+import "./chartjs-annotation-register";
 import React, { useState, useMemo, useEffect } from "react";
 import { Column } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select } from "antd";
@@ -6,6 +8,8 @@ import { Line } from "@ant-design/plots";
 
 // Chart.js imports
 import { Line as ChartLine, Pie as ChartPie } from "react-chartjs-2";
+
+// Chart.js + Annotation Plugin Registration
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,7 +20,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import annotationPlugin from "chartjs-plugin-annotation";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,7 +28,8 @@ ChartJS.register(
   LineElement,
   ArcElement,
   Tooltip,
-  Legend
+  Legend,
+  annotationPlugin
 );
 
 const { Option } = Select;
@@ -200,7 +205,7 @@ export const ReportList: React.FC = () => {
         max: 220,
         werte: [
           { tag: "13.10.2025", früh: 210, spät: 205, nacht: 210 },
-          { tag: "14.10.2025", früh: 210, spät: 210, nacht: 0 },
+          { tag: "14.10.2025", früh: 210, spät: 210, nacht: 205 },
 
         ],
       },
@@ -211,7 +216,7 @@ export const ReportList: React.FC = () => {
         max: 33,
         werte: [
           { tag: "13.10.2025", früh: 30, spät: 30, nacht: 30 },
-          { tag: "14.10.2025", früh: 30, spät: 30, nacht: 0 },
+          { tag: "14.10.2025", früh: 30, spät: 30, nacht: 30 },
         ],
       },
       {
@@ -221,7 +226,7 @@ export const ReportList: React.FC = () => {
         max: -1,
         werte: [
           { tag: "13.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
-          { tag: "14.10.2025", früh: -0.6, spät: -0.6, nacht: 0 },
+          { tag: "14.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
 
         ],
       },
@@ -232,7 +237,7 @@ export const ReportList: React.FC = () => {
         max: 0.3,
         werte: [
           { tag: "13.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
-          { tag: "14.10.2025", früh: -1.6, spät: -1.6, nacht: 0 },
+          { tag: "14.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
 
         ],
       },
@@ -243,7 +248,7 @@ export const ReportList: React.FC = () => {
         max: 6,
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 2, nacht: 2 },
-          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 0 },
+          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 2 },
 
         ],
       },
@@ -254,7 +259,7 @@ export const ReportList: React.FC = () => {
         max: 27,
         werte: [
           { tag: "13.10.2025", früh: 24, spät: 24, nacht: 24 },
-          { tag: "14.10.2025", früh: 24, spät: 24, nacht: 0 },
+          { tag: "14.10.2025", früh: 24, spät: 24, nacht: 24 },
 
         ],
       },
@@ -267,7 +272,7 @@ export const ReportList: React.FC = () => {
         max: 48,
         werte: [
           { tag: "13.10.2025", früh: 46, spät: 46, nacht: 46 },
-          { tag: "14.10.2025", früh: 46, spät: 46, nacht: 0 },
+          { tag: "14.10.2025", früh: 46, spät: 46, nacht: 46 },
 
         ],
       },
@@ -278,7 +283,7 @@ export const ReportList: React.FC = () => {
         max: 170,
         werte: [
           { tag: "13.10.2025", früh: 170, spät: 170, nacht: 170 },
-          { tag: "14.10.2025", früh: 170, spät: 170, nacht: 0 },
+          { tag: "14.10.2025", früh: 170, spät: 170, nacht: 170 },
 
         ],
       },
@@ -289,7 +294,7 @@ export const ReportList: React.FC = () => {
         max: 60,
         werte: [
           { tag: "13.10.2025", früh: 62, spät: 62, nacht: 62 },
-          { tag: "14.10.2025", früh: 62, spät: 62, nacht: 0 },
+          { tag: "14.10.2025", früh: 62, spät: 62, nacht: 62 },
         ]
       },
       {
@@ -299,7 +304,7 @@ export const ReportList: React.FC = () => {
         max: 68,
         werte: [
           { tag: "13.10.2025", früh: 65, spät: 65, nacht: 62 },
-          { tag: "14.10.2025", früh: 65, spät: 65, nacht: 0 },
+          { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
 
         ],
       },
@@ -310,7 +315,7 @@ export const ReportList: React.FC = () => {
         max: 9,
         werte: [
           { tag: "13.10.2025", früh: 9, spät: 9, nacht: 9 },
-          { tag: "14.10.2025", früh: 9, spät: 9, nacht: 0 },
+          { tag: "14.10.2025", früh: 9, spät: 9, nacht: 9 },
 
         ],
       },
@@ -321,7 +326,7 @@ export const ReportList: React.FC = () => {
         max: 3,
         werte: [
           { tag: "13.10.2025", früh: 2, spät: 2, nacht: 2 },
-          { tag: "14.10.2025", früh: 2, spät: 2, nacht: 0 },
+          { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
 
         ],
       },
@@ -332,7 +337,7 @@ export const ReportList: React.FC = () => {
         max: 4,
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 3, nacht: 3 },
-          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 0 },
+          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
 
         ],
       },
@@ -343,7 +348,7 @@ export const ReportList: React.FC = () => {
         max: 3,
         werte: [
           { tag: "13.10.2025", früh: 3, spät: 3, nacht: 3 },
-          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 0 },
+          { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
 
         ],
       },
@@ -354,7 +359,7 @@ export const ReportList: React.FC = () => {
         max: 1,
         werte: [
           { tag: "13.10.2025", früh: 1, spät: 1, nacht: 1 },
-          { tag: "14.10.2025", früh: 1, spät: 1, nacht: 0 },
+          { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
 
         ],
       },
@@ -368,7 +373,7 @@ export const ReportList: React.FC = () => {
         max: 104,
         werte: [
           { tag: "13.10.2025", früh: 106, spät: 106, nacht: 106 },
-          { tag: "14.10.2025", früh: 106, spät: 106, nacht: 0 },
+          { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
 
         ],
       },
@@ -390,7 +395,7 @@ export const ReportList: React.FC = () => {
         max: 208,
         werte: [
           { tag: "13.10.2025", früh: 196, spät: 196, nacht: 196 },
-          { tag: "14.10.2025", früh: 196, spät: 196, nacht: 0 },
+          { tag: "14.10.2025", früh: 196, spät: 196, nacht: 196 },
 
         ],
       },
@@ -401,7 +406,7 @@ export const ReportList: React.FC = () => {
         max: 40,
         werte: [
           { tag: "13.10.2025", früh: 40, spät: 40, nacht: 40 },
-          { tag: "14.10.2025", früh: 40, spät: 40, nacht: 0 },
+          { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
 
         ],
       },
@@ -412,7 +417,7 @@ export const ReportList: React.FC = () => {
         max: 35,
         werte: [
           { tag: "13.10.2025", früh: 34, spät: 34, nacht: 34 },
-          { tag: "14.10.2025", früh: 34, spät: 34, nacht: 0 },
+          { tag: "14.10.2025", früh: 34, spät: 34, nacht: 34 },
 
         ],
       },
@@ -423,7 +428,7 @@ export const ReportList: React.FC = () => {
         max: 200,
         werte: [
           { tag: "13.10.2025", früh: 105, spät: 105, nacht: 105 },
-          { tag: "14.10.2025", früh: 105, spät: 105, nacht: 0 },
+          { tag: "14.10.2025", früh: 105, spät: 105, nacht: 105 },
 
         ],
       },
@@ -434,7 +439,7 @@ export const ReportList: React.FC = () => {
         max: 300,
         werte: [
           { tag: "13.10.2025", früh: 180, spät: 180, nacht: 180 },
-          { tag: "14.10.2025", früh: 180, spät: 180, nacht: 0 },
+          { tag: "14.10.2025", früh: 180, spät: 180, nacht: 180 },
 
         ],
       },
@@ -456,7 +461,7 @@ export const ReportList: React.FC = () => {
         max: 245,
         werte: [
           { tag: "13.10.2025", früh: 250, spät: 250, nacht: 250 },
-          { tag: "14.10.2025", früh: 250, spät: 250, nacht: 0 },
+          { tag: "14.10.2025", früh: 250, spät: 250, nacht: 250 },
 
         ],
       },
@@ -467,7 +472,7 @@ export const ReportList: React.FC = () => {
         max: 21,
         werte: [
           { tag: "13.10.2025", früh: 23, spät: 23, nacht: 23 },
-          { tag: "14.10.2025", früh: 22, spät: 22, nacht: 0 },
+          { tag: "14.10.2025", früh: 22, spät: 22, nacht: 22 },
 
         ],
       },
@@ -478,7 +483,7 @@ export const ReportList: React.FC = () => {
         max: 20,
         werte: [
           { tag: "13.10.2025", früh: 22, spät: 22, nacht: 22 },
-          { tag: "14.10.2025", früh: 21, spät: 21, nacht: 0 },
+          { tag: "14.10.2025", früh: 21, spät: 21, nacht: 21 },
 
         ],
       },
@@ -489,7 +494,7 @@ export const ReportList: React.FC = () => {
         max: 230,
         werte: [
           { tag: "13.10.2025", früh: 210, spät: 210, nacht: 210 },
-          { tag: "14.10.2025", früh: 210, spät: 210, nacht: 0 },
+          { tag: "14.10.2025", früh: 210, spät: 210, nacht: 210 },
 
         ],
       },
@@ -500,7 +505,7 @@ export const ReportList: React.FC = () => {
         max: 160,
         werte: [
           { tag: "13.10.2025", früh: 200, spät: 200, nacht: 200 },
-          { tag: "14.10.2025", früh: 200, spät: 200, nacht: 0 },
+          { tag: "14.10.2025", früh: 200, spät: 200, nacht: 200 },
 
         ],
       },
@@ -511,7 +516,7 @@ export const ReportList: React.FC = () => {
         max: 1,
         werte: [
           { tag: "13.10.2025", früh: 1, spät: 1, nacht: 1 },
-          { tag: "14.10.2025", früh: 1, spät: 1, nacht: 0 },
+          { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
 
         ],
       },
@@ -522,7 +527,7 @@ export const ReportList: React.FC = () => {
         max: 0,
         werte: [
           { tag: "13.10.2025", früh: 0, spät: 0, nacht: 0 },
-          { tag: "14.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "14.10.2025", früh: 0, spät: 0, nacht: -3 },
 
         ],
       },
@@ -533,7 +538,7 @@ export const ReportList: React.FC = () => {
         max: 200,
         werte: [
           { tag: "13.10.2025", früh: 193, spät: 193, nacht: 193 },
-          { tag: "14.10.2025", früh: 193, spät: 193, nacht: 0 },
+          { tag: "14.10.2025", früh: 193, spät: 193, nacht: 193 },
 
         ],
       },
@@ -544,7 +549,7 @@ export const ReportList: React.FC = () => {
         max: 33,
         werte: [
           { tag: "13.10.2025", früh: 37, spät: 37, nacht: 37 },
-          { tag: "14.10.2025", früh: 36, spät: 36, nacht: 0 },
+          { tag: "14.10.2025", früh: 36, spät: 36, nacht: 34 },
 
         ],
       },
@@ -555,7 +560,7 @@ export const ReportList: React.FC = () => {
         max: 32,
         werte: [
           { tag: "13.10.2025", früh: 36, spät: 36, nacht: 36 },
-          { tag: "14.10.2025", früh: 35, spät: 35, nacht: 0 },
+          { tag: "14.10.2025", früh: 35, spät: 35, nacht: 33 },
 
         ],
       },
@@ -566,7 +571,7 @@ export const ReportList: React.FC = () => {
         max: 180,
         werte: [
           { tag: "13.10.2025", früh: 160, spät: 160, nacht: 160 },
-          { tag: "14.10.2025", früh: 160, spät: 160, nacht: 0 },
+          { tag: "14.10.2025", früh: 160, spät: 160, nacht: 160 },
 
         ],
       },
@@ -577,7 +582,7 @@ export const ReportList: React.FC = () => {
         max: 280,
         werte: [
           { tag: "13.10.2025", früh: 5, spät: 5, nacht: 5 },
-          { tag: "14.10.2025", früh: 5, spät: 5, nacht: 0 },
+          { tag: "14.10.2025", früh: 5, spät: 5, nacht: 5 },
 
         ],
       },
@@ -588,7 +593,7 @@ export const ReportList: React.FC = () => {
         max: 2,
         werte: [
           { tag: "13.10.2025", früh: 2, spät: 2, nacht: 2 },
-          { tag: "14.10.2025", früh: 2, spät: 2, nacht: 0 },
+          { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
 
         ],
       },
@@ -599,7 +604,7 @@ export const ReportList: React.FC = () => {
         max: 80,
         werte: [
           { tag: "13.10.2025", früh: 76, spät: 76, nacht: 76 },
-          { tag: "14.10.2025", früh: 76, spät: 76, nacht: 0 },
+          { tag: "14.10.2025", früh: 76, spät: 76, nacht: 76 },
 
         ],
       },
@@ -610,7 +615,7 @@ export const ReportList: React.FC = () => {
         max: 232,
         werte: [
           { tag: "13.10.2025", früh: 222, spät: 222, nacht: 222 },
-          { tag: "14.10.2025", früh: 222, spät: 222, nacht: 0 },
+          { tag: "14.10.2025", früh: 222, spät: 222, nacht: 222 },
 
         ],
       },
@@ -621,7 +626,7 @@ export const ReportList: React.FC = () => {
         max: 80,
         werte: [
           { tag: "13.10.2025", früh: 73, spät: 73, nacht: 73 },
-          { tag: "14.10.2025", früh: 73, spät: 73, nacht: 0 },
+          { tag: "14.10.2025", früh: 73, spät: 73, nacht: 73 },
 
         ],
       },
@@ -632,7 +637,7 @@ export const ReportList: React.FC = () => {
         max: 100,
         werte: [
           { tag: "13.10.2025", früh: 95, spät: 95, nacht: 95 },
-          { tag: "14.10.2025", früh: 95, spät: 95, nacht: 0 },
+          { tag: "14.10.2025", früh: 95, spät: 95, nacht: 95 },
 
         ],
       },
@@ -643,7 +648,7 @@ export const ReportList: React.FC = () => {
         max: 330,
         werte: [
           { tag: "13.10.2025", früh: 50, spät: 50, nacht: 50 },
-          { tag: "14.10.2025", früh: 50, spät: 50, nacht: 0 },
+          { tag: "14.10.2025", früh: 50, spät: 50, nacht: 50 },
 
         ],
       },
@@ -654,7 +659,7 @@ export const ReportList: React.FC = () => {
         max: 65,
         werte: [
           { tag: "13.10.2025", früh: 55, spät: 65, nacht: 65 },
-          { tag: "14.10.2025", früh: 55, spät: 55, nacht: 0 },
+          { tag: "14.10.2025", früh: 55, spät: 55, nacht: 55 },
 
         ],
       },
@@ -665,7 +670,7 @@ export const ReportList: React.FC = () => {
         max: 1.4,
         werte: [
           { tag: "13.10.2025", früh: 1.2, spät: 1.1, nacht: 1.1 },
-          { tag: "14.10.2025", früh: 1.2, spät: 1.2, nacht: 0 },
+          { tag: "14.10.2025", früh: 1.2, spät: 1.2, nacht: 1.1 },
 
         ],
       },
@@ -676,7 +681,7 @@ export const ReportList: React.FC = () => {
         max: 353,
         werte: [
           { tag: "13.10.2025", früh: 410, spät: 410, nacht: 410 },
-          { tag: "14.10.2025", früh: 410, spät: 410, nacht: 0 },
+          { tag: "14.10.2025", früh: 410, spät: 410, nacht: 410 },
 
         ],
       },
@@ -689,7 +694,7 @@ export const ReportList: React.FC = () => {
         max: 39.5,
         werte: [
           { tag: "13.10.2025", früh: 40, spät: 40, nacht: 40 },
-          { tag: "14.10.2025", früh: 40, spät: 40, nacht: 0 },
+          { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
 
         ],
       },
@@ -700,7 +705,7 @@ export const ReportList: React.FC = () => {
         max: 64,
         werte: [
           { tag: "13.10.2025", früh: 65, spät: 65, nacht: 65 },
-          { tag: "14.10.2025", früh: 65, spät: 65, nacht: 0 },
+          { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
 
         ],
       },
@@ -711,7 +716,7 @@ export const ReportList: React.FC = () => {
         max: 20,
         werte: [
           { tag: "13.10.2025", früh: 18, spät: 19, nacht: 19 },
-          { tag: "14.10.2025", früh: 19, spät: 19, nacht: 0 },
+          { tag: "14.10.2025", früh: 19, spät: 19, nacht: 19 },
 
         ],
       },
@@ -724,7 +729,7 @@ export const ReportList: React.FC = () => {
         max: 108,
         werte: [
           { tag: "13.10.2025", früh: 107, spät: 107, nacht: 107 },
-          { tag: "14.10.2025", früh: 107, spät: 107, nacht: 0 },
+          { tag: "14.10.2025", früh: 107, spät: 107, nacht: 105 },
 
         ],
       },
@@ -735,7 +740,7 @@ export const ReportList: React.FC = () => {
         max: 180,
         werte: [
           { tag: "13.10.2025", früh: 178, spät: 178, nacht: 178 },
-          { tag: "14.10.2025", früh: 178, spät: 178, nacht: 0 },
+          { tag: "14.10.2025", früh: 178, spät: 178, nacht: 178 },
 
         ],
       },
@@ -746,7 +751,7 @@ export const ReportList: React.FC = () => {
         max: 110,
         werte: [
           { tag: "13.10.2025", früh: 105, spät: 105, nacht: 105 },
-          { tag: "14.10.2025", früh: 106, spät: 106, nacht: 0 },
+          { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
 
         ],
       },
@@ -757,7 +762,7 @@ export const ReportList: React.FC = () => {
         max: 280,
         werte: [
           { tag: "13.10.2025", früh: 224, spät: 224, nacht: 224 },
-          { tag: "14.10.2025", früh: 224, spät: 224, nacht: 0 },
+          { tag: "14.10.2025", früh: 224, spät: 224, nacht: 224 },
 
         ],
       },
@@ -768,7 +773,7 @@ export const ReportList: React.FC = () => {
         max: 45,
         werte: [
           { tag: "13.10.2025", früh: 140, spät: 140, nacht: 140 },
-          { tag: "14.10.2025", früh: 140, spät: 140, nacht: 0 },
+          { tag: "14.10.2025", früh: 140, spät: 140, nacht: 140 },
 
         ],
       },
@@ -779,7 +784,7 @@ export const ReportList: React.FC = () => {
         max: 290,
         werte: [
           { tag: "13.10.2025", früh: 260, spät: 260, nacht: 260 },
-          { tag: "14.10.2025", früh: 260, spät: 260, nacht: 0 },
+          { tag: "14.10.2025", früh: 260, spät: 260, nacht: 260 },
 
         ],
       },
@@ -790,7 +795,7 @@ export const ReportList: React.FC = () => {
         max: 350,
         werte: [
           { tag: "13.10.2025", früh: 355, spät: 355, nacht: 355 },
-          { tag: "14.10.2025", früh: 355, spät: 355, nacht: 0 },
+          { tag: "14.10.2025", früh: 355, spät: 355, nacht: 355 },
 
         ],
       },
@@ -803,7 +808,7 @@ export const ReportList: React.FC = () => {
         max: 72,
         werte: [
           { tag: "13.10.2025", früh: 90, spät: 77, nacht: 77 },
-          { tag: "14.10.2025", früh: 82, spät: 82, nacht: 0 },
+          { tag: "14.10.2025", früh: 82, spät: 82, nacht: 77 },
 
         ],
       },
@@ -814,7 +819,7 @@ export const ReportList: React.FC = () => {
         max: 48,
         werte: [
           { tag: "13.10.2025", früh: 44.9, spät: 44.9, nacht: 44.9 },
-          { tag: "14.10.2025", früh: 44.5, spät: 44.5, nacht: 0 },
+          { tag: "14.10.2025", früh: 44.5, spät: 44.5, nacht: 45 },
 
         ],
       },
@@ -827,7 +832,7 @@ export const ReportList: React.FC = () => {
         max: 88,
         werte: [
           { tag: "13.10.2025", früh: 70, spät: 70, nacht: 70 },
-          { tag: "14.10.2025", früh: 70, spät: 70, nacht: 0 },
+          { tag: "14.10.2025", früh: 70, spät: 70, nacht: 70 },
 
         ],
       },
@@ -838,7 +843,7 @@ export const ReportList: React.FC = () => {
         max: 7,
         werte: [
           { tag: "13.10.2025", früh: 7, spät: 7, nacht: 7 },
-          { tag: "14.10.2025", früh: 7, spät: 7, nacht: 0 },
+          { tag: "14.10.2025", früh: 7, spät: 7, nacht: 7 },
 
         ],
       },
@@ -1017,7 +1022,7 @@ export const ReportList: React.FC = () => {
     Dosiersystem: [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 1 },
-      { grund: "Formschwankungen", anzahl: 1 },
+      { grund: "Formschwankungen", anzahl: 2 },
       { grund: "Rundheit", anzahl: 0 },
       { grund: "Teig zu fest", anzahl: 0 },
       { grund: "Teig zu weich", anzahl: 0 },
@@ -1050,7 +1055,7 @@ export const ReportList: React.FC = () => {
     "VG Andruckstation 3": [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 4 },
-      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 5 },
       { grund: "Rundheit", anzahl: 0 },
       { grund: "Zentrierung Heben", anzahl: 0 },
       { grund: "Zentrierung Senken", anzahl: 0 },
@@ -1069,7 +1074,7 @@ export const ReportList: React.FC = () => {
     ],
     Fettbackwanne: [
       { grund: "Verschmutzungen", anzahl: 0 },
-      { grund: "Sonstige", anzahl: 0 },
+      { grund: "Sonstige", anzahl: 1 },
     ],
     Sollich: [
       { grund: "Bodentunkwalze", anzahl: 0 },
@@ -1178,11 +1183,14 @@ export const ReportList: React.FC = () => {
   const abwLineData = useMemo(() => {
     const minVal = filteredData[0]?.min ?? 0;
     const maxVal = filteredData[0]?.max ?? 0;
-    const averageVal = (minVal + maxVal) / 2;
+    // Mittelwert der tatsächlichen Werte berechnen
+    const values = abweichungData.map((d) => d.value).filter((v) => typeof v === "number" && !isNaN(v));
+    const averageVal = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
 
     return {
       labels: abweichungData.map((d) => d.time),
       datasets: [
+        // Min-Linie (muss zuerst kommen!)
         {
           label: "Min",
           data: abweichungData.map(() => minVal),
@@ -1194,6 +1202,18 @@ export const ReportList: React.FC = () => {
           backgroundColor: "rgba(24,144,255,0.10)",
           order: 1,
         },
+        // Max-Linie mit Füllung zur Min-Linie (grüner Bereich)
+        {
+          label: "Toleranzbereich",
+          data: abweichungData.map(() => maxVal),
+          borderColor: "rgba(0,0,0,0)",
+          backgroundColor: "rgba(82,196,26,0.18)",
+          fill: '-1',
+          pointRadius: 0,
+          order: 0,
+          type: 'line',
+        },
+        // Max-Linie als gestrichelte Linie oben (sichtbar)
         {
           label: "Max",
           data: abweichungData.map(() => maxVal),
@@ -1205,6 +1225,7 @@ export const ReportList: React.FC = () => {
           backgroundColor: "rgba(24,144,255,0.10)",
           order: 2,
         },
+        // Wert-Linie
         {
           label: "Wert",
           data: abweichungData.map((d) => d.value),
@@ -1218,8 +1239,9 @@ export const ReportList: React.FC = () => {
           tension: 0.3,
           order: 3,
         },
+        // Mittelwert-Linie
         {
-          label: "Average",
+          label: "Mittelwert",
           data: abweichungData.map(() => averageVal),
           borderColor: "#da072e",
           borderDash: [6, 2],
