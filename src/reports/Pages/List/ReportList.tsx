@@ -902,6 +902,12 @@ export const ReportList: React.FC = () => {
       spät: "Bearbeitung",
       nacht: "Bearbeitung",
     },
+      {
+      tag: "15.10.2025",
+      früh: "Bearbeitung",
+      spät: "Bearbeitung",
+      nacht: "Bearbeitung",
+    },
   ];
 
   // --- Bearbeitungsverhalten Chart.js Pie Chart ---
