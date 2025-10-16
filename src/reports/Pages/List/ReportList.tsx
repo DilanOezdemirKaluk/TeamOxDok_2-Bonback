@@ -1486,6 +1486,14 @@ export const ReportList: React.FC = () => {
       // Clone den Content
       const clonedContent = contentRef.current.cloneNode(true) as HTMLElement;
       
+      // Entferne den PDF-Export Button
+      const buttons = clonedContent.querySelectorAll('button');
+      buttons.forEach(button => {
+        if (button.textContent?.includes('PDF-Export')) {
+          button.remove();
+        }
+      });
+      
       // Entferne Filter-Cards
       const filterCards = clonedContent.querySelectorAll('[style*="backgroundColor: #e6f0ff"]');
       filterCards.forEach(card => card.remove());
