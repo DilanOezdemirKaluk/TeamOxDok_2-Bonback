@@ -1087,7 +1087,7 @@ export const ReportList: React.FC = () => {
       { grund: "Zentrierung Senken", anzahl: 0 },
     ],
     "VG Andruckstation 3": [
-      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu groß", anzahl: 4 },
       { grund: "Produkte zu klein", anzahl: 4 },
       { grund: "Formschwankungen", anzahl: 5 },
       { grund: "Rundheit", anzahl: 0 },
@@ -1108,15 +1108,21 @@ export const ReportList: React.FC = () => {
     ],
     Fettbackwanne: [
       { grund: "Verschmutzungen", anzahl: 0 },
-      { grund: "Sonstige", anzahl: 1 },
+      { grund: "Sonstige", anzahl: 2 },
     ],
     Sollich: [
-      { grund: "Bodentunkwalze", anzahl: 0 },
-      { grund: "Temperatur Sollich", anzahl: 0 },
+      { grund: "Bestreuung ungleichmäßig", anzahl: 0 },
+      { grund: "Überzug zu gering", anzahl: 0 },
+      { grund: "Überzug zu viel", anzahl: 0 },
+      { grund: "Bestreuung Untergewicht", anzahl: 0 },
+      { grund: "Bestreuung Übergewicht", anzahl: 0 },
     ],
     Vibrationsstreuer: [
-      { grund: "Streurinne Geschwindigkeit", anzahl: 0 },
-      { grund: "Streurinne vor Bunkerblech", anzahl: 0 },
+      { grund: "Bestreuung ungleichmäßig", anzahl: 0 },
+      { grund: "Überzug zu gering", anzahl: 0 },
+      { grund: "Überzug zu viel", anzahl: 0 },
+      { grund: "Bestreuung Untergewicht", anzahl: 0 },
+      { grund: "Bestreuung Übergewicht", anzahl: 0 },
     ],
   };
 
@@ -1686,6 +1692,11 @@ export const ReportList: React.FC = () => {
                   setSelectedParameter(parameterMapping[agg][0]);
                 }}
                 style={{ width: 180 }}
+                listHeight={200}
+                showSearch
+                filterOption={(input, option) =>
+                  String(option?.children || '').toLowerCase().includes(input.toLowerCase())
+                }
               >
                 {Object.keys(parameterMapping).map((agg) => (
                   <Option key={agg} value={agg}>
@@ -1867,6 +1878,11 @@ export const ReportList: React.FC = () => {
                 value={selectedBearbAggregat}
                 onChange={setSelectedBearbAggregat}
                 style={{ width: 180 }}
+                listHeight={200}
+                showSearch
+                filterOption={(input, option) =>
+                  String(option?.children || '').toLowerCase().includes(input.toLowerCase())
+                }
               >
                 {Object.keys(parameterMapping).map((agg) => (
                   <Option key={agg} value={agg}>
