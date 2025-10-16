@@ -1,10 +1,13 @@
 // Chart.js Annotation Plugin global registrieren
 import "./chartjs-annotation-register";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Column } from "@ant-design/plots";
-import { Card, Space, Table, Row, Col, Select } from "antd";
+import { Card, Space, Table, Row, Col, Select, Button } from "antd";
+import { FilePdfOutlined } from "@ant-design/icons";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
 import { Line } from "@ant-design/plots";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 // Chart.js imports
 import { Line as ChartLine, Pie as ChartPie } from "react-chartjs-2";
@@ -183,6 +186,7 @@ export const MachineDataLiveChart: React.FC<{ color?: string }> = ({
 
 // --- ReportList ---
 export const ReportList: React.FC = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
   const [selectedAggregat, setSelectedAggregat] = useState("Dosiersystem");
   const [selectedParameter, setSelectedParameter] = useState(
     parameterMapping["Dosiersystem"][0]
@@ -1460,14 +1464,160 @@ export const ReportList: React.FC = () => {
     },
   };
 
+  const exportToPDF = async () => {
+    if (!contentRef.current) return;
+
+    try {
+      // Erstelle ein temporäres Container für den Export
+      const exportContainer = document.createElement("div");
+      exportContainer.style.position = "absolute";
+      exportContainer.style.left = "-9999px";
+      exportContainer.style.width = "1200px";
+      exportContainer.style.backgroundColor = "white";
+      exportContainer.style.padding = "20px";
+      document.body.appendChild(exportContainer);
+
+      // Clone den Content
+      const clonedContent = contentRef.current.cloneNode(true) as HTMLElement;
+      
+      // Entferne Filter-Cards
+      const filterCards = clonedContent.querySelectorAll('[style*="backgroundColor: #e6f0ff"]');
+      filterCards.forEach(card => card.remove());
+      
+      // Entferne die Tabelle
+      const tables = clonedContent.querySelectorAll('.ant-card');
+      tables.forEach(card => {
+        const title = card.querySelector('.ant-card-head-title');
+        if (title && title.textContent?.includes('Produktionsdaten')) {
+          card.remove();
+        }
+      });
+
+      // Hole alle Canvas-Elemente aus dem Original
+      const originalCanvases = contentRef.current.querySelectorAll("canvas");
+      const clonedCanvases = clonedContent.querySelectorAll("canvas");
+
+      // Ersetze geklonte Canvas mit Bildern der Originale
+      originalCanvases.forEach((originalCanvas, index) => {
+        if (clonedCanvases[index]) {
+          const imgData = originalCanvas.toDataURL("image/png");
+          const img = document.createElement("img");
+          img.src = imgData;
+          img.style.width = originalCanvas.style.width || `${originalCanvas.width}px`;
+          img.style.height = originalCanvas.style.height || `${originalCanvas.height}px`;
+          img.style.maxWidth = "100%";
+          
+          // Ersetze Canvas mit Bild
+          const parent = clonedCanvases[index].parentNode;
+          if (parent) {
+            parent.replaceChild(img, clonedCanvases[index]);
+          }
+        }
+      });
+
+      exportContainer.appendChild(clonedContent);
+
+      // Warte kurz damit die Bilder geladen werden
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      // Konvertiere zu Canvas
+      const canvas = await html2canvas(exportContainer, {
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      // Entferne temporären Container
+      document.body.removeChild(exportContainer);
+
+      // Erstelle PDF im Hochformat A4
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pageWidth = 210; // A4 Hochformat Breite in mm
+      const pageHeight = 297; // A4 Hochformat Höhe in mm
+      const margin = 10;
+      const contentWidth = pageWidth - 2 * margin;
+
+      // Berechne Bild-Dimensionen für A4
+      const imgWidth = contentWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Wenn das Bild höher als eine Seite ist, verkleinere es
+      if (imgHeight > pageHeight - 2 * margin) {
+        const scaledHeight = pageHeight - 2 * margin;
+        const scaledWidth = (canvas.width * scaledHeight) / canvas.height;
+        pdf.addImage(
+          canvas.toDataURL("image/png"),
+          "PNG",
+          (pageWidth - scaledWidth) / 2,
+          margin,
+          scaledWidth,
+          scaledHeight
+        );
+      } else {
+        // Beginne direkt oben mit Rand
+        pdf.addImage(
+          canvas.toDataURL("image/png"),
+          "PNG",
+          margin,
+          margin,
+          imgWidth,
+          imgHeight
+        );
+      }
+
+      // Fußzeile mit Zeitstempel und Systemangabe
+      const now = new Date();
+      const timestamp = now.toLocaleString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const footerText = `Erstellt am ${timestamp} | OPEX-Demosystem Bonback`;
+      
+      pdf.setFontSize(9);
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(footerText, pageWidth / 2, pageHeight - 5, { align: "center" });
+
+      // Dateiname mit aktuellem Datum
+      const dateStr = new Date().toLocaleDateString("de-DE").replace(/\./g, "-");
+      pdf.save(`Auswertung_${dateStr}.pdf`);
+    } catch (error) {
+      console.error("Fehler beim PDF-Export:", error);
+    }
+  };
+
   return (
     <ListContent>
-      <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        {/* Filter Card */}
-        <Card
-          style={{ backgroundColor: "#e6f0ff", borderRadius: 12 }}
-          bodyStyle={{ padding: "16px" }}
-        >
+      <div ref={contentRef}>
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          {/* Filter Card */}
+          <Card
+            style={{ backgroundColor: "#e6f0ff", borderRadius: 12, position: "relative" }}
+            bodyStyle={{ padding: "16px" }}
+          >
+            <Button
+              type="primary"
+              icon={<FilePdfOutlined />}
+              onClick={exportToPDF}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: 16,
+                transform: "translateY(-50%)",
+                zIndex: 1000,
+              }}
+            >
+              PDF-Export
+            </Button>
           <Space
             size="middle"
             wrap={false}
@@ -1758,6 +1908,7 @@ export const ReportList: React.FC = () => {
           </Row>
         </Card>
       </Space>
+      </div>
     </ListContent>
   );
 };
