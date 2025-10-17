@@ -933,8 +933,15 @@ export const ReportList: React.FC = () => {
     tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
   );
   const [selectedBearbZeitraumBis, setSelectedBearbZeitraumBis] = useState<string>(
-    tagOptions.includes("15.10.2025") ? "15.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
+    tagOptions.includes("16.10.2025") ? "16.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
   );
+  
+  // Schicht-Filter für Bearbeitungsverhalten (Multi-Select möglich)
+  const [selectedBearbSchichten, setSelectedBearbSchichten] = useState<string[]>([
+    "früh",
+    "spät",
+    "nacht",
+  ]);
   
   // Zeitraum-Filter: Einzelnes Datum oder Von-Bis
   const [filterMode, setFilterMode] = useState<"single" | "range">("range");
@@ -945,7 +952,7 @@ export const ReportList: React.FC = () => {
     tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
   );
   const [selectedZeitraumBis, setSelectedZeitraumBis] = useState<string>(
-    tagOptions.includes("15.10.2025") ? "15.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
+    tagOptions.includes("16.10.2025") ? "16.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
   );
 
   const bearbRawData: BearbSchichtValue[] = useMemo(() => {
@@ -972,9 +979,9 @@ export const ReportList: React.FC = () => {
           data.push({
             tag,
             aggregat,
-            früh: "Bearbeitung",
-            spät: "Keine Bearbeitung",
-            nacht: "Bearbeitung",
+            früh: "Bearbeitung" as const,
+            spät: "Keine Bearbeitung" as const,
+            nacht: "Bearbeitung" as const,
           });
         } 
         // Spezielle Behandlung für Gärschrank am 16.10.2025 (auch Spät = 0)
@@ -982,9 +989,9 @@ export const ReportList: React.FC = () => {
           data.push({
             tag,
             aggregat,
-            früh: "Bearbeitung",
-            spät: "Keine Bearbeitung",
-            nacht: "Bearbeitung",
+            früh: "Bearbeitung" as const,
+            spät: "Keine Bearbeitung" as const,
+            nacht: "Bearbeitung" as const,
           });
         }
         // Alle anderen: Bearbeitung
@@ -992,9 +999,9 @@ export const ReportList: React.FC = () => {
           data.push({
             tag,
             aggregat,
-            früh: "Bearbeitung",
-            spät: "Bearbeitung",
-            nacht: "Bearbeitung",
+            früh: "Bearbeitung" as const,
+            spät: "Bearbeitung" as const,
+            nacht: "Bearbeitung" as const,
           });
         }
       });
@@ -1010,20 +1017,23 @@ export const ReportList: React.FC = () => {
 
     // Filter nach ausgewähltem Aggregat und Zeitraum
     const filtered = bearbFilterMode === 'single'
-      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedAggregat)
+      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedBearbAggregat)
       : bearbRawData.filter((b) => {
           const tagDate = new Date(b.tag.split('.').reverse().join('-'));
           const vonDate = new Date(selectedBearbZeitraumVon.split('.').reverse().join('-'));
           const bisDate = new Date(selectedBearbZeitraumBis.split('.').reverse().join('-'));
-          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedAggregat;
+          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedBearbAggregat;
         });
 
     filtered.forEach((bearb) => {
       schichtKeys.forEach((schicht) => {
-        if (bearb[schicht] === "Bearbeitung") {
-          bearbeitung++;
-        } else {
-          keineBearbeitung++;
+        // Nur zählen, wenn die Schicht im Filter ausgewählt ist
+        if (selectedBearbSchichten.includes(schicht)) {
+          if (bearb[schicht] === "Bearbeitung") {
+            bearbeitung++;
+          } else {
+            keineBearbeitung++;
+          }
         }
       });
     });
@@ -1038,7 +1048,7 @@ export const ReportList: React.FC = () => {
         },
       ],
     };
-  }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, selectedAggregat]);
+  }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, selectedBearbAggregat, selectedBearbSchichten]);
 
   // --- Abweichungsanalyse nach Aggregat + Parameter ---
   const filteredData = useMemo(
@@ -1493,25 +1503,29 @@ export const ReportList: React.FC = () => {
   const bearbAbweichungData = useMemo(() => {
     const arr: { time: string; value: number }[] = [];
     const filtered = bearbFilterMode === 'single'
-      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedAggregat)
+      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedBearbAggregat)
       : bearbRawData.filter((b) => {
           const tagDate = new Date(b.tag.split('.').reverse().join('-'));
           const vonDate = new Date(selectedBearbZeitraumVon.split('.').reverse().join('-'));
           const bisDate = new Date(selectedBearbZeitraumBis.split('.').reverse().join('-'));
-          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedAggregat;
+          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedBearbAggregat;
         });
 
     filtered.forEach((bearb) => {
       schichtLabels.forEach((schicht, idx) => {
-        const status = bearb[schichtKeys[idx]];
-        arr.push({
-          time: `${bearb.tag} - ${schicht}`,
-          value: status === "Bearbeitung" ? 1 : 0,
-        });
+        const schichtKey = schichtKeys[idx];
+        // Nur hinzufügen, wenn die Schicht im Filter ausgewählt ist
+        if (selectedBearbSchichten.includes(schichtKey)) {
+          const status = bearb[schichtKey];
+          arr.push({
+            time: `${bearb.tag} - ${schicht}`,
+            value: status === "Bearbeitung" ? 1 : 0,
+          });
+        }
       });
     });
     return arr;
-  }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, schichtLabels, schichtKeys, selectedAggregat]);
+  }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, schichtLabels, schichtKeys, selectedBearbAggregat, selectedBearbSchichten]);
 
   const bearbLineData = useMemo(
     () => ({
@@ -2006,6 +2020,22 @@ export const ReportList: React.FC = () => {
                     {agg}
                   </Option>
                 ))}
+              </Select>
+            </Space>
+
+            <Space size="small" style={{ whiteSpace: 'nowrap' }}>
+              <span style={{ color: "#1890ff", fontWeight: 500 }}>Schichten:</span>
+              <Select
+                mode="multiple"
+                value={selectedBearbSchichten}
+                onChange={setSelectedBearbSchichten}
+                style={{ width: 200 }}
+                placeholder="Schichten wählen"
+                maxTagCount="responsive"
+              >
+                <Option value="früh">Frühschicht</Option>
+                <Option value="spät">Spätschicht</Option>
+                <Option value="nacht">Nachtschicht</Option>
               </Select>
             </Space>
           </Space>
