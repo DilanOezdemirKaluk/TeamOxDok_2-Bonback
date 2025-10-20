@@ -206,8 +206,8 @@ export const ReportList: React.FC = () => {
       {
         aggregat: "Dosiersystem",
         parameter: "Chargengröße [kg]",
-        min: 210,
-        max: 220,
+        min: 205,
+        max: 210,
         werte: [
           { tag: "13.10.2025", früh: 210, spät: 205, nacht: 210 },
           { tag: "14.10.2025", früh: 210, spät: 210, nacht: 205 },
