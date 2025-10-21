@@ -198,7 +198,7 @@ export const ReportList: React.FC = () => {
   );
 
   const [selectedBearbAggregat, setSelectedBearbAggregat] =
-    useState("Dosiersystem");
+    useState("Alle Aggregate");
   const [selectedSchicht, setSelectedSchicht] = useState("früh");
 
   const rawData: DataRow[] = useMemo(
@@ -1199,14 +1199,20 @@ export const ReportList: React.FC = () => {
     let bearbeitung = 0;
     let keineBearbeitung = 0;
 
-    // Filter nach ausgewähltem Aggregat und Zeitraum
+    // Filter nach Zeitraum und optional nach Aggregat
     const filtered = bearbFilterMode === 'single'
-      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedBearbAggregat)
+      ? bearbRawData.filter((b) => {
+          const matchesDate = b.tag === selectedBearbZeitraum;
+          const matchesAggregat = selectedBearbAggregat === "Alle Aggregate" || b.aggregat === selectedBearbAggregat;
+          return matchesDate && matchesAggregat;
+        })
       : bearbRawData.filter((b) => {
           const tagDate = new Date(b.tag.split('.').reverse().join('-'));
           const vonDate = new Date(selectedBearbZeitraumVon.split('.').reverse().join('-'));
           const bisDate = new Date(selectedBearbZeitraumBis.split('.').reverse().join('-'));
-          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedBearbAggregat;
+          const matchesDateRange = tagDate >= vonDate && tagDate <= bisDate;
+          const matchesAggregat = selectedBearbAggregat === "Alle Aggregate" || b.aggregat === selectedBearbAggregat;
+          return matchesDateRange && matchesAggregat;
         });
 
     filtered.forEach((bearb) => {
@@ -1222,8 +1228,15 @@ export const ReportList: React.FC = () => {
       });
     });
 
+    const total = bearbeitung + keineBearbeitung;
+    const bearbeitungProzent = total > 0 ? ((bearbeitung / total) * 100).toFixed(1) : '0.0';
+    const keineBearbeitungProzent = total > 0 ? ((keineBearbeitung / total) * 100).toFixed(1) : '0.0';
+
     return {
-      labels: ["Bearbeitung", "Keine Bearbeitung"],
+      labels: [
+        `Bearbeitung (${bearbeitungProzent}%)`, 
+        `Keine Bearbeitung (${keineBearbeitungProzent}%)`
+      ],
       datasets: [
         {
           data: [bearbeitung, keineBearbeitung],
@@ -1693,12 +1706,18 @@ export const ReportList: React.FC = () => {
   const bearbAbweichungData = useMemo(() => {
     const arr: { time: string; value: number }[] = [];
     const filtered = bearbFilterMode === 'single'
-      ? bearbRawData.filter((b) => b.tag === selectedBearbZeitraum && b.aggregat === selectedBearbAggregat)
+      ? bearbRawData.filter((b) => {
+          const matchesDate = b.tag === selectedBearbZeitraum;
+          const matchesAggregat = selectedBearbAggregat === "Alle Aggregate" || b.aggregat === selectedBearbAggregat;
+          return matchesDate && matchesAggregat;
+        })
       : bearbRawData.filter((b) => {
           const tagDate = new Date(b.tag.split('.').reverse().join('-'));
           const vonDate = new Date(selectedBearbZeitraumVon.split('.').reverse().join('-'));
           const bisDate = new Date(selectedBearbZeitraumBis.split('.').reverse().join('-'));
-          return tagDate >= vonDate && tagDate <= bisDate && b.aggregat === selectedBearbAggregat;
+          const matchesDateRange = tagDate >= vonDate && tagDate <= bisDate;
+          const matchesAggregat = selectedBearbAggregat === "Alle Aggregate" || b.aggregat === selectedBearbAggregat;
+          return matchesDateRange && matchesAggregat;
         });
 
     filtered.forEach((bearb) => {
@@ -2216,6 +2235,9 @@ export const ReportList: React.FC = () => {
                   String(option?.children || '').toLowerCase().includes(input.toLowerCase())
                 }
               >
+                <Option key="alle" value="Alle Aggregate">
+                  Alle Aggregate
+                </Option>
                 {Object.keys(parameterMapping).map((agg) => (
                   <Option key={agg} value={agg}>
                     {agg}
@@ -2241,37 +2263,72 @@ export const ReportList: React.FC = () => {
             </Space>
           </Space>
 
-          <Row gutter={[16, 16]}>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Card bodyStyle={{ padding: 16 }}>
-                <div style={{ width: "100%", height: 300 }}>
-                  <ChartLine
-                    data={bearbLineData}
-                    options={bearbLineOptions as any}
-                  />
-                </div>
-              </Card>
-            </Col>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Card
-                bodyStyle={{
-                  padding: 16,
-                }}
-              >
-                <div style={{ 
-                  width: "100%", 
-                  height: 300,
-                  maxWidth: "350px",
-                  margin: "0 auto"
-                }}>
-                  <ChartPie
-                    data={bearbPieData}
-                    options={bearbPieOptions as any}
-                  />
-                </div>
-              </Card>
-            </Col>
-          </Row>
+          {selectedBearbAggregat === "Alle Aggregate" ? (
+            <Row gutter={[16, 16]}>
+              <Col xs={24}>
+                <Card bodyStyle={{ padding: 16 }}>
+                  <div style={{ marginBottom: 12, textAlign: 'center', fontWeight: 700, fontSize: 15 }}>
+                    {/* Zusammenfassungstext */}
+                    {(() => {
+                      const total = bearbPieData.datasets[0].data[0] + bearbPieData.datasets[0].data[1];
+                      const bearb = bearbPieData.datasets[0].data[0];
+                      const keine = bearbPieData.datasets[0].data[1];
+                      const bearbP = total > 0 ? ((bearb / total) * 100).toFixed(1) : '0.0';
+                      const keineP = total > 0 ? ((keine / total) * 100).toFixed(1) : '0.0';
+                      return (
+                        <>
+                          Insgesamt <b>{total}</b> Schichten: <span style={{ color: '#35d078' }}>Bearbeitung {bearb} ({bearbP}%)</span> / <span style={{ color: '#c1d412' }}>Keine Bearbeitung {keine} ({keineP}%)</span>
+                        </>
+                      );
+                    })()}
+                  </div>
+                  <div style={{ 
+                    width: "100%", 
+                    height: 300,
+                    maxWidth: "350px",
+                    margin: "0 auto"
+                  }}>
+                    <ChartPie
+                      data={bearbPieData}
+                      options={bearbPieOptions as any}
+                    />
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          ) : (
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card bodyStyle={{ padding: 16 }}>
+                  <div style={{ width: "100%", height: 300 }}>
+                    <ChartLine
+                      data={bearbLineData}
+                      options={bearbLineOptions as any}
+                    />
+                  </div>
+                </Card>
+              </Col>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card
+                  bodyStyle={{
+                    padding: 16,
+                  }}
+                >
+                  <div style={{ 
+                    width: "100%", 
+                    height: 300,
+                    maxWidth: "350px",
+                    margin: "0 auto"
+                  }}>
+                    <ChartPie
+                      data={bearbPieData}
+                      options={bearbPieOptions as any}
+                    />
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          )}
         </Card>
       </Space>
       </div>
