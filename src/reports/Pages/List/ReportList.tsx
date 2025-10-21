@@ -213,6 +213,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 210, spät: 210, nacht: 205 },
           { tag: "15.10.2025", früh: 205, spät: 205, nacht: 205 },
           { tag: "16.10.2025", früh: 205, spät: 210, nacht: 205 },
+          { tag: "17.10.2025", früh: 205, spät: 205, nacht: 205 },
+          { tag: "18.10.2025", früh: 205, spät: 205, nacht: 205 },
+          { tag: "19.10.2025", früh: 205, spät: 205, nacht: 205 },
         ],
       },
       {
@@ -225,6 +228,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 30, spät: 30, nacht: 30 },
           { tag: "15.10.2025", früh: 30, spät: 30, nacht: 30 },
           { tag: "16.10.2025", früh: 30, spät: 30, nacht: 30 },
+          { tag: "17.10.2025", früh: 30, spät: 30, nacht: 30 },
+          { tag: "18.10.2025", früh: 30, spät: 30, nacht: 30 },
+          { tag: "19.10.2025", früh: 30, spät: 30, nacht: 30 },
         ],
       },
       {
@@ -237,6 +243,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
           { tag: "15.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
           { tag: "16.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
+          { tag: "17.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
+          { tag: "18.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
+          { tag: "19.10.2025", früh: -0.6, spät: -0.6, nacht: -0.6 },
         ],
       },
       {
@@ -249,6 +258,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
           { tag: "15.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
           { tag: "16.10.2025", früh: -1.6, spät: -1.6, nacht: -1.6 },
+          { tag: "17.10.2025", früh: -1.6, spät: -1.6, nacht: -1.3 },
+          { tag: "18.10.2025", früh: -1.8, spät: -1.8, nacht: -1.8 },
+          { tag: "19.10.2025", früh: -1.8, spät: -1.8, nacht: -1.8 },
         ],
       },
       {
@@ -261,6 +273,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 2 },
           { tag: "15.10.2025", früh: 2, spät: 3, nacht: 3 },
           { tag: "16.10.2025", früh: 2, spät: 3, nacht: 2 },
+          { tag: "17.10.2025", früh: 3, spät: 2, nacht: 3 },
+          { tag: "18.10.2025", früh: 3, spät: 2, nacht: 3 },
+          { tag: "19.10.2025", früh: 2, spät: 3, nacht: 2 },
         ],
       },
       {
@@ -273,6 +288,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 24, spät: 24, nacht: 24 },
           { tag: "15.10.2025", früh: 24, spät: 24, nacht: 24 },
           { tag: "16.10.2025", früh: 24, spät: 24, nacht: 24 },
+          { tag: "17.10.2025", früh: 24, spät: 24, nacht: 24 },
+          { tag: "18.10.2025", früh: 24, spät: 25, nacht: 25 },
+          { tag: "19.10.2025", früh: 24, spät: 24, nacht: 24 },
         ],
       },
 
@@ -287,6 +305,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 46, spät: 46, nacht: 46 },
           { tag: "15.10.2025", früh: 46, spät: 46, nacht: 46 },
           { tag: "16.10.2025", früh: 46, spät: 46, nacht: 46 },
+          { tag: "17.10.2025", früh: 46, spät: 46, nacht: 46 },
+          { tag: "18.10.2025", früh: 46, spät: 46, nacht: 46 },
+          { tag: "19.10.2025", früh: 46, spät: 46, nacht: 46 },
         ],
       },
       {
@@ -299,6 +320,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 170, spät: 170, nacht: 170 },
           { tag: "15.10.2025", früh: 170, spät: 170, nacht: 170 },
           { tag: "16.10.2025", früh: 170, spät: 170, nacht: 170 },
+          { tag: "17.10.2025", früh: 170, spät: 170, nacht: 170 },
+          { tag: "18.10.2025", früh: 170, spät: 170, nacht: 170 },
+          { tag: "19.10.2025", früh: 170, spät: 170, nacht: 170 },
         ],
       },
       {
@@ -311,6 +335,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 62, spät: 62, nacht: 62 },
           { tag: "15.10.2025", früh: 62, spät: 65, nacht: 65 },
           { tag: "16.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "17.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "18.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "19.10.2025", früh: 65, spät: 65, nacht: 65 },
         ]
       },
       {
@@ -323,6 +350,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
           { tag: "15.10.2025", früh: 65, spät: 65, nacht: 65 },
           { tag: "16.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "17.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "18.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "19.10.2025", früh: 65, spät: 65, nacht: 65 },
         ],
       },
       {
@@ -335,6 +365,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 9, spät: 9, nacht: 9 },
           { tag: "15.10.2025", früh: 9, spät: 9, nacht: 9 },
           { tag: "16.10.2025", früh: 9, spät: 9, nacht: 9 },
+          { tag: "17.10.2025", früh: 9, spät: 9, nacht: 9 },
+          { tag: "18.10.2025", früh: 9, spät: 9, nacht: 9 },
+          { tag: "19.10.2025", früh: 9, spät: 9, nacht: 9 },
         ],
       },
       {
@@ -347,6 +380,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
           { tag: "15.10.2025", früh: 3, spät: 2, nacht: 1 },
           { tag: "16.10.2025", früh: 1, spät: 2, nacht: 1 },
+          { tag: "17.10.2025", früh: 3, spät: 3, nacht: 3 },
+          { tag: "18.10.2025", früh: 2, spät: 2, nacht: 2 },
+          { tag: "19.10.2025", früh: 2, spät: 2, nacht: 2 },
         ],
       },
       {
@@ -359,6 +395,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
           { tag: "15.10.2025", früh: 3, spät: 3, nacht: 2 },
           { tag: "16.10.2025", früh: 2, spät: 2, nacht: 2 },
+          { tag: "17.10.2025", früh: 3, spät: 3, nacht: 3 },
+          { tag: "18.10.2025", früh: 3, spät: 3, nacht: 3 },
+          { tag: "19.10.2025", früh: 3, spät: 3, nacht: 3 },
         ],
       },
       {
@@ -371,6 +410,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 3, spät: 3, nacht: 3 },
           { tag: "15.10.2025", früh: 3, spät: 3, nacht: 2 },
           { tag: "16.10.2025", früh: 2, spät: 3, nacht: 2 },
+          { tag: "17.10.2025", früh: 3, spät: 3, nacht: 3 },
+          { tag: "18.10.2025", früh: 3, spät: 3, nacht: 3 },
+          { tag: "19.10.2025", früh: 3, spät: 3, nacht: 3 },
         ],
       },
       {
@@ -383,6 +425,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
           { tag: "15.10.2025", früh: 1, spät: 1, nacht: 1 },
           { tag: "16.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "17.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "18.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "19.10.2025", früh: 1, spät: 1, nacht: 1 },
         ],
       },
 
@@ -398,6 +443,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
           { tag: "15.10.2025", früh: 106, spät: 106, nacht: 106 },
           { tag: "16.10.2025", früh: 106, spät: 106, nacht: 106 },
+          { tag: "17.10.2025", früh: 106, spät: 106, nacht: 106 },
+          { tag: "18.10.2025", früh: 106, spät: 106, nacht: 106 },
+          { tag: "19.10.2025", früh: 106, spät: 106, nacht: 106 },
         ],
       },
       {
@@ -410,6 +458,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "15.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "16.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "17.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "18.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "19.10.2025", früh: 0, spät: 0, nacht: 0 },
         ],
       },
       {
@@ -422,6 +473,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 196, spät: 196, nacht: 196 },
           { tag: "15.10.2025", früh: 196, spät: 196, nacht: 196 },
           { tag: "16.10.2025", früh: 196, spät: 196, nacht: 196 },
+          { tag: "17.10.2025", früh: 196, spät: 196, nacht: 196 },
+          { tag: "18.10.2025", früh: 196, spät: 196, nacht: 196 },
+          { tag: "19.10.2025", früh: 196, spät: 196, nacht: 196 },
         ],
       },
       {
@@ -434,6 +488,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "15.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "16.10.2025", früh: 40, spät: 40, nacht: 40 },
+          { tag: "17.10.2025", früh: 40, spät: 40, nacht: 40 },
+          { tag: "18.10.2025", früh: 40, spät: 40, nacht: 40 },
+          { tag: "19.10.2025", früh: 40, spät: 40, nacht: 40 },
         ],
       },
       {
@@ -446,6 +503,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 34, spät: 34, nacht: 34 },
           { tag: "15.10.2025", früh: 34, spät: 34, nacht: 34 },
           { tag: "16.10.2025", früh: 34, spät: 34, nacht: 34 },
+          { tag: "17.10.2025", früh: 34, spät: 34, nacht: 34 },
+          { tag: "18.10.2025", früh: 34, spät: 34, nacht: 34 },
+          { tag: "19.10.2025", früh: 34, spät: 34, nacht: 34 },
         ],
       },
       {
@@ -458,6 +518,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 105, spät: 105, nacht: 105 },
           { tag: "15.10.2025", früh: 105, spät: 105, nacht: 105 },
           { tag: "16.10.2025", früh: 105, spät: 105, nacht: 105 },
+          { tag: "17.10.2025", früh: 105, spät: 105, nacht: 105 },
+          { tag: "18.10.2025", früh: 105, spät: 105, nacht: 105 },
+          { tag: "19.10.2025", früh: 105, spät: 105, nacht: 105 },
         ],
       },
       {
@@ -470,6 +533,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 180, spät: 180, nacht: 180 },
           { tag: "15.10.2025", früh: 180, spät: 180, nacht: 180 },
           { tag: "16.10.2025", früh: 180, spät: 180, nacht: 180 },
+          { tag: "17.10.2025", früh: 180, spät: 180, nacht: 180 },
+          { tag: "18.10.2025", früh: 180, spät: 180, nacht: 180 },
+          { tag: "19.10.2025", früh: 180, spät: 180, nacht: 180 },
         ],
       },
       {
@@ -482,6 +548,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "15.10.2025", früh: 0, spät: 0, nacht: 0 },
           { tag: "16.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "17.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "18.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "19.10.2025", früh: 0, spät: 0, nacht: 0 },
         ],
       },
       {
@@ -494,6 +563,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 250, spät: 250, nacht: 250 },
           { tag: "15.10.2025", früh: 250, spät: 250, nacht: 250 },
           { tag: "16.10.2025", früh: 250, spät: 250, nacht: 250 },
+          { tag: "17.10.2025", früh: 250, spät: 250, nacht: 250 },
+          { tag: "18.10.2025", früh: 250, spät: 250, nacht: 250 },
+          { tag: "19.10.2025", früh: 250, spät: 250, nacht: 250 },
         ],
       },
       {
@@ -506,6 +578,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 22, spät: 22, nacht: 22 },
           { tag: "15.10.2025", früh: 21, spät: 21, nacht: 21 },
           { tag: "16.10.2025", früh: 20, spät: 20, nacht: 20 },
+          { tag: "17.10.2025", früh: 21, spät: 21, nacht: 21 },
+          { tag: "18.10.2025", früh: 21, spät: 21, nacht: 21 },
+          { tag: "19.10.2025", früh: 21, spät: 21, nacht: 21 },
         ],
       },
       {
@@ -518,6 +593,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 21, spät: 21, nacht: 21 },
           { tag: "15.10.2025", früh: 20, spät: 19, nacht: 20 },
           { tag: "16.10.2025", früh: 19, spät: 19, nacht: 19 },
+          { tag: "17.10.2025", früh: 20, spät: 20, nacht: 20 },
+          { tag: "18.10.2025", früh: 20, spät: 20, nacht: 20 },
+          { tag: "19.10.2025", früh: 20, spät: 20, nacht: 20 },
         ],
       },
       {
@@ -530,6 +608,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 210, spät: 210, nacht: 210 },
           { tag: "15.10.2025", früh: 210, spät: 210, nacht: 210 },
           { tag: "16.10.2025", früh: 210, spät: 210, nacht: 210 },
+          { tag: "17.10.2025", früh: 210, spät: 210, nacht: 210 },
+          { tag: "18.10.2025", früh: 210, spät: 210, nacht: 210 },
+          { tag: "19.10.2025", früh: 210, spät: 210, nacht: 210 },
         ],
       },
       {
@@ -542,6 +623,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 200, spät: 200, nacht: 200 },
           { tag: "15.10.2025", früh: 200, spät: 200, nacht: 200 },
           { tag: "16.10.2025", früh: 200, spät: 200, nacht: 200 },
+          { tag: "17.10.2025", früh: 200, spät: 200, nacht: 200 },
+          { tag: "18.10.2025", früh: 200, spät: 200, nacht: 200 },
+          { tag: "19.10.2025", früh: 200, spät: 200, nacht: 200 },
         ],
       },
       {
@@ -554,6 +638,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 1, spät: 1, nacht: 1 },
           { tag: "15.10.2025", früh: 1, spät: 0, nacht: 1 },
           { tag: "16.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "17.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "18.10.2025", früh: 1, spät: 1, nacht: 1 },
+          { tag: "19.10.2025", früh: 1, spät: 1, nacht: 1 },
         ],
       },
       {
@@ -566,6 +653,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 0, spät: 0, nacht: -3 },
           { tag: "15.10.2025", früh: -3, spät: -3, nacht: 0 },
           { tag: "16.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "17.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "18.10.2025", früh: 0, spät: 0, nacht: 0 },
+          { tag: "19.10.2025", früh: -3, spät: -3, nacht: -3 },
         ],
       },
       {
@@ -578,6 +668,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 193, spät: 193, nacht: 193 },
           { tag: "15.10.2025", früh: 193, spät: 193, nacht: 193 },
           { tag: "16.10.2025", früh: 193, spät: 193, nacht: 193 },
+          { tag: "17.10.2025", früh: 193, spät: 193, nacht: 193 },
+          { tag: "18.10.2025", früh: 193, spät: 193, nacht: 193 },
+          { tag: "19.10.2025", früh: 193, spät: 193, nacht: 193 },
         ],
       },
       {
@@ -590,6 +683,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 36, spät: 36, nacht: 34 },
           { tag: "15.10.2025", früh: 33, spät: 32, nacht: 34 },
           { tag: "16.10.2025", früh: 33, spät: 33, nacht: 33 },
+          { tag: "17.10.2025", früh: 35, spät: 35, nacht: 35 },
+          { tag: "18.10.2025", früh: 35, spät: 35, nacht: 34 },
+          { tag: "19.10.2025", früh: 34, spät: 34, nacht: 34 },
         ],
       },
       {
@@ -602,6 +698,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 35, spät: 35, nacht: 33 },
           { tag: "15.10.2025", früh: 32, spät: 31, nacht: 33 },
           { tag: "16.10.2025", früh: 32, spät: 32, nacht: 32 },
+          { tag: "17.10.2025", früh: 34, spät: 34, nacht: 34 },
+          { tag: "18.10.2025", früh: 34, spät: 34, nacht: 35 },
+          { tag: "19.10.2025", früh: 33, spät: 33, nacht: 33 },
         ],
       },
       {
@@ -614,6 +713,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 160, spät: 160, nacht: 160 },
           { tag: "15.10.2025", früh: 160, spät: 160, nacht: 160 },
           { tag: "16.10.2025", früh: 160, spät: 160, nacht: 160 },
+          { tag: "17.10.2025", früh: 160, spät: 160, nacht: 160 },
+          { tag: "18.10.2025", früh: 160, spät: 160, nacht: 160 },
+          { tag: "19.10.2025", früh: 160, spät: 160, nacht: 160 },
         ],
       },
       {
@@ -626,6 +728,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 5, spät: 5, nacht: 5 },
           { tag: "15.10.2025", früh: 5, spät: 5, nacht: 5 },
           { tag: "16.10.2025", früh: 5, spät: 5, nacht: 5 },
+          { tag: "17.10.2025", früh: 5, spät: 5, nacht: 5 },
+          { tag: "18.10.2025", früh: 5, spät: 5, nacht: 5 },
+          { tag: "19.10.2025", früh: 5, spät: 5, nacht: 5 },
         ],
       },
       {
@@ -638,6 +743,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 2, spät: 2, nacht: 2 },
           { tag: "15.10.2025", früh: 4, spät: 4, nacht: 2 },
           { tag: "16.10.2025", früh: 2, spät: 2, nacht: 2 },
+          { tag: "17.10.2025", früh: 4, spät: 3, nacht: 2 },
+          { tag: "18.10.2025", früh: 4, spät: 4, nacht: 4 },
+          { tag: "19.10.2025", früh: 3, spät: 4, nacht: 4 },
         ],
       },
       {
@@ -650,6 +758,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 76, spät: 76, nacht: 76 },
           { tag: "15.10.2025", früh: 76, spät: 76, nacht: 76 },
           { tag: "16.10.2025", früh: 76, spät: 76, nacht: 76 },
+          { tag: "17.10.2025", früh: 76, spät: 76, nacht: 0 },
+          { tag: "18.10.2025", früh: 76, spät: 76, nacht: 76 },
+          { tag: "19.10.2025", früh: 76, spät: 76, nacht: 76 },
         ],
       },
       {
@@ -662,6 +773,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 222, spät: 222, nacht: 222 },
           { tag: "15.10.2025", früh: 222, spät: 222, nacht: 222 },
           { tag: "16.10.2025", früh: 222, spät: 222, nacht: 222 },
+          { tag: "17.10.2025", früh: 222, spät: 220, nacht: 0 },
+          { tag: "18.10.2025", früh: 220, spät: 220, nacht: 220 },
+          { tag: "19.10.2025", früh: 222, spät: 222, nacht: 222 },
         ],
       },
       {
@@ -674,6 +788,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 73, spät: 73, nacht: 73 },
           { tag: "15.10.2025", früh: 73, spät: 73, nacht: 73 },
           { tag: "16.10.2025", früh: 73, spät: 73, nacht: 73 },
+          { tag: "17.10.2025", früh: 73, spät: 73, nacht: 0 },
+          { tag: "18.10.2025", früh: 73, spät: 73, nacht: 73 },
+          { tag: "19.10.2025", früh: 73, spät: 73, nacht: 73 },
         ],
       },
       {
@@ -686,6 +803,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 95, spät: 95, nacht: 95 },
           { tag: "15.10.2025", früh: 95, spät: 95, nacht: 95 },
           { tag: "16.10.2025", früh: 95, spät: 95, nacht: 95 },
+          { tag: "17.10.2025", früh: 95, spät: 95, nacht: 0 },
+          { tag: "18.10.2025", früh: 95, spät: 95, nacht: 95 },
+          { tag: "19.10.2025", früh: 95, spät: 95, nacht: 95 },
         ],
       },
       {
@@ -698,6 +818,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 50, spät: 50, nacht: 50 },
           { tag: "15.10.2025", früh: 50, spät: 50, nacht: 50 },
           { tag: "16.10.2025", früh: 50, spät: 50, nacht: 50 },
+          { tag: "17.10.2025", früh: 50, spät: 50, nacht: 0 },
+          { tag: "18.10.2025", früh: 50, spät: 50, nacht: 50 },
+          { tag: "19.10.2025", früh: 50, spät: 50, nacht: 50 },
         ],
       },
       {
@@ -710,6 +833,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 55, spät: 55, nacht: 55 },
           { tag: "15.10.2025", früh: 65, spät: 55, nacht: 54 },
           { tag: "16.10.2025", früh: 55, spät: 55, nacht: 55 },
+          { tag: "17.10.2025", früh: 65, spät: 65, nacht: 0 },
+          { tag: "18.10.2025", früh: 65, spät: 65, nacht: 55 },
+          { tag: "19.10.2025", früh: 55, spät: 65, nacht: 65 },
         ],
       },
       {
@@ -722,6 +848,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 1.2, spät: 1.2, nacht: 1.1 },
           { tag: "15.10.2025", früh: 1.3, spät: 1.1, nacht: 1.1 },
           { tag: "16.10.2025", früh: 1, spät: 1.1, nacht: 1.2 },
+          { tag: "17.10.2025", früh: 1.2, spät: 1.1, nacht: 0 },
+          { tag: "18.10.2025", früh: 1.1, spät: 1, nacht: 1.1 },
+          { tag: "19.10.2025", früh: 1.1, spät: 1.3, nacht: 1.1 },
         ],
       },
       {
@@ -734,6 +863,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 410, spät: 410, nacht: 410 },
           { tag: "15.10.2025", früh: 410, spät: 410, nacht: 410 },
           { tag: "16.10.2025", früh: 410, spät: 410, nacht: 410 },
+          { tag: "17.10.2025", früh: 410, spät: 410, nacht: 0 },
+          { tag: "18.10.2025", früh: 410, spät: 410, nacht: 410 },
+          { tag: "19.10.2025", früh: 410, spät: 410, nacht: 410 },
         ],
       },
 
@@ -748,6 +880,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "15.10.2025", früh: 40, spät: 40, nacht: 40 },
           { tag: "16.10.2025", früh: 40, spät: 0, nacht: 40 },
+          { tag: "17.10.2025", früh: 40, spät: 40, nacht: 40 },
+          { tag: "18.10.2025", früh: 40, spät: 40, nacht: 40 },
+          { tag: "19.10.2025", früh: 40, spät: 40, nacht: 40 },
         ],
       },
       {
@@ -760,6 +895,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 65, spät: 65, nacht: 65 },
           { tag: "15.10.2025", früh: 65, spät: 65, nacht: 65 },
           { tag: "16.10.2025", früh: 65, spät: 0, nacht: 65 },
+          { tag: "17.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "18.10.2025", früh: 65, spät: 65, nacht: 65 },
+          { tag: "19.10.2025", früh: 65, spät: 65, nacht: 65 },
         ],
       },
       {
@@ -772,6 +910,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 19, spät: 19, nacht: 19 },
           { tag: "15.10.2025", früh: 19, spät: 19, nacht: 19 },
           { tag: "16.10.2025", früh: 19, spät: 0, nacht: 19 },
+          { tag: "17.10.2025", früh: 19, spät: 19, nacht: 19 },
+          { tag: "18.10.2025", früh: 19, spät: 19, nacht: 19 },
+          { tag: "19.10.2025", früh: 19, spät: 19, nacht: 19 },
         ],
       },
 
@@ -786,6 +927,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 107, spät: 107, nacht: 105 },
           { tag: "15.10.2025", früh: 107, spät: 107, nacht: 107 },
           { tag: "16.10.2025", früh: 107, spät: 0, nacht: 107 },
+          { tag: "17.10.2025", früh: 107, spät: 107, nacht: 107 },
+          { tag: "18.10.2025", früh: 107, spät: 107, nacht: 107 },
+          { tag: "19.10.2025", früh: 107, spät: 107, nacht: 107 },
         ],
       },
       {
@@ -798,6 +942,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 178, spät: 178, nacht: 178 },
           { tag: "15.10.2025", früh: 178, spät: 178, nacht: 178 },
           { tag: "16.10.2025", früh: 178, spät: 0, nacht: 178 },
+          { tag: "17.10.2025", früh: 178, spät: 178, nacht: 178 },
+          { tag: "18.10.2025", früh: 178, spät: 178, nacht: 178 },
+          { tag: "19.10.2025", früh: 178, spät: 178, nacht: 178 },
         ],
       },
       {
@@ -810,6 +957,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 106, spät: 106, nacht: 106 },
           { tag: "15.10.2025", früh: 105, spät: 105, nacht: 108 },
           { tag: "16.10.2025", früh: 105, spät: 0, nacht: 105 },
+          { tag: "17.10.2025", früh: 105, spät: 105, nacht: 105 },
+          { tag: "18.10.2025", früh: 105, spät: 105, nacht: 105 },
+          { tag: "19.10.2025", früh: 105, spät: 105, nacht: 105 },
         ],
       },
       {
@@ -822,6 +972,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 224, spät: 224, nacht: 224 },
           { tag: "15.10.2025", früh: 224, spät: 224, nacht: 224 },
           { tag: "16.10.2025", früh: 224, spät: 0, nacht: 224 },
+          { tag: "17.10.2025", früh: 224, spät: 224, nacht: 224 },
+          { tag: "18.10.2025", früh: 224, spät: 224, nacht: 260 },
+          { tag: "19.10.2025", früh: 224, spät: 224, nacht: 224 },
         ],
       },
       {
@@ -834,6 +987,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 140, spät: 140, nacht: 140 },
           { tag: "15.10.2025", früh: 140, spät: 140, nacht: 140 },
           { tag: "16.10.2025", früh: 140, spät: 0, nacht: 140 },
+          { tag: "17.10.2025", früh: 140, spät: 140, nacht: 140 },
+          { tag: "18.10.2025", früh: 140, spät: 140, nacht: 140 },
+          { tag: "19.10.2025", früh: 140, spät: 140, nacht: 140 },
         ],
       },
       {
@@ -846,6 +1002,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 260, spät: 260, nacht: 260 },
           { tag: "15.10.2025", früh: 260, spät: 260, nacht: 260 },
           { tag: "16.10.2025", früh: 260, spät: 0, nacht: 260 },
+          { tag: "17.10.2025", früh: 260, spät: 260, nacht: 260 },
+          { tag: "18.10.2025", früh: 260, spät: 260, nacht: 260 },
+          { tag: "19.10.2025", früh: 260, spät: 260, nacht: 260 },
         ],
       },
       {
@@ -858,6 +1017,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 355, spät: 355, nacht: 355 },
           { tag: "15.10.2025", früh: 355, spät: 355, nacht: 355 },
           { tag: "16.10.2025", früh: 355, spät: 0, nacht: 355 },
+          { tag: "17.10.2025", früh: 355, spät: 355, nacht: 355 },
+          { tag: "18.10.2025", früh: 355, spät: 355, nacht: 355 },
+          { tag: "19.10.2025", früh: 355, spät: 355, nacht: 355 },
         ],
       },
 
@@ -872,6 +1034,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 82, spät: 82, nacht: 77 },
           { tag: "15.10.2025", früh: 82, spät: 82, nacht: 70 },
           { tag: "16.10.2025", früh: 70, spät: 70, nacht: 70 },
+          { tag: "17.10.2025", früh: 82, spät: 83, nacht: 82 },
+          { tag: "18.10.2025", früh: 82, spät: 82, nacht: 82 },
+          { tag: "19.10.2025", früh: 82, spät: 82, nacht: 82 },
         ],
       },
       {
@@ -884,6 +1049,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 44.5, spät: 44.5, nacht: 45 },
           { tag: "15.10.2025", früh: 45, spät: 44.2, nacht: 45 },
           { tag: "16.10.2025", früh: 45, spät: 45, nacht: 45 },
+          { tag: "17.10.2025", früh: 44.3, spät: 45, nacht: 44.3 },
+          { tag: "18.10.2025", früh: 44.3, spät: 45, nacht: 44.4 },
+          { tag: "19.10.2025", früh: 45, spät: 45, nacht: 45 },
         ],
       },
 
@@ -898,6 +1066,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 70, spät: 70, nacht: 70 },
           { tag: "15.10.2025", früh: 70, spät: 70, nacht: 70 },
           { tag: "16.10.2025", früh: 70, spät: 70, nacht: 70 },
+          { tag: "17.10.2025", früh: 70, spät: 70, nacht: 70 },
+          { tag: "18.10.2025", früh: 70, spät: 70, nacht: 70 },
+          { tag: "19.10.2025", früh: 70, spät: 70, nacht: 70 },
         ],
       },
       {
@@ -910,6 +1081,9 @@ export const ReportList: React.FC = () => {
           { tag: "14.10.2025", früh: 7, spät: 7, nacht: 7 },
           { tag: "15.10.2025", früh: 7, spät: 7, nacht: 7 },
           { tag: "16.10.2025", früh: 7, spät: 7, nacht: 7 },
+          { tag: "17.10.2025", früh: 7, spät: 7, nacht: 7 },
+          { tag: "18.10.2025", früh: 7, spät: 7, nacht: 7 },
+          { tag: "19.10.2025", früh: 7, spät: 7, nacht: 7 },
         ],
       },
     ],
@@ -933,7 +1107,7 @@ export const ReportList: React.FC = () => {
     tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
   );
   const [selectedBearbZeitraumBis, setSelectedBearbZeitraumBis] = useState<string>(
-    tagOptions.includes("16.10.2025") ? "16.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
+    tagOptions.includes("19.10.2025") ? "19.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
   );
   
   // Schicht-Filter für Bearbeitungsverhalten (Multi-Select möglich)
@@ -952,11 +1126,11 @@ export const ReportList: React.FC = () => {
     tagOptions.includes("13.10.2025") ? "13.10.2025" : (tagOptions[0] ?? "")
   );
   const [selectedZeitraumBis, setSelectedZeitraumBis] = useState<string>(
-    tagOptions.includes("16.10.2025") ? "16.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
+    tagOptions.includes("19.10.2025") ? "19.10.2025" : (tagOptions[tagOptions.length - 1] ?? "")
   );
 
   const bearbRawData: BearbSchichtValue[] = useMemo(() => {
-    const tags = ["13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025"];
+    const tags = ["13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025", "17.10.2025", "18.10.2025", "19.10.2025"];
     const aggregate = [
       "Dosiersystem",
       "Kopfmaschine",
@@ -992,6 +1166,16 @@ export const ReportList: React.FC = () => {
             früh: "Bearbeitung" as const,
             spät: "Keine Bearbeitung" as const,
             nacht: "Bearbeitung" as const,
+          });
+        }
+        // Spezielle Behandlung für VG Transportband am 17.10.2025 Nachtschicht
+        else if (tag === "17.10.2025" && aggregat === "VG Transportband") {
+          data.push({
+            tag,
+            aggregat,
+            früh: "Bearbeitung" as const,
+            spät: "Bearbeitung" as const,
+            nacht: "Keine Bearbeitung" as const,
           });
         }
         // Alle anderen: Bearbeitung
@@ -1081,9 +1265,9 @@ export const ReportList: React.FC = () => {
     });
 
     filteredWerte.forEach((w) => {
-      arr.push({ time: `${w.tag} - Frühschicht`, value: w.früh });
-      arr.push({ time: `${w.tag} - Spätschicht`, value: w.spät });
-      arr.push({ time: `${w.tag} - Nachtschicht`, value: w.nacht });
+      arr.push({ time: `FS\n${w.tag}`, value: w.früh });
+      arr.push({ time: `SS\n${w.tag}`, value: w.spät });
+      arr.push({ time: `NS\n${w.tag}`, value: w.nacht });
     });
     
     return arr;
@@ -1097,7 +1281,13 @@ export const ReportList: React.FC = () => {
     yField: "value",
     smooth: true,
     point: { size: 4 },
-    xAxis: { title: { text: "Produktionstag" } },
+    xAxis: { 
+      title: { text: "Produktionstag" },
+      label: {
+        formatter: (text: string) => text.replace('\n', '\n'),
+        style: { textAlign: 'center' },
+      }
+    },
     autoFit: false,
     height: 300,
   };
@@ -1125,7 +1315,13 @@ export const ReportList: React.FC = () => {
       smooth: true,
       autoFit: true,
       height: 300,
-      xAxis: { title: { text: "Produktionstag" } },
+      xAxis: { 
+        title: { text: "Produktionstag" },
+        label: {
+          formatter: (text: string) => text.replace('\n', '\n'),
+          style: { textAlign: 'center' },
+        }
+      },
       yAxis: {
         title: { text: filteredData[0].parameter },
       },
@@ -1173,7 +1369,7 @@ export const ReportList: React.FC = () => {
   // Beispiel für manuell änderbare Werte:
   const aenderungsgruendeData: Record<string, { grund: string; anzahl: number }[]> = {
     Dosiersystem: [
-      { grund: "Produkte zu groß", anzahl: 0 },
+      { grund: "Produkte zu groß", anzahl: 1},
       { grund: "Produkte zu klein", anzahl: 1 },
       { grund: "Formschwankungen", anzahl: 2 },
       { grund: "Rundheit", anzahl: 0 },
@@ -1184,7 +1380,7 @@ export const ReportList: React.FC = () => {
     Kopfmaschine: [
       { grund: "Produkte zu groß", anzahl: 0 },
       { grund: "Produkte zu klein", anzahl: 0 },
-      { grund: "Formschwankungen", anzahl: 0 },
+      { grund: "Formschwankungen", anzahl: 1 },
       { grund: "Rundheit", anzahl: 0 },
       { grund: "Teig zu fest", anzahl: 0 },
       { grund: "Teig zu weich", anzahl: 0 },
@@ -1207,7 +1403,7 @@ export const ReportList: React.FC = () => {
     ],
     "VG Andruckstation 3": [
       { grund: "Produkte zu groß", anzahl: 4 },
-      { grund: "Produkte zu klein", anzahl: 4 },
+      { grund: "Produkte zu klein", anzahl: 6 },
       { grund: "Formschwankungen", anzahl: 5 },
       { grund: "Rundheit", anzahl: 0 },
       { grund: "Zentrierung Heben", anzahl: 0 },
@@ -1216,7 +1412,7 @@ export const ReportList: React.FC = () => {
     "VG Transportband": [
       { grund: "Zentrierung Heben", anzahl: 0 },
       { grund: "Zentrierung Senken", anzahl: 0 },
-      { grund: "Ablage zu ungenau", anzahl: 2 },
+      { grund: "Ablage zu ungenau", anzahl: 3 },
     ],
     Gärschrank: [
       { grund: "Teig zu kalt", anzahl: 0 },
@@ -1262,22 +1458,16 @@ export const ReportList: React.FC = () => {
     xAxis: {
       type: "cat",
       label: {
-        autoHide: false,
+        autoHide: true,
         autoRotate: false,
-        rotate: -30,
-        offset: 36,
-        style: { textAlign: "end", fontSize: 12, fill: "#333" },
-        formatter: (text: any) => {
-          const s = String(text || "");
-          return s.length > 18 ? `${s.slice(0, 18)}…` : s;
-        },
+        style: { fontSize: 8, fill: "#333" },
       },
       line: { style: { stroke: "#aaa" } },
     },
     // tooltip: {formatter: (datum: any) => ({ name: datum.grund, value: datum.anzahl }),},
     yAxis: { min: 0, title: { text: "Anzahl" }, nice: false },
     // add larger bottom padding to ensure labels are fully outside the plot area
-    appendPadding: [20, 20, 120, 40],
+    appendPadding: [20, 20, 45, 40],
     legend: false,
     interactions: [{ type: "element-active" }],
     minColumnWidth: 16,
@@ -1517,8 +1707,9 @@ export const ReportList: React.FC = () => {
         // Nur hinzufügen, wenn die Schicht im Filter ausgewählt ist
         if (selectedBearbSchichten.includes(schichtKey)) {
           const status = bearb[schichtKey];
+          const schichtKurz = schichtKey === 'früh' ? 'FS' : schichtKey === 'spät' ? 'SS' : 'NS';
           arr.push({
-            time: `${bearb.tag} - ${schicht}`,
+            time: `${schichtKurz} ${bearb.tag}`,
             value: status === "Bearbeitung" ? 1 : 0,
           });
         }
@@ -1540,6 +1731,8 @@ export const ReportList: React.FC = () => {
           tension: 0.3,
           pointRadius: 4,
           pointBackgroundColor: "#52c41a",
+          spanGaps: true,
+          borderWidth: 2,
         },
       ],
     }),
@@ -1570,7 +1763,15 @@ export const ReportList: React.FC = () => {
         title: { display: true, text: "Status" },
       },
       x: {
-        title: { display: false, text: "Tag" },
+        title: { display: false, text: "Produktionstag" },
+        ticks: {
+          autoSkip: false,
+          maxRotation: 45,
+          minRotation: 45,
+          font: {
+            size: 9,
+          },
+        },
       },
     },
   };
@@ -1856,7 +2057,7 @@ export const ReportList: React.FC = () => {
 
         {/* Diagramme */}
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={12}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <Card title="📈 Abweichungsanalyse">
               <div style={{ width: "100%", height: 300 }}>
                 <ChartLine
@@ -1866,7 +2067,7 @@ export const ReportList: React.FC = () => {
               </div>
             </Card>
           </Col>
-          <Col xs={24} md={12}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <Card title="🧾 Top Änderungsgründe (kumulativ)">
               <Column {...columnConfig} />
             </Card>
@@ -2041,7 +2242,7 @@ export const ReportList: React.FC = () => {
           </Space>
 
           <Row gutter={[16, 16]}>
-            <Col xs={24} md={16}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Card bodyStyle={{ padding: 16 }}>
                 <div style={{ width: "100%", height: 300 }}>
                   <ChartLine
@@ -2051,7 +2252,7 @@ export const ReportList: React.FC = () => {
                 </div>
               </Card>
             </Col>
-            <Col xs={24} md={8}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Card
                 bodyStyle={{
                   padding: 16,
@@ -2060,11 +2261,19 @@ export const ReportList: React.FC = () => {
                   justifyContent: "center",
                 }}
               >
-                <div style={{ width: "100%", maxWidth: 400, height: 300 }}>
-                  <ChartPie
-                    data={bearbPieData}
-                    options={bearbPieOptions as any}
-                  />
+                <div style={{ 
+                  width: "100%", 
+                  height: 300,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}>
+                  <div style={{ width: "80%", height: "100%" }}>
+                    <ChartPie
+                      data={bearbPieData}
+                      options={bearbPieOptions as any}
+                    />
+                  </div>
                 </div>
               </Card>
             </Col>
