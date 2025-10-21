@@ -163,10 +163,14 @@ const ShiftReportTableDataControl: React.FC<
               style={{
                 width: `${width}px`,
               }}
+              inputMode="decimal"
               onChange={(e) => {
                 let inputValue = e.target.value;
                 if (item.format === IObjectFormat.Number) {
-                  inputValue = inputValue.replace(/[^0-9]/g, "");
+                  // Erlaube Zahlen, Komma und Punkt als Dezimaltrennzeichen
+                  inputValue = inputValue.replace(/[^0-9,.]/g, "");
+                  // Ersetze Komma durch Punkt für die interne Speicherung
+                  inputValue = inputValue.replace(',', '.');
                 }
                 setCurrentItem((item) => ({ ...item, value: inputValue }));
               }}
