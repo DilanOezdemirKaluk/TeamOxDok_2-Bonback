@@ -1550,6 +1550,23 @@ export const ReportList: React.FC = () => {
     const values = abweichungData.map((d) => d.value).filter((v) => typeof v === "number" && !isNaN(v));
     const averageVal = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
 
+    // OEE-Daten generieren (nur für 13.10.-19.10.)
+    const oeeDates = [
+      "13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025", "17.10.2025", "18.10.2025", "19.10.2025"
+    ];
+    // OEE nur für FS, Werte garantiert zwischen Min und Max
+    const oeeData: (number|null)[] = abweichungData.map((d) => {
+      const [schicht, tag] = d.time.split(/\s|\n/);
+      if (schicht === "FS" && oeeDates.includes(tag)) {
+        const minVal = filteredData[0]?.min ?? 0;
+        const maxVal = filteredData[0]?.max ?? 0;
+        if (minVal === maxVal) return minVal;
+        // Zufallswert zwischen Min und Max
+        return Math.round(minVal + Math.random() * (maxVal - minVal));
+      }
+      return null;
+    });
+
     return {
       labels: abweichungData.map((d) => d.time),
       datasets: [
@@ -1565,17 +1582,7 @@ export const ReportList: React.FC = () => {
           backgroundColor: "rgba(24,144,255,0.10)",
           order: 1,
         },
-        // Max-Linie mit Füllung zur Min-Linie (grüner Bereich)
-        {
-          label: "Toleranzbereich",
-          data: abweichungData.map(() => maxVal),
-          borderColor: "rgba(0,0,0,0)",
-          backgroundColor: "rgba(82,196,26,0.18)",
-          fill: '-1',
-          pointRadius: 0,
-          order: 0,
-          type: 'line',
-        },
+        // ...kein Toleranzbereich mehr...
         // Max-Linie als gestrichelte Linie oben (sichtbar)
         {
           label: "Max",
@@ -1616,6 +1623,24 @@ export const ReportList: React.FC = () => {
           fill: false,
           tension: 0.2,
           order: 4,
+        },
+        // OEE-Linie
+        {
+          label: "OEE",
+          data: oeeData,
+          borderColor: "#f5a623",
+          backgroundColor: "#f5a62333",
+          pointRadius: 5,
+          pointBackgroundColor: "#f5a623",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          borderWidth: 3,
+          fill: false,
+          tension: 0,
+          order: 5,
+          spanGaps: true,
+          hidden: true,
+          type: 'line',
         },
       ],
     };
