@@ -167,7 +167,7 @@ export const MachineDataLiveChart: React.FC<{ color?: string }> = ({
     data: liveData,
     xField: "time",
     yField: "value",
-    smooth: true,
+        smooth: false, // eckige Linien, keine Schwingung
     // remove top labels so descriptions are displayed on the x-axis at the bottom
     label: false,
     // show x-axis labels at the bottom, rotated to avoid overlap and offset for spacing
@@ -1289,11 +1289,12 @@ export const ReportList: React.FC = () => {
   // Build a stable config for the Abweichungsanalyse line chart.
   // Use fixed height and autoFit:false so the chart doesn't jump/rescale when filters change.
   let lineConfig1: any = {
-    data: abweichungData,
-    xField: "time",
-    yField: "value",
-    smooth: true,
-    point: { size: 4 },
+  data: abweichungData,
+  xField: "time",
+  yField: "value",
+  smooth: false, // eckige Linien, keine Schwingung
+  stepType: "hv", // Stufenlinie (Treppenfunktion)
+  point: { size: 4 },
     xAxis: { 
       title: { text: "Produktionstag" },
       label: {
@@ -1321,13 +1322,13 @@ export const ReportList: React.FC = () => {
     // y-Achse automatisch (alle Werte sichtbar)
     // min/max nur als horizontale Linien (Annotationen)
     lineConfig1 = {
-      data: actualSeries,
-      xField: "time",
-      yField: "value",
-      seriesField: "series",
-      smooth: true,
-      autoFit: true,
-      height: 300,
+  data: actualSeries,
+  xField: "time",
+  yField: "value",
+  seriesField: "series",
+  smooth: false, // eckige Linien, keine Schwingung
+  autoFit: true,
+  height: 300,
       xAxis: { 
         title: { text: "Produktionstag" },
         label: {
@@ -1598,7 +1599,7 @@ export const ReportList: React.FC = () => {
           pointBorderColor: "#fff",
           pointBorderWidth: 2,
           fill: false,
-          tension: 0.3,
+          tension: 0,
           order: 3,
         },
         // Mittelwert-Linie
