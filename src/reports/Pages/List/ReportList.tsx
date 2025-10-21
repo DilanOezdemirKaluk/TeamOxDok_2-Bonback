@@ -2256,24 +2256,18 @@ export const ReportList: React.FC = () => {
               <Card
                 bodyStyle={{
                   padding: 16,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
                 <div style={{ 
                   width: "100%", 
                   height: 300,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
+                  maxWidth: "500px",
+                  margin: "0 auto"
                 }}>
-                  <div style={{ width: "80%", height: "100%" }}>
-                    <ChartPie
-                      data={bearbPieData}
-                      options={bearbPieOptions as any}
-                    />
-                  </div>
+                  <ChartPie
+                    data={bearbPieData}
+                    options={bearbPieOptions as any}
+                  />
                 </div>
               </Card>
             </Col>
