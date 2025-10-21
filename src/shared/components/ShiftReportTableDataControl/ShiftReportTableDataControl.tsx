@@ -167,8 +167,8 @@ const ShiftReportTableDataControl: React.FC<
               onChange={(e) => {
                 let inputValue = e.target.value;
                 if (item.format === IObjectFormat.Number) {
-                  // Erlaube Zahlen, Komma und Punkt als Dezimaltrennzeichen
-                  inputValue = inputValue.replace(/[^0-9,.]/g, "");
+                  // Erlaube Zahlen, Minus, Komma und Punkt als Dezimaltrennzeichen
+                  inputValue = inputValue.replace(/[^0-9,.\-]/g, "");
                   // Ersetze Komma durch Punkt für die interne Speicherung
                   inputValue = inputValue.replace(',', '.');
                 }
