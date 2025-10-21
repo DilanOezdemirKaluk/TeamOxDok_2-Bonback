@@ -1513,33 +1513,63 @@ export const ReportList: React.FC = () => {
     if (!filteredData.length) return [];
     const data = filteredData[0];
     if (!data || !data.werte) return [];
-    const arr: any[] = [];
-    data.werte
-      .filter((wert) => wert.tag === selectedTableTag)
-      .forEach((wert) => {
-        schichtKeys.forEach((schicht, idx) => {
-          if (schichtLabels[idx] === selectedTableSchicht) {
-            arr.push({
-              parameter: data.parameter,
-              min: data.min,
-              max: data.max,
-              tag: wert.tag,
-              schicht: schichtLabels[idx],
-              value: wert[schicht],
-            });
-          }
-        });
+    // Alle Werte für diesen Parameter sammeln
+    const alleWerte: number[] = [];
+    data.werte.forEach((wert) => {
+      schichtKeys.forEach((schicht) => {
+        const v = wert[schicht];
+        if (typeof v === 'number' && !isNaN(v)) alleWerte.push(v);
       });
-    return arr;
-  }, [filteredData, selectedTableTag, selectedTableSchicht]);
+    });
+    // Tatsächliche Min/Max berechnen
+    const actualMin = alleWerte.length ? Math.min(...alleWerte) : null;
+    const actualMax = alleWerte.length ? Math.max(...alleWerte) : null;
+    // Häufigkeit berechnen
+    const valueCounts: Record<number, number> = {};
+    alleWerte.forEach((v) => {
+      valueCounts[v] = (valueCounts[v] || 0) + 1;
+    });
+    // Werte mit Häufigkeit als String zusammenfassen mit Zeilenumbrüchen
+    // Nach Häufigkeit sortieren (höchste zuerst)
+    const valueCountsStr = Object.entries(valueCounts)
+      .sort(([, countA], [, countB]) => countB - countA)
+      .map(([val, count]) => `${val} (${count}x)`)
+      .join('\n');
+    // Eine Zeile für den Parameter
+    return [{
+      parameter: data.parameter,
+      vorgabeMin: data.min,
+      vorgabeMax: data.max,
+      actualMin,
+      actualMax,
+      valueFrequency: valueCountsStr,
+    }];
+  }, [filteredData]);
 
   const columns = [
     { title: "Parameter", dataIndex: "parameter", key: "parameter" },
-    { title: "Min", dataIndex: "min", key: "min" },
-    { title: "Max", dataIndex: "max", key: "max" },
-    { title: "Tag", dataIndex: "tag", key: "tag" },
-    { title: "Schicht", dataIndex: "schicht", key: "schicht" },
-    { title: "Wert", dataIndex: "value", key: "value" },
+    { title: "Vorgabe MIN", dataIndex: "vorgabeMin", key: "vorgabeMin" },
+    { title: "Vorgabe MAX", dataIndex: "vorgabeMax", key: "vorgabeMax" },
+    { title: "Ist MIN", dataIndex: "actualMin", key: "actualMin" },
+    { title: "Ist MAX", dataIndex: "actualMax", key: "actualMax" },
+    { 
+      title: "Wert (Häufigkeit)", 
+      dataIndex: "valueFrequency", 
+      key: "valueFrequency", 
+      width: 300,
+      render: (text: string) => {
+        const lines = text.split('\n');
+        return (
+          <div style={{ whiteSpace: 'pre-line' }}>
+            {lines.map((line, idx) => (
+              <div key={idx} style={{ fontWeight: idx === 0 ? 'bold' : 'normal' }}>
+                {line}
+              </div>
+            ))}
+          </div>
+        );
+      }
+    },
   ];
 
   // --- Abweichungsanalyse Chart.js Line Chart ---
