@@ -2261,7 +2261,7 @@ export const ReportList: React.FC = () => {
                 <div style={{ 
                   width: "100%", 
                   height: 300,
-                  maxWidth: "500px",
+                  maxWidth: "350px",
                   margin: "0 auto"
                 }}>
                   <ChartPie
