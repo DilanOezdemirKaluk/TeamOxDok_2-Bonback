@@ -48,6 +48,11 @@ export const MessageList: React.FC = () => {
   const [filteredMessages, setFilteredMessages] = useState<IMessageResponse>();
   const [onlyValid, setOnlyValid] = useState(true);
 
+  // Kategorisierte Mitteilungen
+  const [unreadMessages, setUnreadMessages] = useState<IMessageVM[]>([]);
+  const [parameterListMessages, setParameterListMessages] = useState<IMessageVM[]>([]);
+  const [parameterChangeMessages, setParameterChangeMessages] = useState<IMessageVM[]>([]);
+
   const { messages, reloadMessages } = useMessageLoader(sectionIds, onlyValid);
 
   const stripHtml = (html: string) => {
@@ -59,15 +64,66 @@ export const MessageList: React.FC = () => {
     return loadingSections;
   };
 
+  // Funktion zur Kategorisierung der Mitteilungen
+  const categorizeMessages = (allMessages: IMessageVM[]) => {
+    const paramListKeywords = ['liste', 'wert nicht', 'nicht vorhanden', 'nicht in liste', 'listenprüfung'];
+    const paramChangeKeywords = ['maschinenvorgabe', 'parameter', 'änderung', 'vorgabe', 'geändert', 'angepasst'];
+
+    const paramList: IMessageVM[] = [];
+    const paramChange: IMessageVM[] = [];
+
+    allMessages.forEach((msg) => {
+      const textToCheck = `${msg.description} ${msg.note || ''} ${msg.location || ''}`.toLowerCase();
+      
+      const hasListKeyword = paramListKeywords.some(keyword => textToCheck.includes(keyword));
+      const hasChangeKeyword = paramChangeKeywords.some(keyword => textToCheck.includes(keyword));
+
+      if (hasListKeyword) {
+        paramList.push(msg);
+      } else if (hasChangeKeyword) {
+        paramChange.push(msg);
+      }
+      // Falls weder noch, kommt die Mitteilung in keine spezielle Kategorie
+    });
+
+    return { paramList, paramChange };
+  };
+
   useEffect(() => {
     if (messages) {
       setFilteredMessages(messages);
+      
+      // Ungelesene Mitteilungen
+      setUnreadMessages(messages.unread || []);
+
+      // Alle Mitteilungen zusammenführen für Kategorisierung
+      const allMessages = [
+        ...(messages.unread || []),
+        ...(messages.favorite || []),
+        ...(messages.read || [])
+      ];
+
+      const { paramList, paramChange } = categorizeMessages(allMessages);
+      setParameterListMessages(paramList);
+      setParameterChangeMessages(paramChange);
     }
   }, [messages]);
 
   useEffect(() => {
     if (search.length === 0) {
       setFilteredMessages(messages);
+      
+      if (messages) {
+        setUnreadMessages(messages.unread || []);
+        const allMessages = [
+          ...(messages.unread || []),
+          ...(messages.favorite || []),
+          ...(messages.read || [])
+        ];
+        const { paramList, paramChange } = categorizeMessages(allMessages);
+        setParameterListMessages(paramList);
+        setParameterChangeMessages(paramChange);
+      }
     } else {
       const searchLower = search.trim().toLowerCase();
 
@@ -86,6 +142,19 @@ export const MessageList: React.FC = () => {
           ) || [],
       };
       setFilteredMessages(filteredResult);
+
+      // Gefilterte Ungelesene
+      setUnreadMessages(filteredResult.unread || []);
+
+      // Gefilterte Kategorisierung
+      const allFiltered = [
+        ...(filteredResult.unread || []),
+        ...(filteredResult.favorite || []),
+        ...(filteredResult.read || [])
+      ];
+      const { paramList, paramChange } = categorizeMessages(allFiltered);
+      setParameterListMessages(paramList);
+      setParameterChangeMessages(paramChange);
     }
   }, [search, messages]);
 
@@ -262,27 +331,31 @@ export const MessageList: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className={styles.descriptionContainer}>Ungelesen</div>
+            
+            <div className={styles.descriptionContainer}>Ungelesene Mitteilungen</div>
             <OverviewTable
-              dataSource={filteredMessages?.unread}
+              dataSource={unreadMessages}
               columns={columns}
               pageSize={5}
               loading={loading()}
             />
-            <div className={styles.descriptionContainer}>Favoriten</div>
+            
+            <div className={styles.descriptionContainer}>Mitteilungen zu Parameteränderungslisten</div>
             <OverviewTable
-              dataSource={filteredMessages?.favorite}
+              dataSource={parameterListMessages}
               columns={columns}
               pageSize={5}
               loading={loading()}
             />
-            <div className={styles.descriptionContainer}>Gelesen</div>
+            
+            <div className={styles.descriptionContainer}>Mitteilungen zu Parameteränderungen</div>
             <OverviewTable
-              dataSource={filteredMessages?.read}
+              dataSource={parameterChangeMessages}
               columns={columns}
               pageSize={5}
               loading={loading()}
             />
+            
             <div>
               <MessagePopUp
                 obj={editMessage}
