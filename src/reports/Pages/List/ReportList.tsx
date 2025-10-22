@@ -1853,8 +1853,21 @@ export const ReportList: React.FC = () => {
 
   const bearbPieOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: "bottom" },
+      legend: { 
+        display: true, 
+        position: "bottom",
+        align: "center",
+        labels: {
+          boxWidth: 15,
+          padding: 10,
+          font: {
+            size: 12
+          },
+          usePointStyle: false
+        }
+      },
       tooltip: {
         callbacks: {
           label: (ctx: any) =>
@@ -2340,9 +2353,13 @@ export const ReportList: React.FC = () => {
                   </div>
                   <div style={{ 
                     width: "100%", 
-                    height: 300,
-                    maxWidth: "350px",
-                    margin: "0 auto"
+                    height: "300px",
+                    maxHeight: "300px",
+                    maxWidth: "450px",
+                    margin: "0 auto",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}>
                     <ChartPie
                       data={bearbPieData}
