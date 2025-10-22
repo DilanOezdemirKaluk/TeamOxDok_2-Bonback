@@ -163,7 +163,7 @@ const ShiftReportTableDataControl: React.FC<
               style={{
                 width: `${width}px`,
               }}
-              inputMode="decimal"
+              inputMode="numeric"
               onChange={(e) => {
                 let inputValue = e.target.value;
                 if (item.format === IObjectFormat.Number) {
