@@ -2,7 +2,7 @@
 import "./chartjs-annotation-register";
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Column } from "@ant-design/plots";
-import { Card, Space, Table, Row, Col, Select, Button } from "antd";
+import { Card, Space, Table, Row, Col, Select, Button, Modal, Form, InputNumber } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
 import { Line } from "@ant-design/plots";
@@ -200,6 +200,28 @@ export const ReportList: React.FC = () => {
   const [selectedBearbAggregat, setSelectedBearbAggregat] =
     useState("Alle Aggregate");
   const [selectedSchicht, setSelectedSchicht] = useState("früh");
+
+  // State für KPI-Modal
+  const [isKpiModalVisible, setIsKpiModalVisible] = useState(false);
+  const [kpiValues, setKpiValues] = useState<Record<string, { oee: number; leistungsgrad: number; ausschuss: number }>>({});
+
+  // Initialisiere KPI-Werte mit Standardwerten
+  useEffect(() => {
+    const initialValues: Record<string, { oee: number; leistungsgrad: number; ausschuss: number }> = {};
+    const dates = ["13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025", "17.10.2025", "18.10.2025", "19.10.2025"];
+    const shifts = ["früh", "spät", "nacht"];
+    dates.forEach(date => {
+      shifts.forEach(shift => {
+        const key = `${date}.${shift}`;
+        initialValues[key] = {
+          oee: Math.round(80 + Math.random() * 15),
+          leistungsgrad: Math.round(85 + Math.random() * 10),
+          ausschuss: Math.round(Math.random() * 10),
+        };
+      });
+    });
+    setKpiValues(initialValues);
+  }, []);
 
   const rawData: DataRow[] = useMemo(
     () => [
@@ -1580,21 +1602,28 @@ export const ReportList: React.FC = () => {
     const values = abweichungData.map((d) => d.value).filter((v) => typeof v === "number" && !isNaN(v));
     const averageVal = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
 
-    // OEE-Daten generieren (nur für 13.10.-19.10.)
-    const oeeDates = [
-      "13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025", "17.10.2025", "18.10.2025", "19.10.2025"
-    ];
-    // OEE nur für FS, Werte garantiert zwischen Min und Max
-    const oeeData: (number|null)[] = abweichungData.map((d) => {
+    // OEE-Daten generieren (aus KPI-Werten)
+    const oeeData: number[] = abweichungData.map((d) => {
       const [schicht, tag] = d.time.split(/\s|\n/);
-      if (schicht === "FS" && oeeDates.includes(tag)) {
-        const minVal = filteredData[0]?.min ?? 0;
-        const maxVal = filteredData[0]?.max ?? 0;
-        if (minVal === maxVal) return minVal;
-        // Zufallswert zwischen Min und Max
-        return Math.round(minVal + Math.random() * (maxVal - minVal));
-      }
-      return null;
+      const shiftKey = schicht === "FS" ? "früh" : schicht === "SS" ? "spät" : "nacht";
+      const key = `${tag}.${shiftKey}`;
+      return kpiValues[key]?.oee ?? Math.round(80 + Math.random() * 15);
+    });
+
+    // Leistungsgrad-Daten generieren (aus KPI-Werten)
+    const leistungsgradData: number[] = abweichungData.map((d) => {
+      const [schicht, tag] = d.time.split(/\s|\n/);
+      const shiftKey = schicht === "FS" ? "früh" : schicht === "SS" ? "spät" : "nacht";
+      const key = `${tag}.${shiftKey}`;
+      return kpiValues[key]?.leistungsgrad ?? Math.round(85 + Math.random() * 10);
+    });
+
+    // Ausschuss-Daten generieren (aus KPI-Werten)
+    const ausschussData: number[] = abweichungData.map((d) => {
+      const [schicht, tag] = d.time.split(/\s|\n/);
+      const shiftKey = schicht === "FS" ? "früh" : schicht === "SS" ? "spät" : "nacht";
+      const key = `${tag}.${shiftKey}`;
+      return kpiValues[key]?.ausschuss ?? Math.round(Math.random() * 10);
     });
 
     return {
@@ -1671,10 +1700,49 @@ export const ReportList: React.FC = () => {
           spanGaps: true,
           hidden: true,
           type: 'line',
+          yAxisID: 'y2',
+        },
+        // Leistungsgrad-Linie
+        {
+          label: "Leistungsgrad",
+          data: leistungsgradData,
+          borderColor: "#52c41a",
+          backgroundColor: "#52c41a33",
+          pointRadius: 5,
+          pointBackgroundColor: "#52c41a",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          borderWidth: 3,
+          fill: false,
+          tension: 0,
+          order: 6,
+          spanGaps: true,
+          hidden: true,
+          type: 'line',
+          yAxisID: 'y2',
+        },
+        // Ausschuss-Linie
+        {
+          label: "Ausschuss",
+          data: ausschussData,
+          borderColor: "#d4380d",
+          backgroundColor: "#d4380d33",
+          pointRadius: 5,
+          pointBackgroundColor: "#d4380d",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          borderWidth: 3,
+          fill: false,
+          tension: 0,
+          order: 7,
+          spanGaps: true,
+          hidden: true,
+          type: 'line',
+          yAxisID: 'y2',
         },
       ],
     };
-  }, [abweichungData, filteredData]);
+  }, [abweichungData, filteredData, kpiValues]);
 
   const abwLineOptions = useMemo(
     () => {
@@ -1752,6 +1820,22 @@ export const ReportList: React.FC = () => {
           },
           x: {
             title: { display: false, text: "Tag - Schicht" },
+          },
+          y2: {
+            min: 0,
+            max: 100,
+            position: 'right',
+            title: {
+              display: true,
+              text: 'OEE / Leistungsgrad / Ausschuss (%)',
+            },
+            grid: {
+              drawOnChartArea: false,
+            },
+            ticks: {
+              callback: function(value: number) { return value + '%'; },
+              stepSize: 10,
+            },
           },
         },
       };
@@ -2144,10 +2228,10 @@ export const ReportList: React.FC = () => {
         </Card>
 
         {/* Diagramme */}
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <Card title="📈 Abweichungsanalyse">
-              <div style={{ width: "100%", height: 300 }}>
+        <Row gutter={[16, 16]} justify="center">
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Card title="📈 Abweichungsanalyse" extra={<Button onClick={() => setIsKpiModalVisible(true)}>KPIs bearbeiten</Button>}>
+              <div style={{ width: "100%", height: 400, maxWidth: "1200px", margin: "0 auto" }}>
                 <ChartLine
                   data={abwLineData as any}
                   options={abwLineOptions as any}
@@ -2155,7 +2239,9 @@ export const ReportList: React.FC = () => {
               </div>
             </Card>
           </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        </Row>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <Card title="🧾 Top Änderungsgründe (kumulativ)">
               <Column {...columnConfig} />
             </Card>
@@ -2405,6 +2491,68 @@ export const ReportList: React.FC = () => {
         </Card>
       </Space>
       </div>
+
+      {/* KPI Modal */}
+      <Modal
+        title="KPIs bearbeiten (13.10.-19.10.)"
+        open={isKpiModalVisible}
+        onCancel={() => setIsKpiModalVisible(false)}
+        onOk={() => setIsKpiModalVisible(false)}
+        width={800}
+      >
+        <Form layout="vertical">
+          {["13.10.2025", "14.10.2025", "15.10.2025", "16.10.2025", "17.10.2025", "18.10.2025", "19.10.2025"].map(date => (
+            <div key={date} style={{ marginBottom: 20 }}>
+              <h4>{date}</h4>
+              <Row gutter={16}>
+                {["früh", "spät", "nacht"].map(shift => {
+                  const key = `${date}.${shift}`;
+                  return (
+                    <Col span={8} key={shift}>
+                      <div style={{ border: '1px solid #d9d9d9', padding: 10, borderRadius: 4 }}>
+                        <h5>{shift === "früh" ? "Frühschicht" : shift === "spät" ? "Spätschicht" : "Nachtschicht"}</h5>
+                        <Form.Item label="OEE (%)">
+                          <InputNumber
+                            min={0}
+                            max={100}
+                            value={kpiValues[key]?.oee}
+                            onChange={(value) => setKpiValues(prev => ({
+                              ...prev,
+                              [key]: { ...prev[key], oee: value || 0 }
+                            }))}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Leistungsgrad (%)">
+                          <InputNumber
+                            min={0}
+                            max={100}
+                            value={kpiValues[key]?.leistungsgrad}
+                            onChange={(value) => setKpiValues(prev => ({
+                              ...prev,
+                              [key]: { ...prev[key], leistungsgrad: value || 0 }
+                            }))}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Ausschuss (%)">
+                          <InputNumber
+                            min={0}
+                            max={100}
+                            value={kpiValues[key]?.ausschuss}
+                            onChange={(value) => setKpiValues(prev => ({
+                              ...prev,
+                              [key]: { ...prev[key], ausschuss: value || 0 }
+                            }))}
+                          />
+                        </Form.Item>
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          ))}
+        </Form>
+      </Modal>
     </ListContent>
   );
 };
