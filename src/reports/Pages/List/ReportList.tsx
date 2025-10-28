@@ -1,7 +1,7 @@
 // Chart.js Annotation Plugin global registrieren
 import "./chartjs-annotation-register";
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { Column } from "@ant-design/plots";
+import { Column, Pie } from "@ant-design/plots";
 import { Card, Space, Table, Row, Col, Select, Button, Modal, Form, InputNumber } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
@@ -1262,12 +1262,38 @@ export const ReportList: React.FC = () => {
       datasets: [
         {
           data: [bearbeitung, keineBearbeitung],
-          backgroundColor: ["#35d078ff", "#c1d412ff"],
+          backgroundColor: ["rgb(46, 140, 255)", "rgb(28, 182, 179)"],
           borderWidth: 1,
         },
       ],
     };
   }, [bearbRawData, bearbFilterMode, selectedBearbZeitraum, selectedBearbZeitraumVon, selectedBearbZeitraumBis, selectedBearbAggregat, selectedBearbSchichten]);
+
+  // --- Neues Bearbeitungsverhalten Diagramm pro Aggregat ---
+  const bearbAggregatData = useMemo(() => {
+    const aggregatStats: { aggregat: string; schicht: string; total: number; aufgenommen: number; nichtAufgenommen: number }[] = [];
+
+    const aggregates = selectedBearbAggregat === "Alle Aggregate" 
+      ? ["Dosiersystem", "Kopfmaschine", "VG Andruckstation 1", "VG Andruckstation 2", "VG Andruckstation 3", "VG Transportband", "Gärschrank", "Fettbackwanne", "Sollich", "Vibrationsstreuer"]
+      : [selectedBearbAggregat];
+
+    aggregates.forEach(agg => {
+      selectedBearbSchichten.forEach(schicht => {
+        const total = 15; // Immer 15
+        const aufgenommen = Math.floor(Math.random() * (total + 1));
+        const nichtAufgenommen = total - aufgenommen;
+        aggregatStats.push({
+          aggregat: agg,
+          schicht,
+          total,
+          aufgenommen,
+          nichtAufgenommen,
+        });
+      });
+    });
+
+    return aggregatStats;
+  }, [selectedBearbSchichten, selectedBearbAggregat]);
 
   // --- Abweichungsanalyse nach Aggregat + Parameter ---
   const filteredData = useMemo(
@@ -1490,6 +1516,7 @@ export const ReportList: React.FC = () => {
     label: false,
     columnWidthRatio: 0.6,
     autoFit: true,
+    color: "rgb(46, 140, 255)",
 
     xAxis: {
       type: "cat",
@@ -1508,7 +1535,7 @@ export const ReportList: React.FC = () => {
     interactions: [{ type: "element-active" }],
     minColumnWidth: 16,
     maxColumnWidth: 36,
-    height: 300,
+    height: 400,
     // round the top corners slightly so labels have a bit of separation visually
     columnStyle: { radius: [6, 6, 0, 0] },
   };
@@ -1633,7 +1660,7 @@ export const ReportList: React.FC = () => {
         {
           label: "Min",
           data: abweichungData.map(() => minVal),
-          borderColor: "rgba(24,144,255,0.45)",
+          borderColor: "#1890ff73",
           borderDash: [4, 4],
           borderWidth: 2,
           pointRadius: 0,
@@ -1706,10 +1733,10 @@ export const ReportList: React.FC = () => {
         {
           label: "Leistungsgrad",
           data: leistungsgradData,
-          borderColor: "#52c41a",
-          backgroundColor: "#52c41a33",
+          borderColor: "#13c2c2",
+          backgroundColor: "#13c2c233",
           pointRadius: 5,
-          pointBackgroundColor: "#52c41a",
+          pointBackgroundColor: "#13c2c2",
           pointBorderColor: "#fff",
           pointBorderWidth: 2,
           borderWidth: 3,
@@ -1884,12 +1911,12 @@ export const ReportList: React.FC = () => {
         {
           label: "Bearbeitung",
           data: bearbAbweichungData.map((d) => d.value),
-          borderColor: "#52c41a",
+          borderColor: "rgb(46, 140, 255)",
           backgroundColor: "#52c41a33",
           fill: false,
           tension: 0.3,
           pointRadius: 4,
-          pointBackgroundColor: "#52c41a",
+          pointBackgroundColor: "rgb(46, 140, 255)",
           spanGaps: true,
           borderWidth: 2,
         },
@@ -2241,9 +2268,48 @@ export const ReportList: React.FC = () => {
           </Col>
         </Row>
         <Row gutter={[16, 16]}>
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+          <Col xs={24} md={12}>
             <Card title="🧾 Top Änderungsgründe (kumulativ)">
               <Column {...columnConfig} />
+            </Card>
+          </Col>
+          <Col xs={24} md={12}>
+            <Card title="Aufgenommene Werte Verhältnis">
+              <div style={{ 
+                width: "400px", 
+                height: "400px",
+                margin: "0 auto"
+              }}>
+                <Pie
+                  data={[
+                    {
+                      type: 'Aufgenommene Werte',
+                      value: bearbAggregatData.reduce((sum, item) => sum + item.aufgenommen, 0),
+                    },
+                    {
+                      type: 'Nicht aufgenommene Werte',
+                      value: bearbAggregatData.reduce((sum, item) => sum + item.nichtAufgenommen, 0),
+                    },
+                  ]}
+                  angleField="value"
+                  colorField="type"
+                  color={['rgb(46, 140, 255)', 'rgb(28, 182, 179)']}
+                  radius={0.8}
+                  height={400}
+                  label={{
+                    content: (data: any) => {
+                      const total = bearbAggregatData.reduce((sum, item) => sum + item.aufgenommen, 0) + bearbAggregatData.reduce((sum, item) => sum + item.nichtAufgenommen, 0);
+                      const percent = total > 0 ? ((data.value / total) * 100).toFixed(1) : '0.0';
+                      return `${data.type} ${percent}%`;
+                    },
+                  }}
+                  interactions={[
+                    {
+                      type: 'element-active',
+                    },
+                  ]}
+                />
+              </div>
             </Card>
           </Col>
         </Row>
@@ -2432,7 +2498,7 @@ export const ReportList: React.FC = () => {
                       const keineP = total > 0 ? ((keine / total) * 100).toFixed(1) : '0.0';
                       return (
                         <>
-                          Insgesamt <b>{total}</b> Schichten: <span style={{ color: '#35d078' }}>Bearbeitung {bearb} ({bearbP}%)</span> / <span style={{ color: '#c1d412' }}>Keine Bearbeitung {keine} ({keineP}%)</span>
+                          Insgesamt <b>{total}</b> Schichten: <span style={{ color: 'rgb(46, 140, 255)' }}>Bearbeitung {bearb} ({bearbP}%)</span> / <span style={{ color: 'rgb(28, 182, 179)' }}>Keine Bearbeitung {keine} ({keineP}%)</span>
                         </>
                       );
                     })()}
@@ -2488,6 +2554,74 @@ export const ReportList: React.FC = () => {
               </Col>
             </Row>
           )}
+
+          {/* Neues Diagramm: Aufgenommene vs. Nicht aufgenommene Werte pro Aggregat */}
+          <Row gutter={[16, 16]} style={{ marginTop: 20 }}>
+            <Col xs={24}>
+              <Card bodyStyle={{ padding: 16 }} title="Aufgenommene Werte pro Aggregat">
+                <div style={{ width: "100%", height: 400 }}>
+                  <Column
+                    data={bearbAggregatData.flatMap(item => [
+                      {
+                        key: `${item.aggregat}-${item.schicht}`,
+                        aggregat: item.aggregat,
+                        schicht: item.schicht,
+                        type: 'Aufgenommene Werte',
+                        value: item.aufgenommen || 0,
+                        total: item.total,
+                      },
+                      {
+                        key: `${item.aggregat}-${item.schicht}`,
+                        aggregat: item.aggregat,
+                        schicht: item.schicht,
+                        type: 'Nicht aufgenommene Werte',
+                        value: item.nichtAufgenommen || 0,
+                        total: item.total,
+                      },
+                    ])}
+                    xField="key"
+                    yField="value"
+                    seriesField="type"
+                    isStack={true}
+                    color={['rgb(46, 140, 255)', 'rgb(28, 182, 179)']}
+                    label={{
+                      position: 'top',
+                      content: (data: any) => {
+                        const total = data.total;
+                        const value = data.value;
+                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
+                        return `${value} (${percent}%)`;
+                      },
+                    }}
+                    tooltip={{
+                      formatter: (data: any) => {
+                        const total = data.total;
+                        const value = data.value;
+                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
+                        return { name: data.type, value: `${value} (${percent}%)` };
+                      },
+                    }}
+                    xAxis={{
+                      label: {
+                        formatter: (key: string) => {
+                          const [agg, schicht] = key.split('-');
+                          const schichtLabel = schicht === 'früh' ? 'FS' : schicht === 'spät' ? 'SS' : 'NS';
+                          return `${agg}\n${schichtLabel}`;
+                        },
+                        style: { fontSize: 10 },
+                      },
+                    }}
+                    yAxis={{
+                      title: { text: 'Anzahl Werte' },
+                    }}
+                    legend={{
+                      position: 'top',
+                    }}
+                  />
+                </div>
+              </Card>
+            </Col>
+          </Row>
         </Card>
       </Space>
       </div>
