@@ -2649,33 +2649,69 @@ export const ReportList: React.FC = () => {
                           <InputNumber
                             min={0}
                             max={100}
+                            step={0.1}
+                            precision={1}
                             value={kpiValues[key]?.oee}
-                            onChange={(value) => setKpiValues(prev => ({
-                              ...prev,
-                              [key]: { ...prev[key], oee: value || 0 }
-                            }))}
+                            onChange={(value) => {
+                              if (value !== null && value !== undefined) {
+                                const roundedValue = Math.round(value * 10) / 10;
+                                setKpiValues(prev => ({
+                                  ...prev,
+                                  [key]: { ...prev[key], oee: roundedValue }
+                                }));
+                              }
+                            }}
+                            parser={(value) => {
+                              if (!value) return 0;
+                              const num = parseFloat(value);
+                              return isNaN(num) ? 0 : Math.round(num * 10) / 10;
+                            }}
                           />
                         </Form.Item>
                         <Form.Item label="Leistungsgrad (%)">
                           <InputNumber
                             min={0}
                             max={100}
+                            step={0.1}
+                            precision={1}
                             value={kpiValues[key]?.leistungsgrad}
-                            onChange={(value) => setKpiValues(prev => ({
-                              ...prev,
-                              [key]: { ...prev[key], leistungsgrad: value || 0 }
-                            }))}
+                            onChange={(value) => {
+                              if (value !== null && value !== undefined) {
+                                const roundedValue = Math.round(value * 10) / 10;
+                                setKpiValues(prev => ({
+                                  ...prev,
+                                  [key]: { ...prev[key], leistungsgrad: roundedValue }
+                                }));
+                              }
+                            }}
+                            parser={(value) => {
+                              if (!value) return 0;
+                              const num = parseFloat(value);
+                              return isNaN(num) ? 0 : Math.round(num * 10) / 10;
+                            }}
                           />
                         </Form.Item>
                         <Form.Item label="Ausschuss (%)">
                           <InputNumber
                             min={0}
                             max={100}
+                            step={0.1}
+                            precision={1}
                             value={kpiValues[key]?.ausschuss}
-                            onChange={(value) => setKpiValues(prev => ({
-                              ...prev,
-                              [key]: { ...prev[key], ausschuss: value || 0 }
-                            }))}
+                            onChange={(value) => {
+                              if (value !== null && value !== undefined) {
+                                const roundedValue = Math.round(value * 10) / 10;
+                                setKpiValues(prev => ({
+                                  ...prev,
+                                  [key]: { ...prev[key], ausschuss: roundedValue }
+                                }));
+                              }
+                            }}
+                            parser={(value) => {
+                              if (!value) return 0;
+                              const num = parseFloat(value);
+                              return isNaN(num) ? 0 : Math.round(num * 10) / 10;
+                            }}
                           />
                         </Form.Item>
                       </div>
