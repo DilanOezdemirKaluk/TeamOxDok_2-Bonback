@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { ListContent } from "../../../shared/components/ListContent/ListContent";
 import { SectionsWithDocumentCategories } from "../../../shared/components/SectionsWithDocumentCategories/SectionsWithDocumentCategories";
 import { useShiftReportLoader } from "../../../shared/api/services/loader/shiftReportLoader";
@@ -32,6 +32,28 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { IObjectType } from "../../../models/IShiftReportTemplateTable";
 import { PrinterOutlined, SearchOutlined } from "@ant-design/icons";
+import { Chart } from "react-chartjs-2";
+import { Card, Select, Space } from "antd";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface IShiftReportListProps {
   testMode: boolean;
@@ -355,6 +377,141 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
     saveAs(blob, `${name}.xlsx`);
   };
 
+  // Chart için state
+  const [selectedParameter, setSelectedParameter] = useState<string>("");
+  const [selectedSchicht, setSelectedSchicht] = useState<string>("Frühschicht");
+  const [selectedTagMode, setSelectedTagMode] = useState<"single" | "range">(
+    "single"
+  );
+  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedTagVon, setSelectedTagVon] = useState<string>("");
+  const [selectedTagBis, setSelectedTagBis] = useState<string>("");
+
+  // Parametre ve gün seçenekleri
+  const parameterOptions = useMemo(() => {
+    const outputLists = data?.[0]?.shiftReportTemplate?.outputLists ?? [];
+    return outputLists.map((obj) => obj.description);
+  }, [data]);
+
+  const tagOptions = useMemo(() => {
+    const tags = data?.map((report) => {
+      const dateObj =
+        typeof report.createdAt === "string"
+          ? new Date(report.createdAt)
+          : report.createdAt;
+      return dateObj ? dateObj.toISOString().slice(0, 10) : "";
+    });
+    return Array.from(new Set(tags)).sort();
+  }, [data]);
+
+  useEffect(() => {
+    if (parameterOptions.length) setSelectedParameter(parameterOptions[0]);
+    if (tagOptions.length) {
+      setSelectedTag(tagOptions[0]);
+      setSelectedTagVon(tagOptions[0]);
+      setSelectedTagBis(tagOptions[tagOptions.length - 1]);
+    }
+  }, [parameterOptions, tagOptions]);
+
+  // selectedTag'in ilk değeri bugün olsun, sonra kullanıcı değiştirirse değişsin
+  useEffect(() => {
+    if (selectedTagMode === "single" && tagOptions.length > 0) {
+      const today = new Date().toISOString().slice(0, 10);
+      // Sadece ilk açılışta veya data değiştiğinde bugünü seç
+      setSelectedTag(
+        tagOptions.includes(today) ? today : tagOptions[tagOptions.length - 1]
+      );
+    }
+  }, [tagOptions, selectedTagMode]);
+
+  // Chart verisi oluştur
+  const chartDataRaw = useMemo(() => {
+    const outputLists = data?.[0]?.shiftReportTemplate?.outputLists ?? [];
+    const paramId = outputLists.find(
+      (obj) => obj.description === selectedParameter
+    )?.objectId;
+
+    return (
+      data?.flatMap((report) => {
+        const dateObj =
+          typeof report.createdAt === "string"
+            ? new Date(report.createdAt)
+            : report.createdAt;
+        const dateStr = dateObj ? dateObj.toISOString().slice(0, 10) : "";
+
+        const tagMatch =
+          selectedTagMode === "single"
+            ? dateStr === selectedTag
+            : dateStr >= selectedTagVon && dateStr <= selectedTagBis;
+
+        if (!tagMatch) return [];
+
+        const paramObj = report.objects.find(
+          (obj) =>
+            obj.shiftReportTemplateTableObject?.id?.toString() ===
+            paramId?.toString()
+        );
+        if (!paramObj) return [];
+
+        if (
+          selectedSchicht &&
+          getShiftString(report.shiftId) !== selectedSchicht
+        )
+          return [];
+
+        return [
+          {
+            shift: getShiftString(report.shiftId),
+            date: dateStr,
+            value: paramObj.value ? Number(paramObj.value) : null,
+          },
+        ];
+      }) ?? []
+    );
+  }, [
+    data,
+    selectedParameter,
+    selectedTag,
+    selectedTagVon,
+    selectedTagBis,
+    selectedTagMode,
+    selectedSchicht,
+  ]);
+
+  const shifts = Array.from(new Set(chartDataRaw.map((d) => d.shift)));
+  const labels = chartDataRaw.map((d) => d.date);
+  const datasets = shifts.map((shift, idx) => ({
+    label: shift,
+    data: chartDataRaw.filter((d) => d.shift === shift).map((d) => d.value),
+    borderColor: ["#1890ff", "#13c2c2", "#d4380d"][idx % 3],
+    backgroundColor: ["#1890ff33", "#13c2c233", "#d4380d33"][idx % 3],
+    tension: 0.3,
+    pointRadius: 4,
+  }));
+  const chartJsData = { labels, datasets };
+
+  const allValues = chartDataRaw
+    .map((d) => d.value)
+    .filter((v): v is number => v !== null && v !== undefined);
+
+  // Eğer hiç veri yoksa min/max göndermeyin, Chart.js default aralığı kullanır
+  const chartJsOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: "top" as const },
+      title: { display: true, text: `${selectedParameter} Trend nach Schicht` },
+    },
+    scales: {
+      y:
+        allValues.length > 0
+          ? {
+              min: Math.min(...allValues) - 2,
+              max: Math.max(...allValues) + 2,
+            }
+          : undefined,
+    },
+  };
+
   return (
     <>
       <ListContent>
@@ -493,6 +650,89 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
         onOk={() => setdatePopup(false)}
         title={filterError}
       />
+      <Card title="Abweichungsanalyse">
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <Space>
+            <span>Parameter:</span>
+            <Select
+              value={selectedParameter}
+              onChange={(v) => {
+                setSelectedParameter(v);
+              }}
+              style={{ width: 220 }}
+            >
+              {parameterOptions.map((param) => (
+                <Select.Option key={param} value={param}>
+                  {param}
+                </Select.Option>
+              ))}
+            </Select>
+            <span>Schicht:</span>
+            <Select
+              value={selectedSchicht}
+              onChange={(v) => {
+                setSelectedSchicht(v);
+              }}
+              style={{ width: 140 }}
+            >
+              <Select.Option value="Frühschicht">Frühschicht</Select.Option>
+              <Select.Option value="Spätschicht">Spätschicht</Select.Option>
+              <Select.Option value="Nachtschicht">Nachtschicht</Select.Option>
+            </Select>
+            <span>Zeitraum:</span>
+            <Select
+              value={selectedTagMode}
+              onChange={(v) => setSelectedTagMode(v as "single" | "range")}
+              style={{ width: 120 }}
+            >
+              <Select.Option value="single">Datum</Select.Option>
+              <Select.Option value="range">Von-Bis</Select.Option>
+            </Select>
+            {selectedTagMode === "single" ? (
+              <Select
+                value={selectedTag}
+                onChange={setSelectedTag}
+                style={{ width: 120 }}
+              >
+                {tagOptions.map((tag) => (
+                  <Select.Option key={tag} value={tag}>
+                    {tag}
+                  </Select.Option>
+                ))}
+              </Select>
+            ) : (
+              <>
+                <Select
+                  value={selectedTagVon}
+                  onChange={setSelectedTagVon}
+                  style={{ width: 110 }}
+                  placeholder="Von"
+                >
+                  {tagOptions.map((tag) => (
+                    <Select.Option key={tag} value={tag}>
+                      {tag}
+                    </Select.Option>
+                  ))}
+                </Select>
+                <span>-</span>
+                <Select
+                  value={selectedTagBis}
+                  onChange={setSelectedTagBis}
+                  style={{ width: 110 }}
+                  placeholder="Bis"
+                >
+                  {tagOptions.map((tag) => (
+                    <Select.Option key={tag} value={tag}>
+                      {tag}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </>
+            )}
+          </Space>
+          <Chart type="line" data={chartJsData} options={chartJsOptions} />
+        </Space>
+      </Card>
     </>
   );
 };
