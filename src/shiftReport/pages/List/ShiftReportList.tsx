@@ -524,10 +524,18 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
         Dauer: { min: 350, max: 350 },
         //
 
-        Bodentunkwalze: { min: 66, max: 72 },
-        "Temperatur Sollich": { min: 42, max: 48 },
-        "Streurinne Geschwindigkeit": { min: 84, max: 88 },
-        "Streurinne vor Bunkerblech": { min: 7, max: 7 },
+        //Schokodonut
+        "Bodentunkwalze Schoko": { min: 66, max: 72 },
+        "Temperatur Sollich Schoko": { min: 42, max: 48 },
+        "Streurinne Geschwindigkeit Schoko": { min: 84, max: 88 },
+        "Streurinne von Bunkerblech Schoko": { min: 7, max: 7 },
+        //
+
+        //PinkyDonut
+        "Bodentunkwalze Pinky": { min: 68, max: 80 },
+        "Temperatur Sollich Pinky": { min: 42, max: 48 },
+        "Streurinne Geschwindigkeit Pinky": { min: 70, max: 76 },
+        "Streurinne vor Bunkerblech Pinky": { min: 7, max: 7 },
       }),
       []
     );
