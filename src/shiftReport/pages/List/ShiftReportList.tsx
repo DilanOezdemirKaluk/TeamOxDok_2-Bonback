@@ -449,50 +449,69 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
   const staticParamLimits: Record<string, { min: number; max: number }> =
     useMemo(
       () => ({
+        //Dosiersystem
         Chargengröße: { min: 205, max: 210 },
         Rückteigmenge: { min: 28, max: 33 },
         "Wasser Korrekturwert": { min: -1.6, max: -1 },
         "Hefe Korrekturwert": { min: -0.1, max: 0.3 },
         "Soll-Wassertemperatur": { min: 2, max: 6 },
         "Soll-Teigtemperatur": { min: 24, max: 27 },
+        //
+
+        //Kopfmaschine
         Teigeinwaage: { min: 46, max: 48 },
         Wirkbewegung: { min: 155, max: 170 },
         "Wirken quer/längst": { min: 56, max: 60 },
         Wirkbandspannung: { min: 63, max: 68 },
         Wirkbandposition: { min: 6, max: 9 },
         "Mehler 1": { min: 1, max: 3 },
-        "Mehler 1 A2": { min: 0, max: 1 },
         "Mehler 2": { min: 1, max: 4 },
-        "Mehler 2 A3": { min: 1, max: 2 },
         "Mehler 3": { min: 1, max: 3 },
         "Mehler 4": { min: 0, max: 1 },
+        //
+
+        //VG Andruckstation 1
         Geschwindigkeit: { min: 104, max: 104 },
         "Oberband A1": { min: 0, max: 1 },
-        "Oberband A2": { min: 0, max: 2 },
-        "Oberband A3": { min: -3, max: 0 },
         "Unterband A1": { min: 206, max: 208 },
-        "Unterband A2": { min: 240, max: 245 },
-        "Unterband A3": { min: 200, max: 200 },
         "Position Einlauf A1": { min: 38, max: 40 },
-        "Position Einlauf A2": { min: 19, max: 21 },
-        "Position Einlauf A3": { min: 28, max: 33 },
         "Position Auslauf A1": { min: 30, max: 35 },
-        "Position Auslauf A2": { min: 17, max: 20 },
-        "Position Auslauf A3": { min: 28, max: 32 },
         "Heben A1": { min: 160, max: 200 },
-        "Heben A2": { min: 220, max: 230 },
-        "Heben A3": { min: 150, max: 180 },
-        "Heben Transportband": { min: 80, max: 100 },
         "Senken A1": { min: 200, max: 300 },
+        //
+
+        //VG Andruckstation 2
+        "Mehler 1 A2": { min: 0, max: 1 },
+        "Oberband A2": { min: 0, max: 2 },
+        "Unterband A2": { min: 240, max: 245 },
+        "Position Einlauf A2": { min: 19, max: 21 },
+        "Position Auslauf A2": { min: 17, max: 20 },
+        "Heben A2": { min: 220, max: 230 },
         "Senken A2": { min: 150, max: 160 },
+        //
+
+        // VG Andruckstation 3
+        "Mehler 2 A3": { min: 1, max: 2 },
+        "Oberband A3": { min: -3, max: 0 },
+        "Unterband A3": { min: 200, max: 200 },
+        "Position Einlauf A3": { min: 28, max: 33 },
+        "Position Auslauf A3": { min: 28, max: 32 },
+        "Heben A3": { min: 150, max: 180 },
         "Senken A3": { min: 250, max: 280 },
-        "Senken Transportband": { min: 320, max: 330 },
+        //
+
+        //VG Transportband
         Start: { min: 70, max: 80 },
         Schrittlänge: { min: 224, max: 232 },
         Drehzahl: { min: 70, max: 80 },
         "Position Zentrier vor Stanze": { min: 65, max: 65 },
         "Position Zentrier Stanze": { min: 1.2, max: 1.4 },
         Austragung: { min: 348, max: 353 },
+        "Heben Transportband": { min: 80, max: 100 },
+        "Senken Transportband": { min: 320, max: 330 },
+        //
+
+        //Gärschrank und Fettbackwanne
         "Temperatur Zone 1": { min: 38, max: 39.5 },
         "Feuchtigkeit Zone 1": { min: 60, max: 64 },
         "Temperatur Absteifzone": { min: 18, max: 20 },
@@ -503,6 +522,8 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
         Höhenverstellung: { min: 35, max: 45 },
         "Stopper Start": { min: 270, max: 290 },
         Dauer: { min: 350, max: 350 },
+        //
+
         Bodentunkwalze: { min: 66, max: 72 },
         "Temperatur Sollich": { min: 42, max: 48 },
         "Streurinne Geschwindigkeit": { min: 84, max: 88 },
