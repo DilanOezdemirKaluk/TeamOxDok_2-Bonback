@@ -436,6 +436,16 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
     return outputLists.map((obj) => obj.description);
   }, [data, selectedAggregat]);
 
+  useEffect(() => {
+    if (parameterOptions.length > 0) {
+      if (!parameterOptions.includes(selectedParameter)) {
+        setSelectedParameter(parameterOptions[0]);
+      }
+    } else {
+      setSelectedParameter("");
+    }
+  }, [parameterOptions, selectedParameter]);
+
   const staticParamLimits: Record<string, { min: number; max: number }> =
     useMemo(
       () => ({
