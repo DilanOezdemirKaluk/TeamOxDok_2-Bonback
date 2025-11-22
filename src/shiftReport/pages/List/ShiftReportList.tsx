@@ -368,7 +368,7 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
   };
 
   const [selectedParameter, setSelectedParameter] = useState<string>("");
-  const [selectedAggregat, setSelectedAggregat] = useState<number | null>(null); // Yeni state
+  const [selectedAggregat, setSelectedAggregat] = useState<number | null>(null);
   const [selectedTagMode, setSelectedTagMode] = useState<"single" | "range">(
     "single"
   );
@@ -401,7 +401,6 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
     }));
   }, [data, documentCategoryIds]);
 
-  // Tek aggregat seçiliyse otomatik seç
   useEffect(() => {
     if (aggregatOptions.length === 1) {
       setSelectedAggregat(aggregatOptions[0].id);
@@ -411,7 +410,6 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
       selectedAggregat &&
       !aggregatOptions.some((a) => a.id === selectedAggregat)
     ) {
-      // Seçili aggregat artık listede yoksa null yap
       setSelectedAggregat(null);
     }
   }, [aggregatOptions, selectedAggregat]);
@@ -438,13 +436,11 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
 
   useEffect(() => {
     if (parameterOptions.length > 0) {
-      if (!parameterOptions.includes(selectedParameter)) {
-        setSelectedParameter(parameterOptions[0]);
-      }
+      setSelectedParameter(parameterOptions[0]);
     } else {
       setSelectedParameter("");
     }
-  }, [parameterOptions, selectedParameter]);
+  }, [parameterOptions]);
 
   const staticParamLimits: Record<string, { min: number; max: number }> =
     useMemo(
@@ -693,20 +689,32 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
   >({});
 
   const [isMinMaxModalVisible, setIsMinMaxModalVisible] = useState(false);
-  const [minMaxParam, setMinMaxParam] = useState<string>(
-    parameterOptions[0] ?? ""
-  );
+  const [minMaxParam, setMinMaxParam] = useState<string>("");
   const [minValueEdit, setMinValueEdit] = useState<number | null>(null);
   const [maxValueEdit, setMaxValueEdit] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isMinMaxModalVisible) return;
 
-    const defaults = getStaticLimits(minMaxParam);
+    const paramToUse =
+      selectedParameter ||
+      (parameterOptions.length > 0 ? parameterOptions[0] : "");
 
+    if (paramToUse) {
+      setMinMaxParam(paramToUse);
+      const defaults = getStaticLimits(paramToUse);
+      setMinValueEdit(paramMinMax[paramToUse]?.min ?? defaults?.min ?? 0);
+      setMaxValueEdit(paramMinMax[paramToUse]?.max ?? defaults?.max ?? 1);
+    }
+  }, [isMinMaxModalVisible, selectedParameter]);
+
+  useEffect(() => {
+    if (!isMinMaxModalVisible || !minMaxParam) return;
+
+    const defaults = getStaticLimits(minMaxParam);
     setMinValueEdit(paramMinMax[minMaxParam]?.min ?? defaults?.min ?? 0);
     setMaxValueEdit(paramMinMax[minMaxParam]?.max ?? defaults?.max ?? 1);
-  }, [isMinMaxModalVisible, minMaxParam, paramMinMax]);
+  }, [minMaxParam, isMinMaxModalVisible]);
 
   const handleMinMaxSave = () => {
     setParamMinMax((prev) => ({
@@ -814,7 +822,7 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
     const chartMax = baseMax + padding;
 
     return {
-      min: Math.round(chartMin * 1000) / 1000, // 3 ondalık basamak
+      min: Math.round(chartMin * 1000) / 1000,
       max: Math.round(chartMax * 1000) / 1000,
       baseMin: Math.round(baseMin * 1000) / 1000,
       baseMax: Math.round(baseMax * 1000) / 1000,
