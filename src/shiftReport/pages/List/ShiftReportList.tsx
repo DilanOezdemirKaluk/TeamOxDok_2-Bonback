@@ -807,19 +807,29 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
       }
     }
 
-    const range = Math.abs(baseMax - baseMin);
+    // Berücksichtige die tatsächlichen Datenwerte
+    const actualMin = alleWerte.length > 0 ? Math.min(...alleWerte) : baseMin;
+    const actualMax = alleWerte.length > 0 ? Math.max(...alleWerte) : baseMax;
+
+    // Verwende die extremeren Werte (Min der Mins, Max der Maxs)
+    const effectiveMin = Math.min(baseMin, actualMin);
+    const effectiveMax = Math.max(baseMax, actualMax);
+
+    const range = Math.abs(effectiveMax - effectiveMin);
 
     let padding: number;
     if (range === 0) {
-      padding = Math.max(Math.abs(baseMin) * 0.1, 10);
+      padding = Math.max(Math.abs(effectiveMin) * 0.2, 10);
     } else if (range < 1) {
+      padding = range * 0.8;
+    } else if (range < 10) {
       padding = range * 0.5;
     } else {
-      padding = range * 2;
+      padding = range * 0.3;
     }
 
-    const chartMin = baseMin - padding;
-    const chartMax = baseMax + padding;
+    const chartMin = effectiveMin - padding;
+    const chartMax = effectiveMax + padding;
 
     return {
       min: Math.round(chartMin * 1000) / 1000,
@@ -827,7 +837,7 @@ export const ShiftReportList: React.FC<IShiftReportListProps> = ({
       baseMin: Math.round(baseMin * 1000) / 1000,
       baseMax: Math.round(baseMax * 1000) / 1000,
     };
-  }, [finalValidSelectedParameter, paramMinMax]);
+  }, [finalValidSelectedParameter, paramMinMax, alleWerte]);
 
   const chartJsData = useMemo(() => {
     const dataMap = new Map<string, number | null>();
